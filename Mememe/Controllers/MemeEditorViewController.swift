@@ -9,10 +9,10 @@
 import UIKit
 import Photos
 
-public protocol MemeEditorViewDelegate {
-    func memeEditorViewControllerImageDidEdit(image: UIImage)
-    func memeEditorViewViewControllerDidCancel()
-}
+//public protocol MemeEditorViewDelegate {
+//    func memeEditorViewControllerImageDidEdit(image: UIImage)
+//    func memeEditorViewViewControllerDidCancel()
+//}
 
 class MemeEditorViewController: UIViewController {
     @IBOutlet weak var topTextField: UITextField!
@@ -30,10 +30,10 @@ class MemeEditorViewController: UIViewController {
     
     @IBOutlet weak var fontCollectionView: UICollectionView!
     // Single ton Pattern
-//    let memePhotoAlbum = MemePhotoAlbum.shared
     
+    let memePhotoAlbum = MemeDataManager.shared
     // Custom Delegate
-    var delegate:MemeEditorViewDelegate?
+//    var delegate:MemeEditorViewDelegate?
     
     let fontData = AppModel.fontsAvailable
     
@@ -45,6 +45,7 @@ class MemeEditorViewController: UIViewController {
         super.viewDidLoad()
         self.fontCollectionView.delegate = self
         self.fontCollectionView.dataSource = self
+//        setupImageViewTapEvent()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -56,11 +57,31 @@ class MemeEditorViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         // 안전하게 완전히 사라진 후 Observer 제거
-        unsubscribeFromKeyboardNotifications()
+        self.unsubscribeFromKeyboardNotifications()
+    }
+    /*
+    private func setupImageViewTapEvent(){
+        let tapGesture = UIGestureRecognizer(target: self.imageView, action: #selector(self.imageViewTapped(_:)))
+        self.imageView.isUserInteractionEnabled = true
+        self.imageView.addGestureRecognizer(tapGesture)
     }
     
+    func imageViewTapped( _ : UIGestureRecognizer){
+        print("Tap!!!")
+        // 항상 self.fontCollectionView 숨기기.
+        self.fontCollectionView.isHidden = true
+        
+        // 이미 숨겨져 있는 상태일땐 다시 보여주기.
+        if self.topToolbar.isHidden {
+            self.setToolbarHidden(false)
+        } else {
+            self.setToolbarHidden(true)
+        }
+    }
+ */
+    
     private func configureUI() {
-        fontCollectionView.isHidden = true
+        self.fontCollectionView.isHidden = true
         self.setupTextFields(self.topTextField, text: AppModel.defaultTopTextFieldText)
         self.setupTextFields(self.bottomTextField, text: AppModel.defaultBottomTextFieldText)
     }
@@ -97,6 +118,10 @@ class MemeEditorViewController: UIViewController {
         }
     }
     @IBAction func doneAction(_ sender: Any) {
+        // Optional Binding
+        if let topText = self.topTextField.text, let bottomText = self.bottomTextField.text {
+            memePhotoAlbum.save(topText: topText, bottomText: bottomText, image: generateMemedImage())
+        }
     }
     
     @IBAction func cancelAction(_ sender: Any) {
@@ -138,7 +163,16 @@ class MemeEditorViewController: UIViewController {
         return keyboardSize.cgRectValue.height
     }
     
-    
+    func generateMemedImage() -> UIImage {
+        // 원본에서 필요한방법으로 수정 (Tool Bar 숨길 필요 없음.)
+        UIGraphicsBeginImageContext(self.memeView.bounds.size)
+        if let context = UIGraphicsGetCurrentContext() {
+            self.memeView.layer.render(in: context)
+        }
+        let memedImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return memedImage
+    }
     
     func presentImagePickerWithSourType(_ sourceType: UIImagePickerControllerSourceType){
 //        if self.checkPhotoLibraryPermission(){

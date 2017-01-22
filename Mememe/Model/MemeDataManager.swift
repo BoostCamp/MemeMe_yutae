@@ -8,11 +8,12 @@
 
 import Foundation
 import Photos
+import RealmSwift
 
-class MemePhotoAlbum : NSObject {
+class MemeDataManager : NSObject {
     static let albumName = "MemeMe"
     // Single Ton 패턴 사용
-    static let shared = MemePhotoAlbum()
+    static let shared = MemeDataManager()
     var assetCollection: PHAssetCollection!
     
     override init() {
@@ -49,7 +50,7 @@ class MemePhotoAlbum : NSObject {
     
     func createAlbum() {
         PHPhotoLibrary.shared().performChanges({
-            PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: MemePhotoAlbum.albumName)
+            PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: MemeDataManager.albumName)
         }) { success, error in
             if success {
                 self.assetCollection = self.fetchAssetCollectionForAlbum()
@@ -61,7 +62,7 @@ class MemePhotoAlbum : NSObject {
     
     func fetchAssetCollectionForAlbum() -> PHAssetCollection? {
         let fetchOptions = PHFetchOptions()
-        fetchOptions.predicate = NSPredicate(format: "title = %@", MemePhotoAlbum.albumName)
+        fetchOptions.predicate = NSPredicate(format: "title = %@", MemeDataManager.albumName)
         let collection = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .any, options: fetchOptions)
         if let _: AnyObject = collection.firstObject {
             return collection.firstObject
@@ -70,8 +71,7 @@ class MemePhotoAlbum : NSObject {
     }
     
     func fetchImagesForAlbum() -> [UIImage] {
-        let assetCollection = self.fetchAssetCollectionForAlbum()
-        let photoAssets = PHAsset.fetchAssets(in: assetCollection!, options: nil)
+        let photoAssets = PHAsset.fetchAssets(in: self.assetCollection, options: nil)
         let imageManager = PHCachingImageManager()
         var images = [UIImage]()
         photoAssets.enumerateObjects({(object: AnyObject!,
@@ -87,33 +87,59 @@ class MemePhotoAlbum : NSObject {
                 options.isSynchronous = true
                 imageManager.requestImage(for:
                     asset,
-                                          targetSize: imageSize,
-                                          contentMode: .aspectFit,
-                                          options: options,
-                                          resultHandler: {
-                                            (image, info) -> Void in
-                                            images.append(image!)
+                    targetSize: imageSize,
+                    contentMode: .aspectFit,
+                    options: options,
+                    resultHandler: {
+                    (image, info) -> Void in
+                    images.append(image!)
                 })
             }
         })
         return images
     }
     
-    func save(image: UIImage) -> Bool {
-        var isSuccess:Bool = true
+    func save(topText: String, bottomText:String, image: UIImage) {
+//        var isSuccess:Bool = true
+        let meme = Meme()
+        meme.topText = topText
+        meme.bottomText = bottomText
+        
+        guard let realm = try? Realm() else {
+            // Error 핸들링
+            print("ERROR!!!!!")
+            return
+        }
+        meme.save()
+        /* Select
+        do {
+            dump(realm.objects(Meme.self))
+        } catch let error as NSError {
+            fatalError(error.localizedDescription)
+        }
+        */
         if assetCollection == nil {
-            return false
+            return
         }
         
+        // https://developer.apple.com/reference/photos/phassetchangerequest/1624056-placeholderforcreatedasset Swift로 변형
+        
         PHPhotoLibrary.shared().performChanges({
+            // creationRequestForAsse t함수 Image 만들기 return Self
             let assetChangeRequest = PHAssetChangeRequest.creationRequestForAsset(from: image)
             let assetPlaceHolder = assetChangeRequest.placeholderForCreatedAsset
+            // self.assetCollection 에 추가된 이미지 추가하기
             let albumChangeRequest = PHAssetCollectionChangeRequest(for: self.assetCollection)
             let enumeration: NSArray = [assetPlaceHolder!]
+            
+            dump(assetChangeRequest)
+            dump(assetPlaceHolder)
+            dump(albumChangeRequest)
+            dump(enumeration)
             albumChangeRequest!.addAssets(enumeration)
         }) { (isCompletion, error) in
-            isSuccess = isCompletion
+            print(isCompletion)
+//            dump(albumChangeRequest)
         }
-        return isSuccess
     }
 }

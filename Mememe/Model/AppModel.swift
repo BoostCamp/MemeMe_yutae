@@ -10,16 +10,14 @@ import UIKit
 
 struct AppModel {
     
-    static let editSegueIdentifier = "editorPresent"
-    static let shareSegueIdentifier = "saveAndShare"
-    static let drawSegueIdentifier = "drawEditor"
-    static let colorPickerIdentifier = "colorPickerPopover"
-    
+    static let memeEditSegueIdentifier = "memeEditorModalSegue"
+    static let memeShowDetailSegueIdentifier = "showMemeDetailInfoSegue"
     static let albumCollectionCell = "decoAlbumCollectionViewCell"
-    
     static let memeFontCollectionReusableIdentifier = "fontCollectionCell"
-    static let fontsAvailable = UIFont.familyNames
     
+    static let memeAlbumCollectionReusableIdentifier = "memeAlbumCollectionCell"
+    
+    static let fontsAvailable = UIFont.familyNames
     static let memeTextAttributes = [
         NSStrokeColorAttributeName : UIColor.black,
         NSForegroundColorAttributeName : UIColor.white,
