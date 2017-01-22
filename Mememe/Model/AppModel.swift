@@ -16,6 +16,8 @@ struct AppModel {
     static let colorPickerIdentifier = "colorPickerPopover"
     
     static let albumCollectionCell = "decoAlbumCollectionViewCell"
+    
+    static let memeFontCollectionReusableIdentifier = "fontCollectionCell"
     static let fontsAvailable = UIFont.familyNames
     
     static let memeTextAttributes = [

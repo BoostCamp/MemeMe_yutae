@@ -28,21 +28,29 @@ class MemeEditorViewController: UIViewController {
     
     @IBOutlet weak var memeView: UIView!
     
+    @IBOutlet weak var fontCollectionView: UICollectionView!
     // Single ton Pattern
 //    let memePhotoAlbum = MemePhotoAlbum.shared
     
     // Custom Delegate
     var delegate:MemeEditorViewDelegate?
     
+    let fontData = AppModel.fontsAvailable
+    
+    // Defalut 이름 값.
+//    var selectedFontName = "HelveticaNeue-CondensedBlack"
+    var selectedCellIndexPath:IndexPath?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.configureUI()
+        self.fontCollectionView.delegate = self
+        self.fontCollectionView.dataSource = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.subscribeToKeyboardNotifications()
-        
+        self.configureUI()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -52,6 +60,7 @@ class MemeEditorViewController: UIViewController {
     }
     
     private func configureUI() {
+        fontCollectionView.isHidden = true
         self.setupTextFields(self.topTextField, text: AppModel.defaultTopTextFieldText)
         self.setupTextFields(self.bottomTextField, text: AppModel.defaultBottomTextFieldText)
     }
@@ -81,8 +90,12 @@ class MemeEditorViewController: UIViewController {
     }
     
     @IBAction func setFontAction(_ sender: Any) {
+        if fontCollectionView.isHidden {
+            fontCollectionView.isHidden = false
+        } else {
+            fontCollectionView.isHidden = true
+        }
     }
-    
     @IBAction func doneAction(_ sender: Any) {
     }
     
@@ -106,6 +119,8 @@ class MemeEditorViewController: UIViewController {
     // MARK: Keyboard Related Methods and Delegates
     func keyboardWillShow(notification: NSNotification) {
         if self.bottomTextField.isFirstResponder {
+            // bottom Textfield 편집시 bottom tool bar hide
+            self.bottomToolbar.isHidden = true
             view.frame.origin.y = -getKeyboardHeight(notification: notification)
         }
     }
@@ -113,6 +128,7 @@ class MemeEditorViewController: UIViewController {
     
     func keyboardWillHide(notification: NSNotification) {
         view.frame.origin.y = 0
+        self.bottomToolbar.isHidden = false
     }
     
     
@@ -204,6 +220,7 @@ extension MemeEditorViewController : UIImagePickerControllerDelegate, UINavigati
 }
 
 extension MemeEditorViewController: UITextFieldDelegate {
+    // 이전에 써져있는 글 지우기.
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if textField == topTextField && textField.text == AppModel.defaultTopTextFieldText {
             
@@ -215,7 +232,7 @@ extension MemeEditorViewController: UITextFieldDelegate {
         }
     }
     
-    
+    // 대문자로 변경하기.
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         var text = textField.text as NSString?
@@ -226,18 +243,17 @@ extension MemeEditorViewController: UITextFieldDelegate {
     
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // return 키 눌렀을때
         textField.resignFirstResponder()
         return true
     }
     
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        if textField == topTextField && textField.text!.isEmpty {
-            
+        // 편집이 끝났을때 내용이 비어있을때
+        if textField == self.topTextField && textField.text!.isEmpty {
             textField.text = AppModel.defaultTopTextFieldText;
-            
-        }else if textField == bottomTextField && textField.text!.isEmpty {
-            
+        } else if textField == self.bottomTextField && textField.text!.isEmpty {
             textField.text = AppModel.defaultBottomTextFieldText;
         }
     }
