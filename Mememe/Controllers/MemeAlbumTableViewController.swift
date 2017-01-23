@@ -32,6 +32,8 @@ class MemeAlbumTableViewController: UITableViewController {
             if let meme = sender as? Meme {
                 destination.selectedMeme = meme
             }
+            // 뒤로가기 글씨 없애기.
+            self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: nil, action: nil)
         }
         if segue.identifier == AppModel.memeEditFromTableViewSegueIdentifier {
 //            let destination = segue.destination as! MemeEditorViewController
