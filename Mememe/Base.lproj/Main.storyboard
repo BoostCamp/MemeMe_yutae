@@ -221,7 +221,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vgc-tX-qnx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2236" y="-275"/>
+            <point key="canvasLocation" x="2372" y="-410"/>
         </scene>
         <!--MemeMe Album-->
         <scene sceneID="V5h-GD-OwK">
@@ -261,7 +261,6 @@
                                 </constraints>
                                 <connections>
                                     <outlet property="memedImageView" destination="vyN-Cf-AU8" id="30T-EF-L9Y"/>
-                                    <segue destination="Ak4-75-KIs" kind="show" identifier="showMemeDetailInfoSegue" id="4bL-HB-vbC"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -279,11 +278,12 @@
                     </navigationItem>
                     <connections>
                         <outlet property="flowLayout" destination="MtV-Kx-X3S" id="Br9-W0-P1r"/>
+                        <segue destination="Ak4-75-KIs" kind="show" identifier="showMemeDetailInfoSegue" id="nd5-i1-gBQ"/>
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="o8C-6H-eNt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1196" y="447.52623688155927"/>
+            <point key="canvasLocation" x="1196" y="421"/>
         </scene>
         <!--Meme Album Table View Controller-->
         <scene sceneID="2zL-e1-nkU">
@@ -336,7 +336,6 @@
                                     <outlet property="creationDateLabel" destination="YwZ-R7-9Bl" id="6yx-Yl-jbQ"/>
                                     <outlet property="locationLabel" destination="oxl-O9-Wpd" id="bkI-63-SRC"/>
                                     <outlet property="memedImageView" destination="RlG-ju-CFS" id="U4I-Uw-IWE"/>
-                                    <segue destination="Ak4-75-KIs" kind="show" identifier="showMemeDetailInfoSegue" trigger="accessoryAction" action="showDetailViewController:sender:" id="oLm-RM-Akl"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -353,10 +352,13 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="Ak4-75-KIs" kind="show" identifier="showMemeDetailInfoSegue" action="showDetailViewController:sender:" id="N1I-LK-TKQ"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CVc-9c-jEl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1196" y="-274.81259370314842"/>
+            <point key="canvasLocation" x="1223" y="-296"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="UU7-so-WwF">
@@ -421,7 +423,7 @@
         <image name="Share" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="nbC-YZ-Pt5"/>
-        <segue reference="4bL-HB-vbC"/>
+        <segue reference="N1I-LK-TKQ"/>
+        <segue reference="3oU-qt-iA7"/>
     </inferredMetricsTieBreakers>
 </document>
