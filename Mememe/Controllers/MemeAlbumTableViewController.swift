@@ -24,14 +24,9 @@ class MemeAlbumTableViewController: UITableViewController {
         memes = memeDataManager.fetchMemesForAlbum()
         self.tableView?.reloadData()
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == AppModel.memeShowDetailSegueIdentifier {
+        if segue.identifier == AppModel.memeDetailFromTableViewSegueIdentifier {
             let destination = segue.destination as! MemeDetailViewController
             if let meme = sender as? Meme {
                 destination.selectedMeme = meme
@@ -39,6 +34,9 @@ class MemeAlbumTableViewController: UITableViewController {
         }
     }
     
+    @IBAction func addAction(_ sender: Any) {
+        
+    }
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
         // 갯수 지정
@@ -55,18 +53,15 @@ class MemeAlbumTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.performSegue(withIdentifier: AppModel.memeShowDetailSegueIdentifier, sender: self.memes[indexPath.item])
+        self.performSegue(withIdentifier: AppModel.memeDetailFromTableViewSegueIdentifier, sender: self.memes[indexPath.section])
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // as! 무조건 Type Casting 이 되기 때문
         let cell = tableView.dequeueReusableCell(withIdentifier: AppModel.memeAlbumTableReusableIdentifier, for: indexPath) as! MemeAlbumTableViewCell
-        let meme:Meme = self.memes[indexPath.item]
+        let meme:Meme = self.memes[indexPath.section]
         cell.creationDateLabel.text = meme.creationDate.stringFromDate()
         cell.memedImageView.image = meme.image
-        if let address = meme.locationAddress {
-            cell.locationLabel.text = address
-        }
         return cell
     }
 }

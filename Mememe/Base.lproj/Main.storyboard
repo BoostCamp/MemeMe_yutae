@@ -270,20 +270,17 @@
                         </connections>
                     </collectionView>
                     <navigationItem key="navigationItem" title="MemeMe Album" id="6eP-Ji-ZCF">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="tJY-g0-DIC">
-                            <connections>
-                                <segue destination="BYZ-38-t0r" kind="presentation" identifier="memeEditorModalSegue" id="nbC-YZ-Pt5"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="tJY-g0-DIC"/>
                     </navigationItem>
                     <connections>
                         <outlet property="flowLayout" destination="MtV-Kx-X3S" id="Br9-W0-P1r"/>
-                        <segue destination="Ak4-75-KIs" kind="show" identifier="showMemeDetailInfoSegue" id="nd5-i1-gBQ"/>
+                        <segue destination="Ak4-75-KIs" kind="show" identifier="showMemeDetailFromCollectionViewSegue" id="nd5-i1-gBQ"/>
+                        <segue destination="BYZ-38-t0r" kind="presentation" identifier="memeEditorModalFromCollectionViewSegue" id="wcM-LQ-68R"/>
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="o8C-6H-eNt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1196" y="421"/>
+            <point key="canvasLocation" x="1337" y="401"/>
         </scene>
         <!--Meme Album Table View Controller-->
         <scene sceneID="2zL-e1-nkU">
@@ -313,28 +310,18 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="위치를 제공하지 않습니다." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="oxl-O9-Wpd">
-                                            <rect key="frame" x="145" y="85" width="184" height="19.5"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="YwZ-R7-9Bl" firstAttribute="top" secondItem="VQV-NT-sjr" secondAttribute="topMargin" constant="15" id="1vH-tl-zjg"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="oxl-O9-Wpd" secondAttribute="trailing" constant="5" id="6lo-CF-cuQ"/>
                                         <constraint firstAttribute="bottom" secondItem="RlG-ju-CFS" secondAttribute="bottom" id="7Qk-gm-ZyT"/>
-                                        <constraint firstItem="oxl-O9-Wpd" firstAttribute="leading" secondItem="RlG-ju-CFS" secondAttribute="trailing" constant="5" id="KYg-Iv-kqg"/>
                                         <constraint firstItem="RlG-ju-CFS" firstAttribute="leading" secondItem="VQV-NT-sjr" secondAttribute="leading" id="PIr-Hh-F8f"/>
                                         <constraint firstItem="YwZ-R7-9Bl" firstAttribute="leading" secondItem="RlG-ju-CFS" secondAttribute="trailing" constant="5" id="axs-Ij-V4V"/>
                                         <constraint firstItem="RlG-ju-CFS" firstAttribute="top" secondItem="VQV-NT-sjr" secondAttribute="top" id="bYv-E2-5kb"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="YwZ-R7-9Bl" secondAttribute="trailing" constant="5" id="dnO-Oc-5Fq"/>
-                                        <constraint firstAttribute="bottom" secondItem="oxl-O9-Wpd" secondAttribute="bottom" constant="15" id="lja-Xp-YqT"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="creationDateLabel" destination="YwZ-R7-9Bl" id="6yx-Yl-jbQ"/>
-                                    <outlet property="locationLabel" destination="oxl-O9-Wpd" id="bkI-63-SRC"/>
                                     <outlet property="memedImageView" destination="RlG-ju-CFS" id="U4I-Uw-IWE"/>
                                 </connections>
                             </tableViewCell>
@@ -348,17 +335,18 @@
                         <barButtonItem key="leftBarButtonItem" systemItem="edit" id="ba5-Q6-QbI"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="xXt-TH-9ba">
                             <connections>
-                                <segue destination="BYZ-38-t0r" kind="presentation" identifier="memeEditorModalSegue" id="3oU-qt-iA7"/>
+                                <action selector="addAction:" destination="fWb-hB-Wmp" id="DgQ-Pm-SUm"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <segue destination="Ak4-75-KIs" kind="show" identifier="showMemeDetailInfoSegue" action="showDetailViewController:sender:" id="N1I-LK-TKQ"/>
+                        <segue destination="Ak4-75-KIs" kind="show" identifier="showMemeDetailFromTableViewSegue" id="N1I-LK-TKQ"/>
+                        <segue destination="BYZ-38-t0r" kind="presentation" identifier="memeEditorModalFromTableViewSegue" id="3ko-PX-lR8"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CVc-9c-jEl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1223" y="-296"/>
+            <point key="canvasLocation" x="1348" y="-275"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="UU7-so-WwF">
@@ -423,7 +411,7 @@
         <image name="Share" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="3ko-PX-lR8"/>
         <segue reference="N1I-LK-TKQ"/>
-        <segue reference="3oU-qt-iA7"/>
     </inferredMetricsTieBreakers>
 </document>

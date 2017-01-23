@@ -30,21 +30,28 @@ class MemeAlbumCollectionViewController: UICollectionViewController {
         if (UIDeviceOrientationIsPortrait(UIDevice.current.orientation)) {
             // Portrait 일때 각 라인당 3개, Landscape 5개 Rotation 도 적용
             space = 4.0
-            width = (view.frame.size.width - (2 * space)) / 3
+            width = (self.view.frame.size.width - (2 * space)) / 3
         } else {
             space = 2.0
-            width = (view.frame.size.width - (1 * space)) / 5
+            width = (self.view.frame.size.width - (1 * space)) / 5
         }
         // 1:1 비율로 width, height 크기가 같음.
         self.flowLayout.itemSize = CGSize(width: width, height: width)
         self.flowLayout.minimumInteritemSpacing = space
         
     }
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    @IBAction func addAction(_ sender: Any) {
+        
     }
-
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == AppModel.memeDetailFromCollectionViewSegueIdentifier {
+            let destination = segue.destination as! MemeDetailViewController
+            if let meme = sender as? Meme {
+                destination.selectedMeme = meme
+            }
+        }
+    }
     
     // MARK: UICollectionViewDataSource
 
@@ -62,16 +69,9 @@ class MemeAlbumCollectionViewController: UICollectionViewController {
 
     // MARK: UICollectionViewDelegate
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.performSegue(withIdentifier: AppModel.memeShowDetailSegueIdentifier, sender: self.memes[indexPath.item])
+        self.performSegue(withIdentifier: AppModel.memeDetailFromCollectionViewSegueIdentifier, sender: self.memes[indexPath.item])
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == AppModel.memeShowDetailSegueIdentifier {
-            let destination = segue.destination as! MemeDetailViewController
-            if let meme = sender as? Meme {
-                destination.selectedMeme = meme
-            }
-        }
-    }
+    
 
 }

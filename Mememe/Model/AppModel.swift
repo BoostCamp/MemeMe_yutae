@@ -10,11 +10,14 @@ import UIKit
 
 struct AppModel {
     
-    static let memeEditSegueIdentifier = "memeEditorModalSegue"
-    static let memeShowDetailSegueIdentifier = "showMemeDetailInfoSegue"
+    static let memeEditFromTableViewSegueIdentifier = "memeEditorModalFromTableViewSegue"
+    static let memeEditFromCollectionViewSegueIdentifier = "memeEditorModalFromCollectionViewSegue"
+    static let memeDetailFromTableViewSegueIdentifier = "showMemeDetailFromTableViewSegue"
+    static let memeDetailFromCollectionViewSegueIdentifier = "showMemeDetailFromCollectionViewSegue"
     static let albumCollectionCell = "decoAlbumCollectionViewCell"
     static let memeFontCollectionReusableIdentifier = "fontCollectionViewCell"
     static let memeAlbumTableReusableIdentifier = "memeTableViewCell"
+   
     static let memeAlbumCollectionReusableIdentifier = "memeAlbumCollectionViewCell"
     
     static let fontsAvailable = UIFont.familyNames

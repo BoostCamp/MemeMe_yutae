@@ -12,7 +12,7 @@ class MemeAlbumTableViewCell: UITableViewCell {
 
     @IBOutlet weak var memedImageView: UIImageView!
     @IBOutlet weak var creationDateLabel: UILabel!
-    @IBOutlet weak var locationLabel: UILabel!
+    
     
     
     override func awakeFromNib() {

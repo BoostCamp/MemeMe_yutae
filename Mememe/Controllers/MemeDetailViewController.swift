@@ -14,16 +14,14 @@ class MemeDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         // Optional Binding
+        print("MemeDetailViewController viewWillAppear")
         if let meme = self.selectedMeme {
             self.imageView.image = meme.image
         }
-        
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     @IBAction func shareAction(_ sender: Any) {
         // Optional Binding
