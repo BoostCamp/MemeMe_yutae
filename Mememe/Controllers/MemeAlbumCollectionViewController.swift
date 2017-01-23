@@ -8,54 +8,53 @@
 
 import UIKit
 
-private let reuseIdentifier = "Cell"
-
 class MemeAlbumCollectionViewController: UICollectionViewController {
 
+    // Single Ton 사용
+    let memeDataManager = MemeDataManager.shared
+    var memes = [Meme]()
+    
+    @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Register cell classes
-        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-
-        // Do any additional setup after loading the view.
+        
+        
+        memes = memeDataManager.fetchMemesForAlbum()
+        self.setupLayout()
     }
-
+    
+    func setupLayout(){
+        let space: CGFloat
+        let width: CGFloat
+        if (UIDeviceOrientationIsPortrait(UIDevice.current.orientation)) {
+            // Portrait 일때 각 라인당 3개, Landscape 5개 Rotation 도 적용
+            space = 4.0
+            width = (view.frame.size.width - (2 * space)) / 3
+        } else {
+            space = 2.0
+            width = (view.frame.size.width - (1 * space)) / 5
+        }
+        // 1:1 비율로 width, height 크기가 같음.
+        self.flowLayout.itemSize = CGSize(width: width, height: width)
+        self.flowLayout.minimumInteritemSpacing = space
+        
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    
     // MARK: UICollectionViewDataSource
 
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
-
-
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of items
-        return 0
+        return memes.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
-    
-        // Configure the cell
+        // as! 무조건 Type Casting 이 되기 때문
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AppModel.memeAlbumCollectionReusableIdentifier, for: indexPath) as! MemeAlbumCollectionViewCell
+        cell.memedImageView.image = memes[indexPath.item].image
     
         return cell
     }

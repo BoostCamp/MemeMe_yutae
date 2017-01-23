@@ -119,12 +119,11 @@ class MemeEditorViewController: UIViewController {
     }
     @IBAction func doneAction(_ sender: Any) {
         // Optional Binding
-        if let topText = self.topTextField.text, let bottomText = self.bottomTextField.text {
-            memePhotoAlbum.save(topText: topText, bottomText: bottomText, image: generateMemedImage())
-        }
+        memePhotoAlbum.save(generateMemedImage())
     }
     
     @IBAction func cancelAction(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
     }
     
     // MARK: Notification Funtions

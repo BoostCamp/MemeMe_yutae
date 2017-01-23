@@ -8,7 +8,6 @@
 
 import Foundation
 import Photos
-import RealmSwift
 
 class MemeDataManager : NSObject {
     static let albumName = "MemeMe"
@@ -70,20 +69,23 @@ class MemeDataManager : NSObject {
         return nil
     }
     
-    func fetchImagesForAlbum() -> [UIImage] {
+    func fetchMemesForAlbum() -> [Meme] {
         let photoAssets = PHAsset.fetchAssets(in: self.assetCollection, options: nil)
         let imageManager = PHCachingImageManager()
-        var images = [UIImage]()
+        var memes = [Meme]()
+        
         photoAssets.enumerateObjects({(object: AnyObject!,
             count: Int,
             stop: UnsafeMutablePointer<ObjCBool>) in
-            
+            // 앨범에 있는 모든 사진 반복
             if object is PHAsset{
+                var meme = Meme()
                 let asset = object as! PHAsset
                 let imageSize = CGSize(width: asset.pixelWidth,
                                        height: asset.pixelHeight)
                 let options = PHImageRequestOptions()
                 options.deliveryMode = .fastFormat
+                // isSynchronous - BackGround Thread 로 실행
                 options.isSynchronous = true
                 imageManager.requestImage(for:
                     asset,
@@ -92,33 +94,23 @@ class MemeDataManager : NSObject {
                     options: options,
                     resultHandler: {
                     (image, info) -> Void in
-                    images.append(image!)
+                    meme.image = image
                 })
+                meme.creationDate = asset.creationDate
+                meme.isFavorite = asset.isFavorite
+                if let location = asset.location {
+                    meme.location = location
+                }
+                memes.append(meme)
             }
         })
-        return images
+        return memes
     }
     
-    func save(topText: String, bottomText:String, image: UIImage) {
-//        var isSuccess:Bool = true
-        let meme = Meme()
-        meme.topText = topText
-        meme.bottomText = bottomText
-        
-        guard let realm = try? Realm() else {
-            // Error 핸들링
-            print("ERROR!!!!!")
-            return
-        }
-        meme.save()
-        /* Select
-        do {
-            dump(realm.objects(Meme.self))
-        } catch let error as NSError {
-            fatalError(error.localizedDescription)
-        }
-        */
-        if assetCollection == nil {
+    
+    func save(_ image: UIImage) {
+        if self.assetCollection == nil {
+            // 앨범까지 전체 삭제 되었을때의 예외 처리
             return
         }
         
@@ -126,20 +118,19 @@ class MemeDataManager : NSObject {
         
         PHPhotoLibrary.shared().performChanges({
             // creationRequestForAsse t함수 Image 만들기 return Self
+            
+            // self.assetCollection 에 추가된 이미지 추가하기
             let assetChangeRequest = PHAssetChangeRequest.creationRequestForAsset(from: image)
             let assetPlaceHolder = assetChangeRequest.placeholderForCreatedAsset
-            // self.assetCollection 에 추가된 이미지 추가하기
-            let albumChangeRequest = PHAssetCollectionChangeRequest(for: self.assetCollection)
-            let enumeration: NSArray = [assetPlaceHolder!]
-            
-            dump(assetChangeRequest)
-            dump(assetPlaceHolder)
-            dump(albumChangeRequest)
-            dump(enumeration)
-            albumChangeRequest!.addAssets(enumeration)
+            // Optional binding
+            if let placeHolder = assetPlaceHolder, let albumChangeRequest = PHAssetCollectionChangeRequest(for: self.assetCollection)  {
+                let enumeration: NSArray = [placeHolder]
+                albumChangeRequest.addAssets(enumeration)
+            }
         }) { (isCompletion, error) in
-            print(isCompletion)
-//            dump(albumChangeRequest)
+            if isCompletion {
+                
+            }
         }
     }
 }

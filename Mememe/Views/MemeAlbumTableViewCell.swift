@@ -11,9 +11,9 @@ import UIKit
 class MemeAlbumTableViewCell: UITableViewCell {
 
     @IBOutlet weak var memedImageView: UIImageView!
+    @IBOutlet weak var creationDateLabel: UILabel!
+    @IBOutlet weak var locationLabel: UILabel!
     
-    @IBOutlet weak var topTextLabel: UILabel!
-    @IBOutlet weak var bottomTextLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -9,7 +9,11 @@
 import UIKit
 
 class MemeAlbumTableViewController: UITableViewController {
-
+    
+    // Single Ton 사용
+//    let memeDataManager = MemeDataManager.shared
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
