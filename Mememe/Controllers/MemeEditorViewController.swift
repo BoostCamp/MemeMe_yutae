@@ -96,11 +96,12 @@ class MemeEditorViewController: UIViewController {
     override var prefersStatusBarHidden: Bool {
         return true
     }
-    
+    /*
     private func setToolbarHidden(_ isHidden: Bool) {
         self.topToolbar.isHidden = isHidden
         self.bottomToolbar.isHidden = isHidden
     }
+     */
     
     @IBAction func pickAnImageFromCamera(_ sender: Any) {
         self.presentImagePickerWithSourType(UIImagePickerControllerSourceType.camera)
@@ -119,7 +120,17 @@ class MemeEditorViewController: UIViewController {
     }
     @IBAction func doneAction(_ sender: Any) {
         // Optional Binding
-        memePhotoAlbum.save(generateMemedImage())
+        let image = generateMemedImage()
+        memePhotoAlbum.save(image)
+        let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+        // Air Drop 잘 안쓰기 때문에 생략.
+        activityViewController.excludedActivityTypes = [UIActivityType.airDrop]
+        // 성공 실패 여부 상관없이 Completion Handler
+        activityViewController.completionWithItemsHandler = { activity, success, items, error in
+            self.dismiss(animated: true, completion: nil)
+        }
+        self.present(activityViewController, animated: true, completion: nil)
+        
     }
     
     @IBAction func cancelAction(_ sender: Any) {

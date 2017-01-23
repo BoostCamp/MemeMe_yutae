@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		9691ECB81E3648A1007A002E /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9691ECB71E3648A1007A002E /* DateExtension.swift */; };
-		9691ECBA1E364E8D007A002E /* CLLocationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9691ECB91E364E8D007A002E /* CLLocationExtension.swift */; };
 		969F5A2A1E34E01C00738C5F /* Meme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969F5A291E34E01C00738C5F /* Meme.swift */; };
 		96AB43F81E34C78100954F9F /* MemeAlbumTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AB43F71E34C78100954F9F /* MemeAlbumTableViewCell.swift */; };
 		96AB43FA1E34C79500954F9F /* MemeAlbumTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AB43F91E34C79500954F9F /* MemeAlbumTableViewController.swift */; };
@@ -29,7 +28,6 @@
 
 /* Begin PBXFileReference section */
 		9691ECB71E3648A1007A002E /* DateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
-		9691ECB91E364E8D007A002E /* CLLocationExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CLLocationExtension.swift; sourceTree = "<group>"; };
 		969F5A291E34E01C00738C5F /* Meme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Meme.swift; sourceTree = "<group>"; };
 		96AB43F71E34C78100954F9F /* MemeAlbumTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemeAlbumTableViewCell.swift; sourceTree = "<group>"; };
 		96AB43F91E34C79500954F9F /* MemeAlbumTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemeAlbumTableViewController.swift; sourceTree = "<group>"; };
@@ -120,7 +118,6 @@
 			children = (
 				96B6178F1E348F450041779C /* UIColorExtension.swift */,
 				9691ECB71E3648A1007A002E /* DateExtension.swift */,
-				9691ECB91E364E8D007A002E /* CLLocationExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -224,7 +221,6 @@
 				96AB43FC1E34CA5000954F9F /* MemeAlbumCollectionViewCell.swift in Sources */,
 				96B6178E1E348E110041779C /* AppModel.swift in Sources */,
 				96B617981E34B3A30041779C /* MemeEditorFontViewControllerExtension.swift in Sources */,
-				9691ECBA1E364E8D007A002E /* CLLocationExtension.swift in Sources */,
 				96B6179B1E34B3EC0041779C /* MemeFontCollectionViewCell.swift in Sources */,
 				96B617921E348FD10041779C /* MemeDataManager.swift in Sources */,
 				969F5A2A1E34E01C00738C5F /* Meme.swift in Sources */,

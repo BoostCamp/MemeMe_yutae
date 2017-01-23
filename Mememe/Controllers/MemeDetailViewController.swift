@@ -22,6 +22,12 @@ class MemeDetailViewController: UIViewController {
         if let meme = self.selectedMeme {
             self.imageView.image = meme.image
         }
+        self.tabBarController?.tabBar.isHidden = true
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.tabBarController?.tabBar.isHidden = false
     }
     @IBAction func shareAction(_ sender: Any) {
         // Optional Binding

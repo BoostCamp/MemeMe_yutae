@@ -17,32 +17,32 @@ class MemeAlbumCollectionViewController: UICollectionViewController {
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setupLayout()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.setupLayout()
         memes = memeDataManager.fetchMemesForAlbum()
         self.collectionView?.reloadData()
     }
     func setupLayout(){
         let space: CGFloat
         let width: CGFloat
-        if (UIDeviceOrientationIsPortrait(UIDevice.current.orientation)) {
-            // Portrait 일때 각 라인당 3개, Landscape 5개 Rotation 도 적용
-            space = 4.0
-            width = (self.view.frame.size.width - (2 * space)) / 3
+        if UIDevice.current.orientation.isLandscape {
+            space = 1.0
+            width = (self.view.frame.size.width - (1 * space)) / 6
         } else {
-            space = 2.0
-            width = (self.view.frame.size.width - (1 * space)) / 5
+            space = 3.0
+            width = (self.view.frame.size.width - (2 * space)) / 3
         }
         // 1:1 비율로 width, height 크기가 같음.
         self.flowLayout.itemSize = CGSize(width: width, height: width)
         self.flowLayout.minimumInteritemSpacing = space
-        
     }
+    
     @IBAction func addAction(_ sender: Any) {
-        
+        self.performSegue(withIdentifier: AppModel.memeEditFromCollectionViewSegueIdentifier, sender: nil)
     }
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == AppModel.memeDetailFromCollectionViewSegueIdentifier {
@@ -50,6 +50,9 @@ class MemeAlbumCollectionViewController: UICollectionViewController {
             if let meme = sender as? Meme {
                 destination.selectedMeme = meme
             }
+        }
+        if segue.identifier == AppModel.memeEditFromCollectionViewSegueIdentifier {
+            
         }
     }
     

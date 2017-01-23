@@ -23,6 +23,7 @@ class MemeAlbumTableViewController: UITableViewController {
         super.viewWillAppear(animated)
         memes = memeDataManager.fetchMemesForAlbum()
         self.tableView?.reloadData()
+        print("MemeAlbumTableViewController viewWillAppear")
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -32,10 +33,13 @@ class MemeAlbumTableViewController: UITableViewController {
                 destination.selectedMeme = meme
             }
         }
+        if segue.identifier == AppModel.memeEditFromTableViewSegueIdentifier {
+//            let destination = segue.destination as! MemeEditorViewController
+        }
     }
     
     @IBAction func addAction(_ sender: Any) {
-        
+        self.performSegue(withIdentifier: AppModel.memeEditFromTableViewSegueIdentifier, sender: nil)
     }
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
