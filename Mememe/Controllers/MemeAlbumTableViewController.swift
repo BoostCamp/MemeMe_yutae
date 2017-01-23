@@ -10,14 +10,17 @@ import UIKit
 
 class MemeAlbumTableViewController: UITableViewController {
     
+    @IBOutlet weak var addButton: UIBarButtonItem!
+    
     // Single Ton 사용
     let memeDataManager = MemeDataManager.shared
     var memes = [Meme]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        
+        // Edit 버튼으로 지정.
+//        self.editButton = editButtonItem
+        self.navigationItem.leftBarButtonItem = editButtonItem
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -42,6 +45,13 @@ class MemeAlbumTableViewController: UITableViewController {
     
     @IBAction func addAction(_ sender: Any) {
         self.performSegue(withIdentifier: AppModel.memeEditFromTableViewSegueIdentifier, sender: nil)
+    }
+    
+    // 기본으로 탑재되어 있는 Editing
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        // Editing 에는 버튼 못누르게 하기.
+        self.addButton.isEnabled = !editing
     }
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -69,5 +79,19 @@ class MemeAlbumTableViewController: UITableViewController {
         cell.creationDateLabel.text = meme.creationDate.stringFromDate()
         cell.memedImageView.image = meme.image
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        switch editingStyle {
+        case .delete:
+            // tableView Section 제거.
+            let deleteIndex = indexPath.section
+            print("\(deleteIndex) tableView Section Remove")
+            memeDataManager.delete(self.memes[deleteIndex].localIdentifier)
+            self.memes.remove(at: deleteIndex)
+            tableView.deleteSections(IndexSet.init(integer: deleteIndex), with: .automatic)
+        default:
+            return
+        }
     }
 }

@@ -333,7 +333,6 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="MemeMe Album" id="X67-YY-sum">
-                        <barButtonItem key="leftBarButtonItem" systemItem="edit" id="ba5-Q6-QbI"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="xXt-TH-9ba">
                             <connections>
                                 <action selector="addAction:" destination="fWb-hB-Wmp" id="DgQ-Pm-SUm"/>
@@ -341,6 +340,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="addButton" destination="xXt-TH-9ba" id="tme-sO-8eZ"/>
                         <segue destination="Ak4-75-KIs" kind="show" identifier="showMemeDetailFromTableViewSegue" id="N1I-LK-TKQ"/>
                         <segue destination="BYZ-38-t0r" kind="presentation" identifier="memeEditorModalFromTableViewSegue" id="3ko-PX-lR8"/>
                     </connections>
@@ -412,7 +412,7 @@
         <image name="Share" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="nd5-i1-gBQ"/>
-        <segue reference="wcM-LQ-68R"/>
+        <segue reference="N1I-LK-TKQ"/>
+        <segue reference="3ko-PX-lR8"/>
     </inferredMetricsTieBreakers>
 </document>

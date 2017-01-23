@@ -10,8 +10,9 @@ import CoreLocation
 import UIKit
 // Model
 struct Meme {
+    var localIdentifier:String!
     var image:UIImage!
     var creationDate:Date!
     var isFavorite:Bool!
-    var locationAddress:String?
+//    var locationAddress:String?
 }

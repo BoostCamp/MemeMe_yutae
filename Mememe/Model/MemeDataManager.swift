@@ -96,6 +96,7 @@ class MemeDataManager : NSObject {
                     (image, info) -> Void in
                     meme.image = image
                 })
+                meme.localIdentifier = asset.localIdentifier
                 meme.creationDate = asset.creationDate
                 meme.isFavorite = asset.isFavorite
                 memes.append(meme)
@@ -103,14 +104,28 @@ class MemeDataManager : NSObject {
         })
         return memes
     }
-    
+    // 삭제 함수
+    func delete(_ localIdentifier : String){
+        let photoAssets = PHAsset.fetchAssets(withLocalIdentifiers: [localIdentifier], options: nil)
+        photoAssets.enumerateObjects( { (object, count, stop) in
+            PHPhotoLibrary.shared().performChanges({
+                let isEditing = object.canPerform(.delete)
+                if isEditing {
+                    print("Delete Success")
+                    let enumeration: NSArray = [object]
+                    PHAssetChangeRequest.deleteAssets(enumeration)
+                }
+            }, completionHandler: { (isSuccess, error) in
+                
+            })
+        })
+    }
     
     func save(_ image: UIImage) {
         if self.assetCollection == nil {
             // 앨범까지 전체 삭제 되었을때의 예외 처리
             return
         }
-        
         // https://developer.apple.com/reference/photos/phassetchangerequest/1624056-placeholderforcreatedasset Swift로 변형
         
         PHPhotoLibrary.shared().performChanges({
@@ -124,8 +139,8 @@ class MemeDataManager : NSObject {
                 let enumeration: NSArray = [placeHolder]
                 albumChangeRequest.addAssets(enumeration)
             }
-        }) { (isCompletion, error) in
-            if isCompletion {
+        }) { (isSuccess, error) in
+            if isSuccess {
                 
             }
         }
