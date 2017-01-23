@@ -17,8 +17,6 @@ class MemeAlbumCollectionViewController: UICollectionViewController {
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
         self.setupLayout()
     }
     override func viewWillAppear(_ animated: Bool) {

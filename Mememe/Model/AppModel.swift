@@ -13,9 +13,9 @@ struct AppModel {
     static let memeEditSegueIdentifier = "memeEditorModalSegue"
     static let memeShowDetailSegueIdentifier = "showMemeDetailInfoSegue"
     static let albumCollectionCell = "decoAlbumCollectionViewCell"
-    static let memeFontCollectionReusableIdentifier = "fontCollectionCell"
-    
-    static let memeAlbumCollectionReusableIdentifier = "memeAlbumCollectionCell"
+    static let memeFontCollectionReusableIdentifier = "fontCollectionViewCell"
+    static let memeAlbumTableReusableIdentifier = "memeTableViewCell"
+    static let memeAlbumCollectionReusableIdentifier = "memeAlbumCollectionViewCell"
     
     static let fontsAvailable = UIFont.familyNames
     static let memeTextAttributes = [

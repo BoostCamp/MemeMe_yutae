@@ -13,5 +13,5 @@ struct Meme {
     var image:UIImage!
     var creationDate:Date!
     var isFavorite:Bool!
-    var location:CLLocation?
+    var locationAddress:String?
 }

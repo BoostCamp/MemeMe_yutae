@@ -99,9 +99,22 @@ class MemeDataManager : NSObject {
                 meme.creationDate = asset.creationDate
                 meme.isFavorite = asset.isFavorite
                 if let location = asset.location {
-                    meme.location = location
+                    // 한국에 맞게 거꾸로 로케이션 지정
+                    let geoCoder = CLGeocoder.init()
+                    geoCoder.reverseGeocodeLocation(location) { (placemarks, error) -> Void in
+                        if error != nil {
+                            return
+                        }
+                        guard let placemark = placemarks?.first,
+                            let addrList = placemark.addressDictionary?["FormattedAddressLines"] as? [String] else {
+                                return
+                        }
+                        meme.locationAddress = addrList.joined(separator: " ")
+                        memes.append(meme)
+                    }
+                } else {
+                    memes.append(meme)
                 }
-                memes.append(meme)
             }
         })
         return memes
