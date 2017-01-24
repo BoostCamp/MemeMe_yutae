@@ -112,11 +112,7 @@ class MemeEditorViewController: UIViewController {
     }
     
     @IBAction func setFontAction(_ sender: Any) {
-        if fontCollectionView.isHidden {
-            fontCollectionView.isHidden = false
-        } else {
-            fontCollectionView.isHidden = true
-        }
+        self.fontCollectionView.isHidden = !self.fontCollectionView.isHidden
     }
     @IBAction func doneAction(_ sender: Any) {
         // Optional Binding

@@ -9,10 +9,20 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>MemeMeEffect.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>96B6176E1E3481D70041779C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>96D6600C1E379A0F00F394AF</key>
 		<dict>
 			<key>primary</key>
 			<true/>

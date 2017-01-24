@@ -24,7 +24,37 @@
 		96B617921E348FD10041779C /* MemeDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B617911E348FD10041779C /* MemeDataManager.swift */; };
 		96B617981E34B3A30041779C /* MemeEditorFontViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B617971E34B3A30041779C /* MemeEditorFontViewControllerExtension.swift */; };
 		96B6179B1E34B3EC0041779C /* MemeFontCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B617991E34B3EC0041779C /* MemeFontCollectionViewCell.swift */; };
+		96D660101E379A0F00F394AF /* PhotosUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96D6600F1E379A0F00F394AF /* PhotosUI.framework */; };
+		96D660121E379A0F00F394AF /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96D660111E379A0F00F394AF /* Photos.framework */; };
+		96D660181E379A0F00F394AF /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 96D660161E379A0F00F394AF /* MainInterface.storyboard */; };
+		96D6601C1E379A0F00F394AF /* MemeMeEffect.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 96D6600D1E379A0F00F394AF /* MemeMeEffect.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		96D660281E37A23400F394AF /* MemePhotoEditingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D660251E37A23400F394AF /* MemePhotoEditingViewController.swift */; };
+		96D6602A1E37A26A00F394AF /* MemePhotoEditingFontCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D660291E37A26A00F394AF /* MemePhotoEditingFontCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		96D6601A1E379A0F00F394AF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 96B617671E3481D70041779C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 96D6600C1E379A0F00F394AF;
+			remoteInfo = MemeMeEffect;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		96D660201E379A0F00F394AF /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				96D6601C1E379A0F00F394AF /* MemeMeEffect.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		9691ECB71E3648A1007A002E /* DateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
@@ -46,6 +76,13 @@
 		96B617911E348FD10041779C /* MemeDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MemeDataManager.swift; path = MemeMe/Model/MemeDataManager.swift; sourceTree = SOURCE_ROOT; };
 		96B617971E34B3A30041779C /* MemeEditorFontViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemeEditorFontViewControllerExtension.swift; sourceTree = "<group>"; };
 		96B617991E34B3EC0041779C /* MemeFontCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemeFontCollectionViewCell.swift; sourceTree = "<group>"; };
+		96D6600D1E379A0F00F394AF /* MemeMeEffect.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MemeMeEffect.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		96D6600F1E379A0F00F394AF /* PhotosUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PhotosUI.framework; path = System/Library/Frameworks/PhotosUI.framework; sourceTree = SDKROOT; };
+		96D660111E379A0F00F394AF /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
+		96D660171E379A0F00F394AF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		96D660191E379A0F00F394AF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		96D660251E37A23400F394AF /* MemePhotoEditingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemePhotoEditingViewController.swift; sourceTree = "<group>"; };
+		96D660291E37A26A00F394AF /* MemePhotoEditingFontCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemePhotoEditingFontCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +93,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		96D6600A1E379A0F00F394AF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				96D660101E379A0F00F394AF /* PhotosUI.framework in Frameworks */,
+				96D660121E379A0F00F394AF /* Photos.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -63,6 +109,8 @@
 			isa = PBXGroup;
 			children = (
 				96B617711E3481D70041779C /* MemeMe */,
+				96D660131E379A0F00F394AF /* MemeMeEffect */,
+				96D6600E1E379A0F00F394AF /* Frameworks */,
 				96B617701E3481D70041779C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -71,6 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				96B6176F1E3481D70041779C /* MemeMe.app */,
+				96D6600D1E379A0F00F394AF /* MemeMeEffect.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -140,6 +189,50 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		96D6600E1E379A0F00F394AF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				96D6600F1E379A0F00F394AF /* PhotosUI.framework */,
+				96D660111E379A0F00F394AF /* Photos.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		96D660131E379A0F00F394AF /* MemeMeEffect */ = {
+			isa = PBXGroup;
+			children = (
+				96D660241E37A23400F394AF /* Controller */,
+				96D660261E37A23400F394AF /* Model */,
+				96D660271E37A23400F394AF /* Views */,
+				96D660161E379A0F00F394AF /* MainInterface.storyboard */,
+				96D660191E379A0F00F394AF /* Info.plist */,
+			);
+			path = MemeMeEffect;
+			sourceTree = "<group>";
+		};
+		96D660241E37A23400F394AF /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				96D660251E37A23400F394AF /* MemePhotoEditingViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		96D660261E37A23400F394AF /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		96D660271E37A23400F394AF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				96D660291E37A26A00F394AF /* MemePhotoEditingFontCollectionViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -150,15 +243,34 @@
 				96B6176B1E3481D70041779C /* Sources */,
 				96B6176C1E3481D70041779C /* Frameworks */,
 				96B6176D1E3481D70041779C /* Resources */,
+				96D660201E379A0F00F394AF /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				96D6601B1E379A0F00F394AF /* PBXTargetDependency */,
 			);
 			name = MemeMe;
 			productName = Mememe;
 			productReference = 96B6176F1E3481D70041779C /* MemeMe.app */;
 			productType = "com.apple.product-type.application";
+		};
+		96D6600C1E379A0F00F394AF /* MemeMeEffect */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 96D6601F1E379A0F00F394AF /* Build configuration list for PBXNativeTarget "MemeMeEffect" */;
+			buildPhases = (
+				96D660091E379A0F00F394AF /* Sources */,
+				96D6600A1E379A0F00F394AF /* Frameworks */,
+				96D6600B1E379A0F00F394AF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MemeMeEffect;
+			productName = MemeMeEffect;
+			productReference = 96D6600D1E379A0F00F394AF /* MemeMeEffect.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -171,6 +283,11 @@
 				ORGANIZATIONNAME = YutaeChoi;
 				TargetAttributes = {
 					96B6176E1E3481D70041779C = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 22XN7UBS5Y;
+						ProvisioningStyle = Automatic;
+					};
+					96D6600C1E379A0F00F394AF = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 22XN7UBS5Y;
 						ProvisioningStyle = Automatic;
@@ -191,6 +308,7 @@
 			projectRoot = "";
 			targets = (
 				96B6176E1E3481D70041779C /* MemeMe */,
+				96D6600C1E379A0F00F394AF /* MemeMeEffect */,
 			);
 		};
 /* End PBXProject section */
@@ -203,6 +321,14 @@
 				96B6177D1E3481D70041779C /* LaunchScreen.storyboard in Resources */,
 				96B6178C1E3483090041779C /* Assets.xcassets in Resources */,
 				96B617781E3481D70041779C /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		96D6600B1E379A0F00F394AF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				96D660181E379A0F00F394AF /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -230,7 +356,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		96D660091E379A0F00F394AF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				96D6602A1E37A26A00F394AF /* MemePhotoEditingFontCollectionViewCell.swift in Sources */,
+				96D660281E37A23400F394AF /* MemePhotoEditingViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		96D6601B1E379A0F00F394AF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 96D6600C1E379A0F00F394AF /* MemeMeEffect */;
+			targetProxy = 96D6601A1E379A0F00F394AF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		96B617761E3481D70041779C /* Main.storyboard */ = {
@@ -247,6 +390,14 @@
 				96B6177C1E3481D70041779C /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		96D660161E379A0F00F394AF /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				96D660171E379A0F00F394AF /* Base */,
+			);
+			name = MainInterface.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -348,6 +499,7 @@
 		96B617821E3481D70041779C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 22XN7UBS5Y;
 				INFOPLIST_FILE = MemeMe/Info.plist;
@@ -361,12 +513,39 @@
 		96B617831E3481D70041779C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 22XN7UBS5Y;
 				INFOPLIST_FILE = MemeMe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.connect.MemeMe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		96D6601D1E379A0F00F394AF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = 22XN7UBS5Y;
+				INFOPLIST_FILE = MemeMeEffect/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.connect.MemeMe.MemeMeEffect;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		96D6601E1E379A0F00F394AF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = 22XN7UBS5Y;
+				INFOPLIST_FILE = MemeMeEffect/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.connect.MemeMe.MemeMeEffect;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -391,6 +570,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		96D6601F1E379A0F00F394AF /* Build configuration list for PBXNativeTarget "MemeMeEffect" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				96D6601D1E379A0F00F394AF /* Debug */,
+				96D6601E1E379A0F00F394AF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
