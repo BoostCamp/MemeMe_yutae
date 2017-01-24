@@ -32,8 +32,12 @@ class MemeAlbumTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == AppModel.memeDetailFromTableViewSegueIdentifier {
             let destination = segue.destination as! MemeDetailViewController
-            if let meme = sender as? Meme {
-                destination.selectedMeme = meme
+            if let indexPath = self.tableView.indexPathForSelectedRow{
+                destination.selectedMeme = self.memes[indexPath.section]
+            }
+            // 3D Touch 시 Force Touch
+            else if let cell = sender as? MemeAlbumTableViewCell{
+                destination.selectedImage = cell.memedImageView.image
             }
             // 뒤로가기 글씨 없애기.
             self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: nil, action: nil)
@@ -69,7 +73,9 @@ class MemeAlbumTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.performSegue(withIdentifier: AppModel.memeDetailFromTableViewSegueIdentifier, sender: self.memes[indexPath.section])
+        print("didSelectRowAt")
+        
+//        self.performSegue(withIdentifier: AppModel.memeDetailFromTableViewSegueIdentifier, sender: self.memes[indexPath.section])
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

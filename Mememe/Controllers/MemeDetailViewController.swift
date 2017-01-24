@@ -11,6 +11,7 @@ import UIKit
 class MemeDetailViewController: UIViewController {
     @IBOutlet weak var imageView: UIImageView!
     var selectedMeme:Meme?
+    var selectedImage:UIImage?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,12 +20,19 @@ class MemeDetailViewController: UIViewController {
         super.viewWillAppear(animated)
         // Optional Binding
         print("MemeDetailViewController viewWillAppear")
+        configureUI()
+    }
+    
+    func configureUI(){
         if let meme = self.selectedMeme {
             self.imageView.image = meme.image
         }
+            // 3D Touch로 눌렀을때
+        else if let image = self.selectedImage {
+            self.imageView.image = image
+        }
         self.tabBarController?.tabBar.isHidden = true
     }
-    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
     }

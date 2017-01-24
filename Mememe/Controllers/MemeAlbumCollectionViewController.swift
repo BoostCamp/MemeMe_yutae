@@ -47,12 +47,17 @@ class MemeAlbumCollectionViewController: UICollectionViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == AppModel.memeDetailFromCollectionViewSegueIdentifier {
             let destination = segue.destination as! MemeDetailViewController
-            if let meme = sender as? Meme {
-                destination.selectedMeme = meme
+            if let indexPath = self.collectionView?.indexPathsForSelectedItems?.first {
+                destination.selectedMeme = self.memes[indexPath.item]
+            }
+                // 3D Touch 시 Force Touch
+            else if let cell = sender as? MemeAlbumCollectionViewCell {
+                destination.selectedImage = cell.memedImageView.image
             }
             // 뒤로가기 글씨 없애기.
             self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: nil, action: nil)
         }
+        
         if segue.identifier == AppModel.memeEditFromCollectionViewSegueIdentifier {
             
         }
@@ -74,7 +79,7 @@ class MemeAlbumCollectionViewController: UICollectionViewController {
 
     // MARK: UICollectionViewDelegate
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.performSegue(withIdentifier: AppModel.memeDetailFromCollectionViewSegueIdentifier, sender: self.memes[indexPath.item])
+//        self.performSegue(withIdentifier: AppModel.memeDetailFromCollectionViewSegueIdentifier, sender: self.memes[indexPath.item])
     }
     
     

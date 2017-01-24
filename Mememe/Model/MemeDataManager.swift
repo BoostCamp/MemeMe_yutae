@@ -116,7 +116,9 @@ class MemeDataManager : NSObject {
                     PHAssetChangeRequest.deleteAssets(enumeration)
                 }
             }, completionHandler: { (isSuccess, error) in
-                
+                if isSuccess {
+                    
+                }
             })
         })
     }
