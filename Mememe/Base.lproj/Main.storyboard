@@ -259,7 +259,7 @@
                                 </constraints>
                                 <connections>
                                     <outlet property="memedImageView" destination="vyN-Cf-AU8" id="30T-EF-L9Y"/>
-                                    <segue destination="Ak4-75-KIs" kind="push" identifier="showMemeDetailFromCollectionViewSegue" id="rV5-OV-6JL">
+                                    <segue destination="Ak4-75-KIs" kind="show" identifier="showMemeDetailFromCollectionViewSegue" id="rV5-OV-6JL">
                                         <segue key="commit" inheritsFrom="parent" id="zjw-DV-w3O"/>
                                         <segue key="preview" inheritsFrom="commit" id="ODH-Ng-OmL"/>
                                     </segue>
@@ -328,7 +328,7 @@
                                 <connections>
                                     <outlet property="creationDateLabel" destination="YwZ-R7-9Bl" id="6yx-Yl-jbQ"/>
                                     <outlet property="memedImageView" destination="RlG-ju-CFS" id="U4I-Uw-IWE"/>
-                                    <segue destination="Ak4-75-KIs" kind="push" identifier="showMemeDetailFromTableViewSegue" id="bV5-XS-bnN">
+                                    <segue destination="Ak4-75-KIs" kind="show" identifier="showMemeDetailFromTableViewSegue" id="bV5-XS-bnN">
                                         <segue key="commit" inheritsFrom="parent" id="bxR-fn-nze"/>
                                         <segue key="preview" inheritsFrom="commit" id="HcU-54-i8d"/>
                                     </segue>
@@ -419,7 +419,7 @@
         <image name="Share" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="bV5-XS-bnN"/>
         <segue reference="wcM-LQ-68R"/>
+        <segue reference="rV5-OV-6JL"/>
     </inferredMetricsTieBreakers>
 </document>
