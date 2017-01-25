@@ -35,7 +35,7 @@ class MemeEditorViewController: UIViewController {
     // Custom Delegate
 //    var delegate:MemeEditorViewDelegate?
     
-    let fontData = AppModel.fontsAvailable
+    let fontData = Constants.fontsAvailable
     
     // Defalut 이름 값.
 //    var selectedFontName = "HelveticaNeue-CondensedBlack"
@@ -82,12 +82,12 @@ class MemeEditorViewController: UIViewController {
     
     private func configureUI() {
         self.fontCollectionView.isHidden = true
-        self.setupTextFields(self.topTextField, text: AppModel.defaultTopTextFieldText)
-        self.setupTextFields(self.bottomTextField, text: AppModel.defaultBottomTextFieldText)
+        self.setupTextFields(self.topTextField, text: Constants.MemeDefaultsValue.topTextFieldText)
+        self.setupTextFields(self.bottomTextField, text: Constants.MemeDefaultsValue.bottomTextFieldText)
     }
     
     private func setupTextFields(_ textField: UITextField, text: String) {
-        textField.defaultTextAttributes = AppModel.memeTextAttributes
+        textField.defaultTextAttributes = Constants.MemeDefaultsValue.memeTextAttributes
         textField.text = text
         textField.textAlignment = NSTextAlignment.center
         textField.delegate = self;
@@ -218,14 +218,14 @@ extension MemeEditorViewController : UIImagePickerControllerDelegate, UINavigati
     }
     
     public func openSetting(_ sourceType:UIImagePickerControllerSourceType){
-        var alertContent : AppModel.PermissionAlert!
+        var alertContent : Constants.PermissionAlert!
         switch sourceType {
         case .camera :
-            alertContent = AppModel.PermissionAlert.init(type: "카메라")
+            alertContent = Constants.PermissionAlert.init(type: "카메라")
         case .photoLibrary :
-            alertContent = AppModel.PermissionAlert.init(type: "앨범")
+            alertContent = Constants.PermissionAlert.init(type: "앨범")
         default:
-            print("Defalut")
+            return
         }
         
         if #available(iOS 9.0, *) {
@@ -262,11 +262,11 @@ extension MemeEditorViewController : UIImagePickerControllerDelegate, UINavigati
 extension MemeEditorViewController: UITextFieldDelegate {
     // 이전에 써져있는 글 지우기.
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        if textField == topTextField && textField.text == AppModel.defaultTopTextFieldText {
+        if textField == topTextField && textField.text == Constants.MemeDefaultsValue.topTextFieldText {
             
             textField.text = ""
             
-        } else if textField == bottomTextField && textField.text == AppModel.defaultBottomTextFieldText {
+        } else if textField == bottomTextField && textField.text == Constants.MemeDefaultsValue.bottomTextFieldText {
             
             textField.text = ""
         }
@@ -291,11 +291,20 @@ extension MemeEditorViewController: UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         // 편집이 끝났을때 내용이 비어있을때
-        if textField == self.topTextField && textField.text!.isEmpty {
-            textField.text = AppModel.defaultTopTextFieldText;
-        } else if textField == self.bottomTextField && textField.text!.isEmpty {
-            textField.text = AppModel.defaultBottomTextFieldText;
-        }
+//        if let textFieldIsEmpty = textField.text?.isEmpty {
+//            if textFieldIsEmpty {
+//                switch AppModel.memeTextFieldType {
+//                case .topTextfield:
+//                    textField.text =
+//                case .bottomTextfield
+//                }
+//            }
+//        }
+//        if textField == self.topTextField &&  {
+//            textField.text = AppModel.defaultTopTextFieldText;
+//        } else if textField == self.bottomTextField && textField.text!.isEmpty {
+//            textField.text = AppModel.defaultBottomTextFieldText;
+//        }
     }
 
 }

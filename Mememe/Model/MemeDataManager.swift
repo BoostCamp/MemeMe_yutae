@@ -16,25 +16,33 @@ class MemeDataManager : NSObject {
     var assetCollection: PHAssetCollection!
     
     override init() {
+//        if Constants.checkPhotoLibraryAndCameraPermission(UIImagePickerControllerSourceType.photoLibrary){
         super.init()
         if let assetCollection = fetchAssetCollectionForAlbum() {
             self.assetCollection = assetCollection
             return
         }
         self.createAlbum()
-        /*
+//        switch PHPhotoLibrary.authorizationStatus() {
+//        case .authorized:
+//            self.createAlbum()
+//        default:
+//            if let viewController = UIApplication.topViewController() {
+//                Constants.openSetting(.photoLibrary, viewController: viewController)
+//            }
+//        }
+        
          if PHPhotoLibrary.authorizationStatus() != PHAuthorizationStatus.authorized {
-         PHPhotoLibrary.requestAuthorization({ (status: PHAuthorizationStatus) -> Void in
-         ()
-         })
+            PHPhotoLibrary.requestAuthorization({ (status) in
+                print("*Status \(status)")
+            })
          }
          
          if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.authorized {
-         self.createAlbum()
+            self.createAlbum()
          } else {
-         PHPhotoLibrary.requestAuthorization(requestAuthorizationHandler)
+            PHPhotoLibrary.requestAuthorization(requestAuthorizationHandler)
          }
-         */
     }
     
     
@@ -43,7 +51,7 @@ class MemeDataManager : NSObject {
             // 새로운 Album 만들기
             self.createAlbum()
         } else {
-            print("예외 처리")
+//            Constants.openSetting(.photoLibrary, viewController: UIApplication.topViewController()!)
         }
     }
     

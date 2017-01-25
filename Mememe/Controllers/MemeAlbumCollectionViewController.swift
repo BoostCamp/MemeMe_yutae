@@ -40,25 +40,25 @@ class MemeAlbumCollectionViewController: UICollectionViewController {
     }
     
     @IBAction func addAction(_ sender: Any) {
-        self.performSegue(withIdentifier: AppModel.memeEditFromCollectionViewSegueIdentifier, sender: nil)
+        self.performSegue(withIdentifier: Constants.SegueIdentifier.editFromCollectionView, sender: nil)
     }
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == AppModel.memeDetailFromCollectionViewSegueIdentifier {
-            let destination = segue.destination as! MemeDetailViewController
+        if segue.identifier == Constants.SegueIdentifier.detailFromCollectionView {
+            let destinationViewController = segue.destination as! MemeDetailViewController
             if let indexPath = self.collectionView?.indexPathsForSelectedItems?.first {
-                destination.selectedMeme = self.memes[indexPath.item]
+                destinationViewController.selectedMeme = self.memes[indexPath.item]
             }
                 // 3D Touch 시 Force Touch
             else if let cell = sender as? MemeAlbumCollectionViewCell {
-                destination.selectedImage = cell.memedImageView.image
+                destinationViewController.selectedImage = cell.memedImageView.image
             }
             // 뒤로가기 글씨 없애기.
             self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: nil, action: nil)
         }
         
-        if segue.identifier == AppModel.memeEditFromCollectionViewSegueIdentifier {
+        if segue.identifier == Constants.SegueIdentifier.editFromCollectionView {
             
         }
     }
@@ -71,7 +71,7 @@ class MemeAlbumCollectionViewController: UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // as! 무조건 Type Casting 이 되기 때문
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AppModel.memeAlbumCollectionReusableIdentifier, for: indexPath) as! MemeAlbumCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CellIdentifier.albumCollectionViewCell, for: indexPath) as! MemeAlbumCollectionViewCell
         cell.memedImageView.image = memes[indexPath.item].image
     
         return cell

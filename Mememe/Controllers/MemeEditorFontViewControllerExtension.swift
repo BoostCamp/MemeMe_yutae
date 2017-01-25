@@ -13,7 +13,7 @@ extension MemeEditorViewController:UICollectionViewDelegate, UICollectionViewDat
             return self.fontData.count
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AppModel.memeFontCollectionReusableIdentifier, for: indexPath) as! MemeFontCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CellIdentifier.fontCollectionViewCell, for: indexPath) as! MemeFontCollectionViewCell
         cell.largeNameLabel.font = UIFont(name: self.fontData[indexPath.row], size: 30)
         cell.smallNameLabel.text = fontData[indexPath.row]
         self.updateCell()
