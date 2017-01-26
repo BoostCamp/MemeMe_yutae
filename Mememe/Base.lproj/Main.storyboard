@@ -205,13 +205,23 @@
                                 <rect key="frame" x="0.0" y="692" width="414" height="44"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="S35-qu-0vg"/>
-                                    <barButtonItem systemItem="action" id="0FK-5J-U3b">
+                                    <barButtonItem systemItem="organize" id="0FK-5J-U3b">
                                         <connections>
                                             <action selector="favoriteAction:" destination="Ak4-75-KIs" id="hwS-Iz-M0F"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem width="46" style="plain" systemItem="fixedSpace" id="ope-qW-jBV"/>
-                                    <barButtonItem systemItem="trash" id="nXL-Ag-O0g"/>
+                                    <barButtonItem width="20" style="plain" systemItem="fixedSpace" id="82Q-YI-Jc4"/>
+                                    <barButtonItem systemItem="action" id="vYR-B9-Z3p">
+                                        <connections>
+                                            <action selector="shareAction:" destination="Ak4-75-KIs" id="k4e-XL-Yiw"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem width="20" style="plain" systemItem="fixedSpace" id="ope-qW-jBV"/>
+                                    <barButtonItem systemItem="trash" id="nXL-Ag-O0g">
+                                        <connections>
+                                            <action selector="deleteAction:" destination="Ak4-75-KIs" id="zRl-7N-GPz"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="gL4-ab-vyh"/>
                                 </items>
                             </toolbar>
@@ -227,16 +237,11 @@
                             <constraint firstItem="bsI-E7-3KS" firstAttribute="leading" secondItem="da5-T3-EgB" secondAttribute="leading" id="uze-Yb-78l"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="MemeMe Detail" id="Kr1-NP-GvS">
-                        <barButtonItem key="rightBarButtonItem" image="Share" id="fyb-5E-tPu">
-                            <connections>
-                                <action selector="shareAction:" destination="Ak4-75-KIs" id="YNF-ek-d2I"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="MemeMe Detail" id="Kr1-NP-GvS"/>
                     <connections>
                         <outlet property="favoriteButton" destination="0FK-5J-U3b" id="sjC-cN-OVu"/>
                         <outlet property="imageView" destination="bo9-aj-Teo" id="jIk-Bb-ITg"/>
+                        <outlet property="toolBar" destination="bsI-E7-3KS" id="k5c-q1-4C0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vgc-tX-qnx" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -329,19 +334,19 @@
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create Time" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="YwZ-R7-9Bl">
-                                            <rect key="frame" x="145" y="23" width="223" height="17"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <rect key="frame" x="145" y="50.333333333333329" width="223" height="19.333333333333329"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="YwZ-R7-9Bl" firstAttribute="top" secondItem="VQV-NT-sjr" secondAttribute="topMargin" constant="15" id="1vH-tl-zjg"/>
                                         <constraint firstAttribute="bottom" secondItem="RlG-ju-CFS" secondAttribute="bottom" id="7Qk-gm-ZyT"/>
                                         <constraint firstItem="RlG-ju-CFS" firstAttribute="leading" secondItem="VQV-NT-sjr" secondAttribute="leading" id="PIr-Hh-F8f"/>
                                         <constraint firstItem="YwZ-R7-9Bl" firstAttribute="leading" secondItem="RlG-ju-CFS" secondAttribute="trailing" constant="5" id="axs-Ij-V4V"/>
                                         <constraint firstItem="RlG-ju-CFS" firstAttribute="top" secondItem="VQV-NT-sjr" secondAttribute="top" id="bYv-E2-5kb"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="YwZ-R7-9Bl" secondAttribute="trailing" constant="5" id="dnO-Oc-5Fq"/>
+                                        <constraint firstItem="YwZ-R7-9Bl" firstAttribute="centerY" secondItem="VQV-NT-sjr" secondAttribute="centerY" id="xl9-u5-qbv"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
@@ -501,7 +506,7 @@
         <image name="Share" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="I3v-33-lBf"/>
         <segue reference="bxR-fn-nze"/>
+        <segue reference="3ko-PX-lR8"/>
     </inferredMetricsTieBreakers>
 </document>

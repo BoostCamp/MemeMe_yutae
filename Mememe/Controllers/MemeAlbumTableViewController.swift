@@ -23,24 +23,25 @@ class MemeAlbumTableViewController: UITableViewController {
         self.setupAlbumTableView()
     }
     
+    func resetTableView(){
+        self.memes = memeDataManager.fetchMemesForAlbum()
+        self.tableView?.reloadData()
+    }
     
     func setupAlbumTableView(){
         // Edit 버튼으로 지정.
         self.navigationItem.leftBarButtonItem = editButtonItem
         // Data 받아오기
-        self.memes = memeDataManager.fetchMemesForAlbum()
-        self.tableView?.reloadData()
-        //
+        self.resetTableView()
+        // Add PhotoLibrary Observer 
         self.photoLibrary.register(self)
-    }
-    func removePhotoLibraryDidChangedObserver(){
-//        self.photoLibrary.re
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Constants.SegueIdentifier.detailFromTableView {
             let destinationViewController = segue.destination as! MemeDetailViewController
             if let indexPath = self.tableView.indexPathForSelectedRow{
                 destinationViewController.selectedMeme = self.memes[indexPath.section]
+                destinationViewController.delegate = self
             }
             // 3D Touch 시 Force Touch
             else if let cell = sender as? MemeAlbumTableViewCell{
@@ -102,10 +103,17 @@ class MemeAlbumTableViewController: UITableViewController {
             let deleteIndex = indexPath.section
             print("\(deleteIndex) tableView Section Remove")
             if let localIdentifier = self.memes[deleteIndex].localIdentifier {
-                memeDataManager.delete(localIdentifier)
+                memeDataManager.delete(localIdentifier, completion: { (isSuccess) in
+                    // 성공 했을 경우 핸들링
+                    if isSuccess {
+                        // UI 이기 때문에 main Thread 비동기 처리
+                        DispatchQueue.main.async {
+                            self.memes.remove(at: deleteIndex)
+                            tableView.deleteSections(IndexSet.init(integer: deleteIndex), with: .automatic)
+                        }
+                    }
+                })
             }
-            self.memes.remove(at: deleteIndex)
-            tableView.deleteSections(IndexSet.init(integer: deleteIndex), with: .automatic)
         default:
             return
         }
@@ -119,10 +127,15 @@ extension MemeAlbumTableViewController : PHPhotoLibraryChangeObserver {
         // MemeMe 앨범 변경되었을때만 reloadData
         if let assetCollection = memeDataManager.fetchAssetCollectionForAlbum() {
             if changeInstance.changeDetails(for: assetCollection) != nil {
-                self.memes = memeDataManager.fetchMemesForAlbum()
-                self.tableView.reloadData()
+                self.resetTableView()
             }
         }
         
+    }
+}
+// Custom Delegation Favorite 바꿧을때 Table 리셋
+extension MemeAlbumTableViewController : memeDetailViewControllerDelegate {
+    func memeFavoriteDidChange() {
+        self.resetTableView()
     }
 }

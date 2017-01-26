@@ -106,26 +106,27 @@ class MemeDataManager : NSObject {
         })
         return memes
     }
-    // favorite 주기.
-    func favorite(_ localIdentifier : String){
+    // favorite 주기. completion으로 성공시 핸들링
+    func favorite(_ localIdentifier : String, completion: @escaping (( (Bool) -> Void)) ){
         let photoAssets = PHAsset.fetchAssets(withLocalIdentifiers: [localIdentifier], options: nil)
         photoAssets.enumerateObjects( { (object, count, stop) in
-            PHPhotoLibrary.shared().performChanges({
+            self.photoLibrary.performChanges({
                 let assetChangeRequest = PHAssetChangeRequest(for: object)
                 // isFavorite 변경
                 assetChangeRequest.isFavorite = !object.isFavorite
             }, completionHandler: { (isSuccess, error) in
                 if isSuccess {
-                    
+                    completion(isSuccess)
                 }
             })
         })
     }
-    // 삭제 함수
-    func delete(_ localIdentifier : String){
+    
+    // 삭제 함수 completion으로 성공시 핸들링
+    func delete(_ localIdentifier : String, completion: @escaping (( (Bool) -> Void)) ){
         let photoAssets = PHAsset.fetchAssets(withLocalIdentifiers: [localIdentifier], options: nil)
         photoAssets.enumerateObjects( { (object, count, stop) in
-            PHPhotoLibrary.shared().performChanges({
+            self.photoLibrary.performChanges({
                 let isEditing = object.canPerform(.delete)
                 if isEditing {
                     let enumeration: NSArray = [object]
@@ -133,20 +134,20 @@ class MemeDataManager : NSObject {
                 }
             }, completionHandler: { (isSuccess, error) in
                 if isSuccess {
-                    
+                    completion(isSuccess)
                 }
             })
         })
     }
-    // 저장 함수
-    func save(_ image: UIImage) {
+    // 저장 함수 completion으로 성공시 핸들링
+    func save(_ image: UIImage, completion: @escaping (( (Bool) -> Void)) ){
         if self.assetCollection == nil {
             // 앨범까지 전체 삭제 되었을때의 예외 처리
             return
         }
         // https://developer.apple.com/reference/photos/phassetchangerequest/1624056-placeholderforcreatedasset Swift로 변형
         
-        PHPhotoLibrary.shared().performChanges({
+        self.photoLibrary.performChanges({
             // creationRequestForAsse t함수 Image 만들기 return Self
             
             // self.assetCollection 에 추가된 이미지 추가하기
@@ -157,9 +158,7 @@ class MemeDataManager : NSObject {
                 albumChangeRequest.addAssets(enumeration)
             }
         }) { (isSuccess, error) in
-            if isSuccess {
-                
-            }
+            completion(isSuccess)
         }
     }
 }

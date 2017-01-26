@@ -54,6 +54,7 @@ class MemeEditorViewController: UIViewController {
          */
         if let indexPath = selectedCellIndexPath {
             self.userDefaults.setValue(self.fontData[indexPath.row], forKey: Constants.UserDafaultsKey.fontName)
+            self.userDefaults.synchronize()
         }
     }
     override func viewDidDisappear(_ animated: Bool) {
@@ -116,8 +117,23 @@ class MemeEditorViewController: UIViewController {
         // Optional Binding
         let image = generateMemedImage()
         if Constants.Permission.checkPhotoLibraryAndCameraPermission(.photoLibrary) {
-            self.memeDataManager.save(image)
+            self.memeDataManager.save(image, completion: { (isSuccess) in
+                if isSuccess {
+                    self.showActivityViewController(image)
+                }
+            })
         }
+        else {
+            // 권한이 없을 경우 공유만
+            self.showActivityViewController(image)
+        }
+    }
+    
+    @IBAction func cancelAction(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    private func showActivityViewController(_ image: UIImage){
         let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
         // Air Drop 잘 안쓰기 때문에 생략.
         activityViewController.excludedActivityTypes = [UIActivityType.airDrop]
@@ -126,10 +142,6 @@ class MemeEditorViewController: UIViewController {
             self.dismiss(animated: true, completion: nil)
         }
         self.present(activityViewController, animated: true, completion: nil)
-    }
-    
-    @IBAction func cancelAction(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
     }
     
     // MARK: Notification Funtions 다른 곳에서 불려지지 않게 private

@@ -13,7 +13,8 @@ import UIKit
 extension UIColor {
     // adobe: #3FC1C4
     // Apple 0 184 185
-    public class var themeColor : UIColor {
-        return UIColor.init(red: 0/255, green: 184/255, blue: 185/255, alpha: 1.0)
-    }
+//    public class var  : UIColor {
+//        return UIColor.init(red: 0/255, green: 184/255, blue: 185/255, alpha: 1.0)
+//    }
+    static let theme:UIColor = UIColor.init(red: 0/255, green: 184/255, blue: 185/255, alpha: 1.0)
 }

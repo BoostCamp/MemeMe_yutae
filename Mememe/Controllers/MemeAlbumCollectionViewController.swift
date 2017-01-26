@@ -13,19 +13,21 @@ class MemeAlbumCollectionViewController: UICollectionViewController {
 
     // Single Ton 사용
     let memeDataManager = MemeDataManager.shared
+    let photoLibrary = PHPhotoLibrary.shared()
+    
     var memes = [Meme]()
     
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.setupAlbumCollectionView()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.setupLayout()
-        memes = memeDataManager.fetchMemesForAlbum()
-        self.collectionView?.reloadData()
     }
-    func setupLayout(){
+    // MARK: Setup Collection View
+    func setupAlbumCollectionView(){
+        // Setup Layout
         let space: CGFloat
         let width: CGFloat
         if UIDevice.current.orientation.isLandscape {
@@ -38,6 +40,15 @@ class MemeAlbumCollectionViewController: UICollectionViewController {
         // 1:1 비율로 width, height 크기가 같음.
         self.flowLayout.itemSize = CGSize(width: width, height: width)
         self.flowLayout.minimumInteritemSpacing = space
+        
+        
+        // Add PhotoLibrary Observer
+        self.photoLibrary.register(self)
+        self.resetCollectionView()
+    }
+    func resetCollectionView(){
+        self.memes = memeDataManager.fetchMemesForAlbum()
+        self.collectionView?.reloadData()
     }
     
     @IBAction func addAction(_ sender: Any) {
@@ -50,6 +61,7 @@ class MemeAlbumCollectionViewController: UICollectionViewController {
             let destinationViewController = segue.destination as! MemeDetailViewController
             if let indexPath = self.collectionView?.indexPathsForSelectedItems?.first {
                 destinationViewController.selectedMeme = self.memes[indexPath.item]
+                destinationViewController.delegate = self
             }
                 // 3D Touch 시 Force Touch
             else if let cell = sender as? MemeAlbumCollectionViewCell {
@@ -84,11 +96,22 @@ class MemeAlbumCollectionViewController: UICollectionViewController {
     }
 }
 
+
 // Mark: PHPhotoLibraryChangeObserver PhotoLibrary Change 됬을때
 extension MemeAlbumCollectionViewController : PHPhotoLibraryChangeObserver {
     func photoLibraryDidChange(_ changeInstance: PHChange) {
-        print("photoLibraryDidChange")
-        self.memes = memeDataManager.fetchMemesForAlbum()
-        self.collectionView?.reloadData()
+        
+        // MemeMe 앨범 변경되었을때만 reloadData
+        if let assetCollection = memeDataManager.fetchAssetCollectionForAlbum() {
+            if changeInstance.changeDetails(for: assetCollection) != nil {
+                self.resetCollectionView()
+            }
+        }
+    }
+}
+// Custom Delegation Favorite 바꿧을때 Collection 리셋
+extension MemeAlbumCollectionViewController : memeDetailViewControllerDelegate {
+    func memeFavoriteDidChange() {
+        self.resetCollectionView()
     }
 }
