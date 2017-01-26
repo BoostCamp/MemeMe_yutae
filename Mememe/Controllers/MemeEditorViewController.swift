@@ -117,7 +117,9 @@ class MemeEditorViewController: UIViewController {
     @IBAction func doneAction(_ sender: Any) {
         // Optional Binding
         let image = generateMemedImage()
-        memePhotoAlbum.save(image)
+        if Constants.Permission.checkPhotoLibraryAndCameraPermission(.photoLibrary) {
+            self.memePhotoAlbum.save(image)
+        }
         let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
         // Air Drop 잘 안쓰기 때문에 생략.
         activityViewController.excludedActivityTypes = [UIActivityType.airDrop]
@@ -126,7 +128,6 @@ class MemeEditorViewController: UIViewController {
             self.dismiss(animated: true, completion: nil)
         }
         self.present(activityViewController, animated: true, completion: nil)
-        
     }
     
     @IBAction func cancelAction(_ sender: Any) {
@@ -181,70 +182,26 @@ class MemeEditorViewController: UIViewController {
     }
     
     func presentImagePickerWithSourType(_ sourceType: UIImagePickerControllerSourceType){
-//        if self.checkPhotoLibraryPermission(){
-            // 2단 안전 장치
-//            if UIImagePickerController.isSourceTypeAvailable(sourceType) {
-                let imagePicker = UIImagePickerController()
-                imagePicker.delegate = self
-                imagePicker.sourceType = sourceType
-                self.present(imagePicker, animated: true, completion:nil)
-//            }
-//        }
+        // Permission Check!
+        if Constants.Permission.checkPhotoLibraryAndCameraPermission(sourceType, viewController: self) {
+            dump(UIImagePickerController.isSourceTypeAvailable(sourceType))
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.sourceType = sourceType
+            self.present(imagePicker, animated: true, completion:nil)
+        } else {
+            Constants.Permission.openSetting(sourceType, viewController: self)
+        }
     }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-
 }
 
 extension MemeEditorViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     // Permission Check
-    public func checkPhotoLibraryPermission() -> Bool{
-        var isAuthorized = false
-        let status = PHPhotoLibrary.authorizationStatus()
-        if status != .authorized {
-            PHPhotoLibrary.requestAuthorization({ (status) in
-                if status != .authorized {
-                    self.openSetting(UIImagePickerControllerSourceType.photoLibrary)
-                }
-            })
-            
-        } else {
-            isAuthorized = true
-        }
-        return isAuthorized
-    }
-    
-    public func openSetting(_ sourceType:UIImagePickerControllerSourceType){
-        var alertContent : Constants.PermissionAlert!
-        switch sourceType {
-        case .camera :
-            alertContent = Constants.PermissionAlert.init(type: "카메라")
-        case .photoLibrary :
-            alertContent = Constants.PermissionAlert.init(type: "앨범")
-        default:
-            return
-        }
-        
-        if #available(iOS 9.0, *) {
-            let alert = UIAlertController(title: alertContent.title, message: alertContent.message, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "설정", style: .default, handler: { (action:UIAlertAction) -> Void in
-                let settingsUrl = URL(string: UIApplicationOpenSettingsURLString)
-                if #available(iOS 10.0, *) {
-                    UIApplication.shared.open(settingsUrl!, options: [:], completionHandler: nil)
-                } else {
-                    UIApplication.shared.openURL(settingsUrl!)
-                }
-            }))
-            alert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        } else {
-            // 9.0 미만
-        }
-    }
-    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
         // Optional Binding TypeCast

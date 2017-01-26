@@ -13,8 +13,10 @@ import AVFoundation
 struct Constants {
     // MARK: Segue Identifiers
     struct SegueIdentifier {
+        static let editFromHomeView:String = "memeEditorModalFromHomeViewControllerSegue"
         static let editFromTableView:String = "memeEditorModalFromTableViewSegue"
         static let editFromCollectionView:String = "memeEditorModalFromCollectionViewSegue"
+        static let albumFromHomeView:String = "memeAlbumFromHomeViewControllerSegue"
         static let detailFromTableView:String = "showMemeDetailFromTableViewSegue"
         static let detailFromCollectionView:String = "showMemeDetailFromCollectionViewSegue"
     }
@@ -44,66 +46,89 @@ struct Constants {
         case bottomTextfield = "BOTTOM"
     }
     
-    struct PermissionAlert {
-        var type:String
-        var title:String
-        var message:String
-        init (type:String) {
-            self.type = type
-            self.title = "\(type) 접근 허가가 필요합니다."
-            self.message = "설정 -> Meme \(type) 접근 허용"
-        }
-    }
-    static public func checkPhotoLibraryAndCameraPermission(_ sourceType:UIImagePickerControllerSourceType) -> Bool{
-        var isAuthorized = false
-        switch sourceType {
-//        case .camera:
-            
-        default:
-            print("checkPhotoLibraryAndCameraPermission")
-            let status = PHPhotoLibrary.authorizationStatus()
-            if status != .authorized {
-                PHPhotoLibrary.requestAuthorization({ (status) in
-                    if status != .authorized {
-                        if let viewController = UIApplication.topViewController() {
-                            self.openSetting(UIImagePickerControllerSourceType.photoLibrary, viewController : viewController)
-                        }
-                    }
-                })
-                
-            } else {
-                isAuthorized = true
+    // MARK: Meme Permission Related
+    struct Permission {
+        struct PermissionAlert {
+            var type:String
+            var title:String
+            var message:String
+            init (type:String) {
+                self.type = type
+                self.title = "\(type) 접근 허가가 필요합니다."
+                self.message = "설정 -> MemeMe \(type) 접근 허용"
             }
         }
-        return isAuthorized
-    }
-    static public func openSetting(_ sourceType:UIImagePickerControllerSourceType, viewController: UIViewController){
-        var alertContent : Constants.PermissionAlert
-        switch sourceType {
-        case .camera :
-            alertContent = Constants.PermissionAlert.init(type: "카메라")
-        case .photoLibrary :
-            alertContent = Constants.PermissionAlert.init(type: "앨범")
-        default:
-            return
+        static public func checkPhotoLibraryAndCameraPermission(_ sourceType:UIImagePickerControllerSourceType) -> Bool{
+            var isAuthorized = false
+            switch sourceType {
+            case .camera:
+                let status = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
+                if status == .authorized {
+                    isAuthorized = true
+                }
+            default:
+                let status = PHPhotoLibrary.authorizationStatus()
+                if status == .authorized {
+                    isAuthorized = true
+                }
+            }
+            return isAuthorized
         }
         
-        if #available(iOS 9.0, *) {
-            let alert = UIAlertController(title: alertContent.title, message: alertContent.message, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "설정", style: .default, handler: { (action:UIAlertAction) -> Void in
-                let settingsUrl = URL(string: UIApplicationOpenSettingsURLString)
-                if #available(iOS 10.0, *) {
-                    UIApplication.shared.open(settingsUrl!, options: [:], completionHandler: nil)
+        static public func checkPhotoLibraryAndCameraPermission(_ sourceType:UIImagePickerControllerSourceType, viewController: UIViewController) -> Bool{
+            var isAuthorized = false
+            switch sourceType {
+                case .camera:
+                    let status = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
+                    if status != .authorized {
+                        self.openSetting(UIImagePickerControllerSourceType.camera, viewController : viewController)
+                    } else {
+                        isAuthorized = true
+                    }
+            default:
+                let status = PHPhotoLibrary.authorizationStatus()
+                if status != .authorized {
+                    PHPhotoLibrary.requestAuthorization({ (status) in
+                        if status != .authorized {
+                            self.openSetting(UIImagePickerControllerSourceType.photoLibrary, viewController : viewController)
+                        }
+                    })
                 } else {
-                    UIApplication.shared.openURL(settingsUrl!)
+                    isAuthorized = true
                 }
-            }))
-            alert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
-            viewController.present(alert, animated: true, completion: nil)
-        } else {
-            // 9.0 미만
+            }
+            return isAuthorized
+        }
+        
+        static public func openSetting(_ sourceType:UIImagePickerControllerSourceType, viewController: UIViewController){
+            var alertContent : PermissionAlert
+            switch sourceType {
+            case .camera :
+                alertContent = PermissionAlert.init(type: "카메라")
+            case .photoLibrary :
+                alertContent = PermissionAlert.init(type: "앨범")
+            default:
+                return
+            }
+            
+            if #available(iOS 9.0, *) {
+                let alert = UIAlertController(title: alertContent.title, message: alertContent.message, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "설정", style: .default, handler: { (action:UIAlertAction) -> Void in
+                    let settingsUrl = URL(string: UIApplicationOpenSettingsURLString)
+                    if #available(iOS 10.0, *) {
+                        UIApplication.shared.open(settingsUrl!, options: [:], completionHandler: nil)
+                    } else {
+                        UIApplication.shared.openURL(settingsUrl!)
+                    }
+                }))
+                alert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
+                viewController.present(alert, animated: true, completion: nil)
+            } else {
+                // 9.0 미만
+            }
         }
     }
+    
     /*
     static let actionHandler =
         { (action: (UIAlertAction) -> Void) in
