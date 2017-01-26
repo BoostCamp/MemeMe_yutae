@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Photos
 
 class MemeAlbumTableViewController: UITableViewController {
     
@@ -14,21 +15,27 @@ class MemeAlbumTableViewController: UITableViewController {
     
     // Single Ton 사용
     let memeDataManager = MemeDataManager.shared
+    let photoLibrary = PHPhotoLibrary.shared()
     var memes = [Meme]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.setupAlbumTableView()
+    }
+    
+    
+    func setupAlbumTableView(){
         // Edit 버튼으로 지정.
-//        self.editButton = editButtonItem
         self.navigationItem.leftBarButtonItem = editButtonItem
-    }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        memes = memeDataManager.fetchMemesForAlbum()
+        // Data 받아오기
+        self.memes = memeDataManager.fetchMemesForAlbum()
         self.tableView?.reloadData()
-        print("MemeAlbumTableViewController viewWillAppear")
+        //
+        self.photoLibrary.register(self)
     }
-
+    func removePhotoLibraryDidChangedObserver(){
+//        self.photoLibrary.re
+    }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Constants.SegueIdentifier.detailFromTableView {
             let destinationViewController = segue.destination as! MemeDetailViewController
@@ -74,7 +81,6 @@ class MemeAlbumTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("didSelectRowAt")
         
     }
     
@@ -103,5 +109,20 @@ class MemeAlbumTableViewController: UITableViewController {
         default:
             return
         }
+    }
+}
+
+// Mark: PHPhotoLibraryChangeObserver PhotoLibrary Change 됬을때
+extension MemeAlbumTableViewController : PHPhotoLibraryChangeObserver {
+    func photoLibraryDidChange(_ changeInstance: PHChange) {
+        
+        // MemeMe 앨범 변경되었을때만 reloadData
+        if let assetCollection = memeDataManager.fetchAssetCollectionForAlbum() {
+            if changeInstance.changeDetails(for: assetCollection) != nil {
+                self.memes = memeDataManager.fetchMemesForAlbum()
+                self.tableView.reloadData()
+            }
+        }
+        
     }
 }

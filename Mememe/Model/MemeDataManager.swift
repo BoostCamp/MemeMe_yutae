@@ -12,29 +12,22 @@ import Photos
 class MemeDataManager : NSObject {
     static let albumName = "MemeMe"
     // Single Ton 패턴 사용
-    static let shared = MemeDataManager()
+    static let shared: MemeDataManager = MemeDataManager()
+    let photoLibrary:PHPhotoLibrary = PHPhotoLibrary.shared()
     var assetCollection: PHAssetCollection!
     
     override init() {
-//        if Constants.checkPhotoLibraryAndCameraPermission(UIImagePickerControllerSourceType.photoLibrary){
         super.init()
         if let assetCollection = fetchAssetCollectionForAlbum() {
             self.assetCollection = assetCollection
             return
         }
         self.createAlbum()
-//        switch PHPhotoLibrary.authorizationStatus() {
-//        case .authorized:
-//            self.createAlbum()
-//        default:
-//            if let viewController = UIApplication.topViewController() {
-//                Constants.openSetting(.photoLibrary, viewController: viewController)
-//            }
-//        }
         
+         // 초기화 하기전에 Permission 체크를 하기 때문에 필요 없음.
          if PHPhotoLibrary.authorizationStatus() != PHAuthorizationStatus.authorized {
             PHPhotoLibrary.requestAuthorization({ (status) in
-                print("*Status \(status)")
+                
             })
          }
          
@@ -104,6 +97,7 @@ class MemeDataManager : NSObject {
                     (image, info) -> Void in
                     meme.image = image
                 })
+                
                 meme.localIdentifier = asset.localIdentifier
                 meme.creationDate = asset.creationDate
                 meme.isFavorite = asset.isFavorite
@@ -112,6 +106,21 @@ class MemeDataManager : NSObject {
         })
         return memes
     }
+    // favorite 주기.
+    func favorite(_ localIdentifier : String){
+        let photoAssets = PHAsset.fetchAssets(withLocalIdentifiers: [localIdentifier], options: nil)
+        photoAssets.enumerateObjects( { (object, count, stop) in
+            PHPhotoLibrary.shared().performChanges({
+                let assetChangeRequest = PHAssetChangeRequest(for: object)
+                // isFavorite 변경
+                assetChangeRequest.isFavorite = !object.isFavorite
+            }, completionHandler: { (isSuccess, error) in
+                if isSuccess {
+                    
+                }
+            })
+        })
+    }
     // 삭제 함수
     func delete(_ localIdentifier : String){
         let photoAssets = PHAsset.fetchAssets(withLocalIdentifiers: [localIdentifier], options: nil)
@@ -119,7 +128,6 @@ class MemeDataManager : NSObject {
             PHPhotoLibrary.shared().performChanges({
                 let isEditing = object.canPerform(.delete)
                 if isEditing {
-                    print("Delete Success")
                     let enumeration: NSArray = [object]
                     PHAssetChangeRequest.deleteAssets(enumeration)
                 }
@@ -130,7 +138,7 @@ class MemeDataManager : NSObject {
             })
         })
     }
-    
+    // 저장 함수
     func save(_ image: UIImage) {
         if self.assetCollection == nil {
             // 앨범까지 전체 삭제 되었을때의 예외 처리
@@ -143,9 +151,8 @@ class MemeDataManager : NSObject {
             
             // self.assetCollection 에 추가된 이미지 추가하기
             let assetChangeRequest = PHAssetChangeRequest.creationRequestForAsset(from: image)
-            let assetPlaceHolder = assetChangeRequest.placeholderForCreatedAsset
             // Optional binding
-            if let placeHolder = assetPlaceHolder, let albumChangeRequest = PHAssetCollectionChangeRequest(for: self.assetCollection)  {
+            if let placeHolder = assetChangeRequest.placeholderForCreatedAsset, let albumChangeRequest = PHAssetCollectionChangeRequest(for: self.assetCollection)  {
                 let enumeration: NSArray = [placeHolder]
                 albumChangeRequest.addAssets(enumeration)
             }

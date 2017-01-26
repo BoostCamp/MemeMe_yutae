@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Photos
 
 class MemeAlbumCollectionViewController: UICollectionViewController {
 
@@ -81,7 +82,13 @@ class MemeAlbumCollectionViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 //        self.performSegue(withIdentifier: AppModel.memeDetailFromCollectionViewSegueIdentifier, sender: self.memes[indexPath.item])
     }
-    
-    
+}
 
+// Mark: PHPhotoLibraryChangeObserver PhotoLibrary Change 됬을때
+extension MemeAlbumCollectionViewController : PHPhotoLibraryChangeObserver {
+    func photoLibraryDidChange(_ changeInstance: PHChange) {
+        print("photoLibraryDidChange")
+        self.memes = memeDataManager.fetchMemesForAlbum()
+        self.collectionView?.reloadData()
+    }
 }

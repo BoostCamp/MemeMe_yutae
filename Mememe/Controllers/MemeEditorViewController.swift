@@ -24,7 +24,7 @@ class MemeEditorViewController: UIViewController {
     
     @IBOutlet weak var fontCollectionView: UICollectionView!
     // Single ton Pattern
-    let memePhotoAlbum:MemeDataManager = MemeDataManager.shared
+    let memeDataManager:MemeDataManager = MemeDataManager.shared
     let userDefaults:UserDefaults = UserDefaults.standard
     
     // Custom Delegation
@@ -116,7 +116,7 @@ class MemeEditorViewController: UIViewController {
         // Optional Binding
         let image = generateMemedImage()
         if Constants.Permission.checkPhotoLibraryAndCameraPermission(.photoLibrary) {
-            self.memePhotoAlbum.save(image)
+            self.memeDataManager.save(image)
         }
         let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
         // Air Drop 잘 안쓰기 때문에 생략.
@@ -171,7 +171,8 @@ class MemeEditorViewController: UIViewController {
     }
     
     func generateMemedImage() -> UIImage {
-        // 원본에서 필요한방법으로 수정 (Tool Bar 숨길 필요 없음.)
+        // 원본에서 필요한방법으로 수정 (Tool Bar는 숨길 필요 없음.)
+        self.fontCollectionView.isHidden = true
         UIGraphicsBeginImageContext(self.memeView.bounds.size)
         if let context = UIGraphicsGetCurrentContext() {
             self.memeView.layer.render(in: context)
@@ -198,15 +199,12 @@ class MemeEditorViewController: UIViewController {
 }
 
 extension MemeEditorViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    // Permission Check
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        
-        // Optional Binding TypeCast
+        // Optional TypeCast Binding
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             self.imageView.image = image
             self.dismiss(animated: true, completion: nil)
         }
-        
     }
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         self.dismiss(animated: true, completion: nil)
@@ -216,12 +214,9 @@ extension MemeEditorViewController : UIImagePickerControllerDelegate, UINavigati
 extension MemeEditorViewController: UITextFieldDelegate {
     // 이전에 써져있는 글 지우기.
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        if textField == topTextField && textField.text == Constants.MemeDefaultsValue.topTextFieldText {
-            
+        if textField == self.topTextField && textField.text == Constants.MemeDefaultsValue.topTextFieldText {
             textField.text = ""
-            
-        } else if textField == bottomTextField && textField.text == Constants.MemeDefaultsValue.bottomTextFieldText {
-            
+        } else if textField == self.bottomTextField && textField.text == Constants.MemeDefaultsValue.bottomTextFieldText {
             textField.text = ""
         }
     }
@@ -245,20 +240,15 @@ extension MemeEditorViewController: UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         // 편집이 끝났을때 내용이 비어있을때
-//        if let textFieldIsEmpty = textField.text?.isEmpty {
-//            if textFieldIsEmpty {
-//                switch AppModel.memeTextFieldType {
-//                case .topTextfield:
-//                    textField.text =
-//                case .bottomTextfield
-//                }
-//            }
-//        }
-//        if textField == self.topTextField &&  {
-//            textField.text = AppModel.defaultTopTextFieldText;
-//        } else if textField == self.bottomTextField && textField.text!.isEmpty {
-//            textField.text = AppModel.defaultBottomTextFieldText;
-//        }
+        if let textFieldIsEmpty = textField.text?.isEmpty {
+            if textFieldIsEmpty {
+                if textField == self.topTextField {
+                    textField.text = Constants.MemeDefaultsValue.topTextFieldText
+                } else if textField == self.bottomTextField {
+                    textField.text = Constants.MemeDefaultsValue.bottomTextFieldText
+                }
+            }
+        }
     }
 
 }

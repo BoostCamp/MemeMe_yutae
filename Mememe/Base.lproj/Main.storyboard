@@ -201,13 +201,30 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bo9-aj-Teo">
                                 <rect key="frame" x="0.0" y="64" width="414" height="623"/>
                             </imageView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bsI-E7-3KS">
+                                <rect key="frame" x="0.0" y="692" width="414" height="44"/>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="S35-qu-0vg"/>
+                                    <barButtonItem systemItem="action" id="0FK-5J-U3b">
+                                        <connections>
+                                            <action selector="favoriteAction:" destination="Ak4-75-KIs" id="hwS-Iz-M0F"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem width="46" style="plain" systemItem="fixedSpace" id="ope-qW-jBV"/>
+                                    <barButtonItem systemItem="trash" id="nXL-Ag-O0g"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="gL4-ab-vyh"/>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="bo9-aj-Teo" secondAttribute="trailing" id="4VS-tM-6PK"/>
                             <constraint firstItem="Euh-YZ-aOY" firstAttribute="top" secondItem="bo9-aj-Teo" secondAttribute="bottom" id="Fme-Rm-sDc"/>
+                            <constraint firstAttribute="trailing" secondItem="bsI-E7-3KS" secondAttribute="trailing" id="aBC-D2-W4C"/>
                             <constraint firstItem="bo9-aj-Teo" firstAttribute="leading" secondItem="da5-T3-EgB" secondAttribute="leading" id="aG0-xI-IG1"/>
+                            <constraint firstAttribute="bottom" secondItem="bsI-E7-3KS" secondAttribute="bottom" id="gFf-Ox-nC6"/>
                             <constraint firstItem="bo9-aj-Teo" firstAttribute="top" secondItem="w7w-of-YAO" secondAttribute="bottom" id="nLX-9O-OR8"/>
+                            <constraint firstItem="bsI-E7-3KS" firstAttribute="leading" secondItem="da5-T3-EgB" secondAttribute="leading" id="uze-Yb-78l"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="MemeMe Detail" id="Kr1-NP-GvS">
@@ -218,6 +235,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="favoriteButton" destination="0FK-5J-U3b" id="sjC-cN-OVu"/>
                         <outlet property="imageView" destination="bo9-aj-Teo" id="jIk-Bb-ITg"/>
                     </connections>
                 </viewController>
