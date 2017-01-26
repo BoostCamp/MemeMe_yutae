@@ -28,7 +28,8 @@ struct Constants {
     }
     // MARK: Meme Defaults Value
     struct MemeDefaultsValue {
-        static let memeTextAttributes = [
+//        if let UserDefaults.standard
+        static let textAttributes = [
             NSStrokeColorAttributeName : UIColor.black,
             NSForegroundColorAttributeName : UIColor.white,
             NSFontAttributeName: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
@@ -38,12 +39,8 @@ struct Constants {
         static let bottomTextFieldText = "BOTTOM"
     }
     
-    // Font Data
-    static let fontsAvailable = UIFont.familyNames
-
-    enum MemeTextFieldType: String {
-        case topTextfield = "TOP"
-        case bottomTextfield = "BOTTOM"
+    struct UserDafaultsKey {
+        static let fontName = "FontName"
     }
     
     // MARK: Meme Permission Related
@@ -128,6 +125,9 @@ struct Constants {
             }
         }
     }
+    
+    // MARK: Font Data
+    static let fontsAvailable = UIFont.familyNames
     
     /*
     static let actionHandler =

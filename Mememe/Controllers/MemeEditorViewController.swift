@@ -9,85 +9,83 @@
 import UIKit
 import Photos
 
-//public protocol MemeEditorViewDelegate {
-//    func memeEditorViewControllerImageDidEdit(image: UIImage)
-//    func memeEditorViewViewControllerDidCancel()
-//}
+public protocol MemeEditorViewDelegate {
+    func memeEditorViewController(saveImage image: UIImage)
+}
 
 class MemeEditorViewController: UIViewController {
     @IBOutlet weak var topTextField: UITextField!
-    
     @IBOutlet weak var bottomTextField: UITextField!
-    
     @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var scrollView: UIScrollView!
 
     @IBOutlet weak var topToolbar: UIToolbar!
-
     @IBOutlet weak var bottomToolbar: UIToolbar!
-    
     @IBOutlet weak var memeView: UIView!
     
     @IBOutlet weak var fontCollectionView: UICollectionView!
     // Single ton Pattern
+    let memePhotoAlbum:MemeDataManager = MemeDataManager.shared
+    let userDefaults:UserDefaults = UserDefaults.standard
     
-    let memePhotoAlbum = MemeDataManager.shared
-    // Custom Delegate
+    // Custom Delegation
 //    var delegate:MemeEditorViewDelegate?
     
     let fontData = Constants.fontsAvailable
-    
-    // Defalut 이름 값.
-//    var selectedFontName = "HelveticaNeue-CondensedBlack"
+    // Defalut font Name 값.
+    var fontDefaultName:String?
     var selectedCellIndexPath:IndexPath?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.fontCollectionView.delegate = self
         self.fontCollectionView.dataSource = self
-//        setupImageViewTapEvent()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.subscribeToKeyboardNotifications()
-        self.configureUI()
+        self.setupEditor()
     }
-    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        /*
+            self.fontData.count 까지 범위 이므로 selectedCellIndexPath 존재하면
+            fontData[indexPath.row] 값 존재
+            UserDefaults에  기록
+         */
+        if let indexPath = selectedCellIndexPath {
+            self.userDefaults.setValue(self.fontData[indexPath.row], forKey: Constants.UserDafaultsKey.fontName)
+        }
+    }
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         // 안전하게 완전히 사라진 후 Observer 제거
         self.unsubscribeFromKeyboardNotifications()
     }
-    /*
-    private func setupImageViewTapEvent(){
-        let tapGesture = UIGestureRecognizer(target: self.imageView, action: #selector(self.imageViewTapped(_:)))
-        self.imageView.isUserInteractionEnabled = true
-        self.imageView.addGestureRecognizer(tapGesture)
-    }
     
-    func imageViewTapped( _ : UIGestureRecognizer){
-        print("Tap!!!")
-        // 항상 self.fontCollectionView 숨기기.
-        self.fontCollectionView.isHidden = true
+    private func setupEditor() {
+        // Add Observer KeyboardNotifications
+        self.subscribeToKeyboardNotifications()
         
-        // 이미 숨겨져 있는 상태일땐 다시 보여주기.
-        if self.topToolbar.isHidden {
-            self.setToolbarHidden(false)
-        } else {
-            self.setToolbarHidden(true)
-        }
-    }
- */
-    
-    private func configureUI() {
+        // Setup Font Collection
         self.fontCollectionView.isHidden = true
+        self.fontDefaultName = userDefaults.string(forKey: Constants.UserDafaultsKey.fontName)
+        // Optional Binding
+        if let fontName = self.fontDefaultName {
+            if let index = self.fontData.index(of: fontName) {
+                self.selectedCellIndexPath = IndexPath.init(row: index, section: 0)
+            }
+        }
+        // Setup Text Fields
         self.setupTextFields(self.topTextField, text: Constants.MemeDefaultsValue.topTextFieldText)
         self.setupTextFields(self.bottomTextField, text: Constants.MemeDefaultsValue.bottomTextFieldText)
     }
     
     private func setupTextFields(_ textField: UITextField, text: String) {
-        textField.defaultTextAttributes = Constants.MemeDefaultsValue.memeTextAttributes
+        textField.defaultTextAttributes = Constants.MemeDefaultsValue.textAttributes
+        // Optional Binding
+        if let fontName = self.fontDefaultName{
+            textField.font = UIFont.init(name: fontName, size: 40.0)
+        }
         textField.text = text
         textField.textAlignment = NSTextAlignment.center
         textField.delegate = self;
@@ -134,14 +132,14 @@ class MemeEditorViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-    // MARK: Notification Funtions
-    func subscribeToKeyboardNotifications() {
+    // MARK: Notification Funtions 다른 곳에서 불려지지 않게 private
+    private func subscribeToKeyboardNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
-    func unsubscribeFromKeyboardNotifications() {
+    private func unsubscribeFromKeyboardNotifications() {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
@@ -153,21 +151,23 @@ class MemeEditorViewController: UIViewController {
         if self.bottomTextField.isFirstResponder {
             // bottom Textfield 편집시 bottom tool bar hide
             self.bottomToolbar.isHidden = true
-            view.frame.origin.y = -getKeyboardHeight(notification: notification)
+            self.view.frame.origin.y = -getKeyboardHeight(notification: notification)
         }
     }
     
-    
     func keyboardWillHide(notification: NSNotification) {
-        view.frame.origin.y = 0
+        self.view.frame.origin.y = 0
         self.bottomToolbar.isHidden = false
     }
     
-    
-    func getKeyboardHeight(notification: NSNotification) -> CGFloat {
-        let userInfo = notification.userInfo!
-        let keyboardSize = userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue // of CGRect
-        return keyboardSize.cgRectValue.height
+    private func getKeyboardHeight(notification: NSNotification) -> CGFloat {
+        // Optional Binding
+        if let userInfo = notification.userInfo {
+            if let keyboardSize = userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue {
+                return keyboardSize.cgRectValue.height
+            }
+        }
+        return 0.0
     }
     
     func generateMemedImage() -> UIImage {
@@ -184,13 +184,10 @@ class MemeEditorViewController: UIViewController {
     func presentImagePickerWithSourType(_ sourceType: UIImagePickerControllerSourceType){
         // Permission Check!
         if Constants.Permission.checkPhotoLibraryAndCameraPermission(sourceType, viewController: self) {
-            dump(UIImagePickerController.isSourceTypeAvailable(sourceType))
             let imagePicker = UIImagePickerController()
             imagePicker.delegate = self
             imagePicker.sourceType = sourceType
             self.present(imagePicker, animated: true, completion:nil)
-        } else {
-            Constants.Permission.openSetting(sourceType, viewController: self)
         }
     }
     
