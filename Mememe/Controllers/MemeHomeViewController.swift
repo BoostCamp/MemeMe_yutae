@@ -23,7 +23,7 @@ class MemeHomeViewController: UIViewController {
     }
     
     func buttonInsertEffects(_ button : UIButton) {
-        button.layer.cornerRadius = 20.0
+        button.layer.cornerRadius = 15.0
     }
     
     @IBAction func albumAction(_ sender: Any) {

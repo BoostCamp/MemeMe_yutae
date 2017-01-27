@@ -15,8 +15,6 @@ class MemeAlbumCollectionViewController: UICollectionViewController {
     let memeDataManager = MemeDataManager.shared
     let photoLibrary = PHPhotoLibrary.shared()
     
-    var memes = [Meme]()
-    
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,8 +45,8 @@ class MemeAlbumCollectionViewController: UICollectionViewController {
         self.resetCollectionView()
     }
     func resetCollectionView(){
-        self.memes = memeDataManager.fetchMemesForAlbum()
-        if self.memes.count == 0 {
+        memeDataManager.fetchMemesForAlbum()
+        if memeDataManager.memes.count == 0 {
             // alertAction, buttonTitle 기본으로 nil 값이 들어가지만 어떤 함수인지 명시를 위해
             if #available(iOS 9.0, *) {
                 Constants.Alert.show(self, title: Constants.Alert.emptyAlertTitle, message: Constants.Alert.emptyAlertMessage, alertAction: nil)
@@ -69,7 +67,7 @@ class MemeAlbumCollectionViewController: UICollectionViewController {
         if segue.identifier == Constants.SegueIdentifier.detailFromCollectionView {
             let destinationViewController = segue.destination as! MemeDetailViewController
             if let indexPath = self.collectionView?.indexPathsForSelectedItems?.first {
-                destinationViewController.selectedMeme = self.memes[indexPath.item]
+                destinationViewController.selectedMeme = memeDataManager.memes[indexPath.item]
                 destinationViewController.delegate = self
             }
                 // 3D Touch 시 Force Touch
@@ -84,13 +82,13 @@ class MemeAlbumCollectionViewController: UICollectionViewController {
     // MARK: UICollectionViewDataSource
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return memes.count
+        return memeDataManager.memes.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // as! 무조건 Type Casting 이 되기 때문
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CellIdentifier.albumCollectionViewCell, for: indexPath) as! MemeAlbumCollectionViewCell
-        let meme = memes[indexPath.item]
+        let meme = memeDataManager.memes[indexPath.item]
         if let isFavorite = meme.isFavorite {
             cell.favoriteImageView.isHidden = !isFavorite
         }

@@ -13,6 +13,7 @@ class MemeDataManager : NSObject {
     static let albumName = "MemeMe"
     // Single Ton 패턴 사용
     static let shared: MemeDataManager = MemeDataManager()
+    var memes:[Meme] = [Meme]()
     let photoLibrary:PHPhotoLibrary = PHPhotoLibrary.shared()
     var assetCollection: PHAssetCollection!
     
@@ -68,11 +69,11 @@ class MemeDataManager : NSObject {
         return nil
     }
     
-    func fetchMemesForAlbum() -> [Meme] {
+    func fetchMemesForAlbum() {
+        self.memes.removeAll()
+        
         let photoAssets = PHAsset.fetchAssets(in: self.assetCollection, options: nil)
         let imageManager = PHCachingImageManager()
-        var memes = [Meme]()
-        
         photoAssets.enumerateObjects({(object: AnyObject!,
             count: Int,
             stop: UnsafeMutablePointer<ObjCBool>) in
@@ -99,10 +100,9 @@ class MemeDataManager : NSObject {
                 meme.localIdentifier = asset.localIdentifier
                 meme.creationDate = asset.creationDate
                 meme.isFavorite = asset.isFavorite
-                memes.append(meme)
+                self.memes.append(meme)
             }
         })
-        return memes
     }
     // favorite 주기. completion으로 성공시 핸들링
     func favorite(_ localIdentifier : String, completion: @escaping (( (Bool) -> Void)) ){

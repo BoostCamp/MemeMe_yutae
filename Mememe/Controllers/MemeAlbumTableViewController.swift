@@ -16,7 +16,6 @@ class MemeAlbumTableViewController: UITableViewController {
     // Single Ton 사용
     let memeDataManager = MemeDataManager.shared
     let photoLibrary = PHPhotoLibrary.shared()
-    var memes = [Meme]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,9 +23,10 @@ class MemeAlbumTableViewController: UITableViewController {
     }
     
     func resetTableView(){
-        self.memes = memeDataManager.fetchMemesForAlbum()
+        memeDataManager.fetchMemesForAlbum()
+        
         self.tableView?.reloadData()
-        if self.memes.count == 0 {
+        if memeDataManager.memes.count == 0 {
             // alertAction, buttonTitle 기본으로 nil 값이 들어가지만 어떤 함수인지 명시를 위해
             if #available(iOS 9.0, *) {
                 Constants.Alert.show(self, title: Constants.Alert.emptyAlertTitle, message: Constants.Alert.emptyAlertMessage, alertAction: nil)
@@ -48,7 +48,7 @@ class MemeAlbumTableViewController: UITableViewController {
         if segue.identifier == Constants.SegueIdentifier.detailFromTableView {
             let destinationViewController = segue.destination as! MemeDetailViewController
             if let indexPath = self.tableView.indexPathForSelectedRow{
-                destinationViewController.selectedMeme = self.memes[indexPath.section]
+                destinationViewController.selectedMeme = memeDataManager.memes[indexPath.section]
                 destinationViewController.delegate = self
             }
             // 3D Touch 시 Force Touch
@@ -73,7 +73,7 @@ class MemeAlbumTableViewController: UITableViewController {
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
         // 갯수 지정
-        return self.memes.count
+        return memeDataManager.memes.count
     }
     
     // Height 조절
@@ -88,7 +88,7 @@ class MemeAlbumTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // as! 무조건 Type Casting 이 되기 때문
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.CellIdentifier.albumTableViewCell, for: indexPath) as! MemeAlbumTableViewCell
-        let meme:Meme = self.memes[indexPath.section]
+        let meme:Meme = memeDataManager.memes[indexPath.section]
         if let createDate = meme.creationDate, let isFavorite = meme.isFavorite {
             cell.creationDateLabel.text = createDate.stringFromDate()
             cell.favoriteImageView.isHidden = !isFavorite
@@ -103,13 +103,13 @@ class MemeAlbumTableViewController: UITableViewController {
             // tableView Section 제거.
             let deleteIndex = indexPath.section
             print("\(deleteIndex) tableView Section Remove")
-            if let localIdentifier = self.memes[deleteIndex].localIdentifier {
+            if let localIdentifier = memeDataManager.memes[deleteIndex].localIdentifier {
                 memeDataManager.delete(localIdentifier, completion: { (isSuccess) in
                     // 성공 했을 경우 핸들링
                     if isSuccess {
                         // UI 이기 때문에 main Thread 비동기 처리
                         DispatchQueue.main.async {
-                            self.memes.remove(at: deleteIndex)
+                            self.memeDataManager.memes.remove(at: deleteIndex)
                             tableView.deleteSections(IndexSet.init(integer: deleteIndex), with: .automatic)
                         }
                     }
