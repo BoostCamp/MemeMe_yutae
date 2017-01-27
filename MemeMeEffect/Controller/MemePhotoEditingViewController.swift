@@ -19,7 +19,8 @@ class MemePhotoEditingViewController: UIViewController, PHContentEditingControll
     @IBOutlet weak var topTextField: UITextField!
     @IBOutlet weak var bottomTextField: UITextField!
     @IBOutlet weak var fontCollectionView: UICollectionView!
-    @IBOutlet weak var bottomToolbar: UIToolbar!
+    @IBOutlet weak var fontButton: UIButton!
+    
     
     // 이곳에서만 사용하기 때문에
     var selectedCellIndexPath:IndexPath?
@@ -38,6 +39,8 @@ class MemePhotoEditingViewController: UIViewController, PHContentEditingControll
         super.viewDidLoad()
         self.fontCollectionView.delegate = self
         self.fontCollectionView.dataSource = self
+        
+        self.fontButton.layer.cornerRadius = self.fontButton.frame.height / 2
     }
     override var prefersStatusBarHidden: Bool{
         return true
@@ -135,13 +138,13 @@ class MemePhotoEditingViewController: UIViewController, PHContentEditingControll
         // May be called after finishContentEditingWithCompletionHandler: while you prepare output.
     }
     
-    @IBAction func setFontAction(_ sender: Any) {
-        self.fontCollectionView.isHidden = !self.fontCollectionView.isHidden
-    }
     private func configureUI() {
         self.fontCollectionView.isHidden = true
         self.setupTextFields(self.topTextField, text: "TOP")
         self.setupTextFields(self.bottomTextField, text: "BOTTOM")
+    }
+    @IBAction func setFontAction(_ sender: Any) {
+        self.fontCollectionView.isHidden = !self.fontCollectionView.isHidden
     }
     
     private func setupTextFields(_ textField: UITextField, text: String) {
@@ -150,10 +153,6 @@ class MemePhotoEditingViewController: UIViewController, PHContentEditingControll
         textField.textAlignment = NSTextAlignment.center
         textField.delegate = self;
     }
-//    
-//    override var prefersStatusBarHidden: Bool {
-//        return true
-//    }
     
     // MARK: Notification Funtions
     func subscribeToKeyboardNotifications() {
@@ -172,14 +171,14 @@ class MemePhotoEditingViewController: UIViewController, PHContentEditingControll
     func keyboardWillShow(notification: NSNotification) {
         if self.bottomTextField.isFirstResponder {
             // bottom Textfield 편집시 bottom tool bar hide
-            self.bottomToolbar.isHidden = true
+//            self.bottomToolbar.isHidden = true
             view.frame.origin.y = -getKeyboardHeight(notification: notification)
         }
     }
     
     func keyboardWillHide(notification: NSNotification) {
         view.frame.origin.y = 0
-        self.bottomToolbar.isHidden = false
+//        self.bottomToolbar.isHidden = false
     }
 
     func getKeyboardHeight(notification: NSNotification) -> CGFloat {

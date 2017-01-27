@@ -96,6 +96,7 @@
                                     </collectionView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="Uii-GR-fc3" firstAttribute="leading" secondItem="EzL-Rl-fbv" secondAttribute="leading" id="1dF-cc-cu2"/>
                                     <constraint firstItem="m8q-b9-cEA" firstAttribute="leading" secondItem="EzL-Rl-fbv" secondAttribute="leadingMargin" id="2sC-Kv-Dhk"/>
@@ -112,36 +113,37 @@
                                     <constraint firstItem="Rk5-wx-4Bo" firstAttribute="leading" secondItem="EzL-Rl-fbv" secondAttribute="leadingMargin" id="y2D-pD-aiT"/>
                                 </constraints>
                             </view>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="fVG-Hi-tbH">
-                                <rect key="frame" x="0.0" y="484" width="320" height="44"/>
-                                <items>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="NF5-V5-13j"/>
-                                    <barButtonItem title="Item" systemItem="compose" id="VtS-Xr-F6k">
-                                        <connections>
-                                            <action selector="setFontAction:" destination="ObA-dk-sSI" id="oF1-Uf-GZV"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="dLN-cG-iB0"/>
-                                </items>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D0V-vx-taq">
+                                <rect key="frame" x="138" y="484" width="44" height="44"/>
+                                <color key="backgroundColor" red="0.2470588235" green="0.75686274509999996" blue="0.76862745099999996" alpha="1" colorSpace="custom" customColorSpace="adobeRGB1998"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="D0V-vx-taq" secondAttribute="height" multiplier="1:1" id="9Ws-l5-ocB"/>
+                                    <constraint firstAttribute="width" constant="44" id="wPn-MO-tyM"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                 <color key="tintColor" red="0.2470588235" green="0.75686274509999996" blue="0.76862745099999996" alpha="1" colorSpace="custom" customColorSpace="adobeRGB1998"/>
-                            </toolbar>
+                                <state key="normal" title="Font"/>
+                                <connections>
+                                    <action selector="setFontAction:" destination="ObA-dk-sSI" eventType="touchUpInside" id="ZUK-5K-402"/>
+                                </connections>
+                            </button>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="tintColor" red="0.2470588235" green="0.75686274509999996" blue="0.76862745099999996" alpha="1" colorSpace="custom" customColorSpace="adobeRGB1998"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="fVG-Hi-tbH" secondAttribute="trailing" id="234-0s-JXk"/>
-                            <constraint firstItem="fVG-Hi-tbH" firstAttribute="top" secondItem="EzL-Rl-fbv" secondAttribute="bottom" id="FIj-pa-ITl"/>
                             <constraint firstAttribute="trailing" secondItem="EzL-Rl-fbv" secondAttribute="trailing" id="Lp3-YI-GnX"/>
-                            <constraint firstItem="n38-gi-rB5" firstAttribute="top" secondItem="fVG-Hi-tbH" secondAttribute="bottom" id="ZT0-Xy-8sg"/>
+                            <constraint firstItem="D0V-vx-taq" firstAttribute="centerX" secondItem="zMn-AG-sqS" secondAttribute="centerX" id="M2f-tt-xyq"/>
                             <constraint firstItem="EzL-Rl-fbv" firstAttribute="leading" secondItem="zMn-AG-sqS" secondAttribute="leading" id="bZx-lh-DrK"/>
                             <constraint firstItem="EzL-Rl-fbv" firstAttribute="top" secondItem="qkL-Od-lgU" secondAttribute="bottom" id="eSG-Pf-Yfe"/>
-                            <constraint firstItem="fVG-Hi-tbH" firstAttribute="leading" secondItem="zMn-AG-sqS" secondAttribute="leading" id="u80-oN-fpk"/>
+                            <constraint firstItem="n38-gi-rB5" firstAttribute="top" secondItem="D0V-vx-taq" secondAttribute="bottom" id="pap-Cv-njg"/>
+                            <constraint firstItem="n38-gi-rB5" firstAttribute="top" secondItem="EzL-Rl-fbv" secondAttribute="bottom" constant="44" id="pes-16-E8P"/>
                         </constraints>
                     </view>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="528"/>
                     <connections>
                         <outlet property="bottomTextField" destination="m8q-b9-cEA" id="U8Y-xN-tCS"/>
-                        <outlet property="bottomToolbar" destination="fVG-Hi-tbH" id="vDT-Ok-gsb"/>
+                        <outlet property="fontButton" destination="D0V-vx-taq" id="cqM-Qu-XpQ"/>
                         <outlet property="fontCollectionView" destination="Uii-GR-fc3" id="yCf-uE-s3c"/>
                         <outlet property="imageView" destination="g47-fv-JJM" id="9ar-dU-fFf"/>
                         <outlet property="memeView" destination="EzL-Rl-fbv" id="IPO-mo-l9d"/>
