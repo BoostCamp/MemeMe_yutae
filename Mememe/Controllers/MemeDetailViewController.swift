@@ -57,7 +57,7 @@ class MemeDetailViewController: UIViewController {
         let alertMessage:String = "사진이 성공적으로 지워지면 앨범으로 돌아갑니다."
         
         if #available(iOS 9.0, *) {
-            let alertAction:UIAlertAction = UIAlertAction.init(title: Constants.Alert.deleteButtonTitle, style: .default, handler: { (action) in
+            let alertAction:UIAlertAction = UIAlertAction.init(title: Constants.Alert.deleteButtonTitle, style: .destructive, handler: { (action) in
                 self.memeDataManager.delete(localIdentifier, completion: { (isSuccess) in
                     if isSuccess {
                         // UI 변경은 DispatchQueue Main Thread로 관리 

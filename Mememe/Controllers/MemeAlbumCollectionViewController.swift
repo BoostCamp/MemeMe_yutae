@@ -13,7 +13,6 @@ class MemeAlbumCollectionViewController: UICollectionViewController {
 
     // Single Ton 사용
     let memeDataManager = MemeDataManager.shared
-    let photoLibrary = PHPhotoLibrary.shared()
     
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     override func viewDidLoad() {
@@ -39,9 +38,8 @@ class MemeAlbumCollectionViewController: UICollectionViewController {
         self.flowLayout.itemSize = CGSize(width: width, height: width)
         self.flowLayout.minimumInteritemSpacing = space
         
-        
         // Add PhotoLibrary Observer
-        self.photoLibrary.register(self)
+        PHPhotoLibrary.shared().register(self)
         self.resetCollectionView()
     }
     func resetCollectionView(){

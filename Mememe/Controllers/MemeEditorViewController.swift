@@ -210,7 +210,6 @@ class MemeEditorViewController: UIViewController {
     }
     
     func generateMemedImage() -> UIImage {
-        
         self.fontCollectionView.isHidden = true
         self.setToolbarHidden(true)
         // frame 대신 bounds 를 사용한 이유 - bounds 는 x,y 가 자신이 기준이 되기 때문 <-> frame 은 부모 View 기준
@@ -219,7 +218,6 @@ class MemeEditorViewController: UIViewController {
         let memedImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         self.setToolbarHidden(false)
-        /*  */
         return memedImage
     }
     
@@ -231,11 +229,6 @@ class MemeEditorViewController: UIViewController {
             imagePicker.sourceType = sourceType
             self.present(imagePicker, animated: true, completion:nil)
         }
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 }
 

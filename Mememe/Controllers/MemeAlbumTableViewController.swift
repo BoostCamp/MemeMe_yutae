@@ -15,7 +15,6 @@ class MemeAlbumTableViewController: UITableViewController {
     
     // Single Ton 사용
     let memeDataManager = MemeDataManager.shared
-    let photoLibrary = PHPhotoLibrary.shared()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,7 +43,7 @@ class MemeAlbumTableViewController: UITableViewController {
         // Data 받아오기
         self.resetTableView()
         // Add PhotoLibrary Observer 
-        self.photoLibrary.register(self)
+        PHPhotoLibrary.shared().register(self)
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Constants.SegueIdentifier.detailFromTableView {
@@ -73,11 +72,6 @@ class MemeAlbumTableViewController: UITableViewController {
         self.addButton.isEnabled = !editing
     }
     // MARK: - Table view data source
-//    override func numberOfSections(in tableView: UITableView) -> Int {
-//        // 갯수 지정
-//        return memeDataManager.memes.count
-//    }
-    
     // Height 조절
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 120

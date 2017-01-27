@@ -21,6 +21,7 @@ class MemePhotoEditingViewController: UIViewController, PHContentEditingControll
     @IBOutlet weak var fontCollectionView: UICollectionView!
     @IBOutlet weak var bottomToolbar: UIToolbar!
     
+    // 이곳에서만 사용하기 때문에
     var selectedCellIndexPath:IndexPath?
     let photoEditingFontCollectionReusableIdentifier : String = "memePhotoEditingFontCollectionReusableIdentifier"
     let fontData = UIFont.familyNames
@@ -38,7 +39,9 @@ class MemePhotoEditingViewController: UIViewController, PHContentEditingControll
         self.fontCollectionView.delegate = self
         self.fontCollectionView.dataSource = self
     }
-    
+    override var prefersStatusBarHidden: Bool{
+        return true
+    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }

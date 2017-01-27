@@ -6,9 +6,9 @@
 //  Copyright © 2017년 YutaeChoi. All rights reserved.
 //
 import Foundation
-import CoreLocation
 import UIKit
-// Model
+
+// Meme Model
 struct Meme {
     var localIdentifier:String?
     var image:UIImage?
