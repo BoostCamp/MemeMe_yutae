@@ -17,8 +17,8 @@ struct Constants {
         static let editFromTableView:String = "memeEditorModalFromTableViewSegue"
         static let editFromCollectionView:String = "memeEditorModalFromCollectionViewSegue"
         static let albumFromHomeView:String = "memeAlbumFromHomeViewControllerSegue"
-        static let detailFromTableView:String = "showMemeDetailFromTableViewSegue"
-        static let detailFromCollectionView:String = "showMemeDetailFromCollectionViewSegue"
+        static let detailFromTableView:String = "memeShowDetailFromTableViewSegue"
+        static let detailFromCollectionView:String = "memeShowDetailFromCollectionViewSegue"
     }
     // MARK: Table View Cell & Collection View Cell Identifiers
     struct CellIdentifier {
@@ -43,6 +43,13 @@ struct Constants {
         static let fontName = "FontName"
     }
     struct Alert {
+        static let settingsUrl:URL? = URL(string: UIApplicationOpenSettingsURLString)
+        static let settingsButtonTitle:String = "설정"
+        static let refreshButtonTitle:String = "되돌리기"
+        static let cancelButtonTitle:String = "취소"
+        static let emptyAlertTitle:String = "MemeMe 앨범에 등록된 사진이 없습니다."
+        static let emptyAlertMessage:String = "우측 상단위 + 버튼을 눌러 사진을 추가하세요."
+    
         /* actionHandler viewController 필요한 Alert가 많아서 사용하지 않았습니다.
         static let actionHandler =
             { (action: (UIAlertAction)) in
@@ -72,18 +79,17 @@ struct Constants {
                 alertController.addAction(alertAction)
             }
             // 취소는 항상 넣기 때문에 고정
-            let cancelAlertAciton:UIAlertAction = UIAlertAction.init(title: "취소", style: .cancel, handler: nil)
+            let cancelAlertAciton:UIAlertAction = UIAlertAction.init(title: cancelButtonTitle, style: .cancel, handler: nil)
             alertController.addAction(cancelAlertAciton)
             viewController.present(alertController, animated: true, completion: nil)
         }
         // iOS 9.0 미만
-        static func show(_ delegate:Any?=nil, title: String?=nil, message: String?=nil, buttonTitles:[String]? = nil, cancelButtonTitle:String?=nil) {
+        static func show(_ delegate:Any?=nil, title: String?=nil, message: String?=nil, buttonTitle:String? = nil) {
+            // 취소는 항상 넣기 때문에 고정
             let alertView:UIAlertView = UIAlertView.init(title: title, message: message, delegate: delegate, cancelButtonTitle: cancelButtonTitle)
-            // 추가할 button 이 있을때
-            if let buttonTitles = buttonTitles {
-                for buttonTitle in buttonTitles {
-                    alertView.addButton(withTitle: buttonTitle)
-                }
+             // Button은 취소 포함 2개 밖이 안쓰니 배열을 사용 안함
+            if let buttonTitle = buttonTitle {
+                alertView.addButton(withTitle: buttonTitle)
             }
             alertView.show()
         }
@@ -98,6 +104,9 @@ struct Constants {
                 self.type = type
                 self.title = "\(type) 접근 허가가 필요합니다."
                 self.message = "설정 -> MemeMe \(type) 접근 허용"
+                if type == "카메라" {
+                    self.message = self.message + "\n 카메라가 없는 기기일 경우 제한 됩니다."
+                }
             }
         }
         static public func checkPhotoLibraryAndCameraPermission(_ sourceType:UIImagePickerControllerSourceType) -> Bool{
@@ -147,26 +156,26 @@ struct Constants {
         
         static public func openSettings(_ viewController: UIViewController, alertContent:AlertContent){
             if #available(iOS 9.0, *) {
-                let settingsAlertAction:UIAlertAction = UIAlertAction.init(title: "설정", style: .default, handler: { (action) in
-                    let settingsUrl = URL(string: UIApplicationOpenSettingsURLString)
-                    if #available(iOS 10.0, *) {
-                        UIApplication.shared.open(settingsUrl!, options: [:], completionHandler: nil)
-                    } else {
-                        UIApplication.shared.openURL(settingsUrl!)
+                let settingsAlertAction:UIAlertAction = UIAlertAction.init(title: Alert.settingsButtonTitle, style: .default, handler: { (action) in
+                    if let settingsUrl = Alert.settingsUrl {
+                        if #available(iOS 10.0, *) {
+                            UIApplication.shared.open(settingsUrl, options: [:], completionHandler: nil)
+                        } else {
+                            UIApplication.shared.openURL(settingsUrl)
+                        }
                     }
                 })
                 Constants.Alert.show(viewController, title: alertContent.title, message: alertContent.message, alertAction: settingsAlertAction)
             }
             // iOS 9.0 미만
             else {
-                Constants.Alert.show(viewController, title: alertContent.title, message: alertContent.message, buttonTitles: ["설정"], cancelButtonTitle: "취소")
+                Constants.Alert.show(viewController, title: alertContent.title, message: alertContent.message, buttonTitle: Alert.settingsButtonTitle)
             }
         }
     }
     
     // MARK: Font Data
     static let fontsAvailable = UIFont.familyNames
-    
     /*
     
     */

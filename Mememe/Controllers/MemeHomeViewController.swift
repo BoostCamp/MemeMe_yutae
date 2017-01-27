@@ -31,5 +31,20 @@ class MemeHomeViewController: UIViewController {
             self.performSegue(withIdentifier: Constants.SegueIdentifier.albumFromHomeView, sender: nil)
         }
     }
-    
+}
+
+// For iOS < 9
+extension MemeHomeViewController: UIAlertViewDelegate {
+    func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
+        if let buttonTitle = alertView.buttonTitle(at: buttonIndex) {
+            switch buttonTitle {
+            case Constants.Alert.settingsButtonTitle:
+                if let settingsUrl = Constants.Alert.settingsUrl {
+                    UIApplication.shared.openURL(settingsUrl)
+                }
+            default:
+                return
+            }
+        }
+    }
 }

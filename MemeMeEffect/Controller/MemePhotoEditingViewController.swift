@@ -83,7 +83,7 @@ class MemePhotoEditingViewController: UIViewController, PHContentEditingControll
             let output = PHContentEditingOutput(contentEditingInput: self.input!)
             
             if let url = self.input?.fullSizeImageURL {
-                let originalImage = UIImage.init(contentsOfFile: url.path)
+//                let originalImage = UIImage.init(contentsOfFile: url.path)
                 let memedImage = self.generateMemedImage()
 //                let renderedData = UIImageJPEGRepresentation(memedImage, 1.0)
                 

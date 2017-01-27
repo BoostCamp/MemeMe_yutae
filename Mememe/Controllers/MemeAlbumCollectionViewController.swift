@@ -48,7 +48,16 @@ class MemeAlbumCollectionViewController: UICollectionViewController {
     }
     func resetCollectionView(){
         self.memes = memeDataManager.fetchMemesForAlbum()
-        self.collectionView?.reloadData()
+        if self.memes.count == 0 {
+            // alertAction, buttonTitle 기본으로 nil 값이 들어가지만 어떤 함수인지 명시를 위해
+            if #available(iOS 9.0, *) {
+                Constants.Alert.show(self, title: Constants.Alert.emptyAlertTitle, message: Constants.Alert.emptyAlertMessage, alertAction: nil)
+            } else {
+                Constants.Alert.show(self, title: Constants.Alert.emptyAlertTitle, message: Constants.Alert.emptyAlertMessage, buttonTitle: nil)
+            }
+        } else {
+            self.collectionView?.reloadData()
+        }
     }
     
     @IBAction func addAction(_ sender: Any) {

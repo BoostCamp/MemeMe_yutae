@@ -77,19 +77,27 @@ class MemeEditorViewController: UIViewController {
             }
         }
         // Setup Text Fields
-        self.setupTextFields(self.topTextField, text: Constants.MemeDefaultsValue.topTextFieldText)
-        self.setupTextFields(self.bottomTextField, text: Constants.MemeDefaultsValue.bottomTextFieldText)
+        self.setupTextFields([self.topTextField, self.bottomTextField])
     }
     
-    private func setupTextFields(_ textField: UITextField, text: String) {
-        textField.defaultTextAttributes = Constants.MemeDefaultsValue.textAttributes
-        // Optional Binding
-        if let fontName = self.fontDefaultName{
-            textField.font = UIFont.init(name: fontName, size: 40.0)
+    func setupTextFields(_ textFields: [UITextField]) {
+        for textField in textFields {
+            textField.defaultTextAttributes = Constants.MemeDefaultsValue.textAttributes
+            // Optional Binding
+            if let fontName = self.fontDefaultName{
+                textField.font = UIFont.init(name: fontName, size: 40.0)
+            }
+            textField.textAlignment = NSTextAlignment.center
+            textField.delegate = self;
+            switch textField {
+            case self.topTextField:
+                self.topTextField.text = Constants.MemeDefaultsValue.topTextFieldText
+            case self.bottomTextField:
+                self.bottomTextField.text = Constants.MemeDefaultsValue.bottomTextFieldText
+            default:
+                return
+            }
         }
-        textField.text = text
-        textField.textAlignment = NSTextAlignment.center
-        textField.delegate = self;
     }
     
     // 시간, 배터리 등 StatusBar 숨기기
@@ -136,16 +144,20 @@ class MemeEditorViewController: UIViewController {
     @IBAction func refreshAction(_ sender: Any) {
         let alertTitle:String = "정말 원 상태로 돌아가시겠습니까?"
         let alertMessage:String = "확인을 누르시면 이 작업물은 앨범에 저장되지 않습니다."
+        
         if #available(iOS 9.0, *) {
-            let doneAlertAction: UIAlertAction = UIAlertAction.init(title: "되돌리기", style: .default, handler: { (action) in
-                // Refresh Text Fields
-                self.setupTextFields(self.topTextField, text: Constants.MemeDefaultsValue.topTextFieldText)
-                self.setupTextFields(self.bottomTextField, text: Constants.MemeDefaultsValue.bottomTextFieldText)
+            let doneAlertAction: UIAlertAction = UIAlertAction.init(title: Constants.Alert.refreshButtonTitle, style: .default, handler: { (action) in
+                // UI 이기 때문에 Main Thread 비동기 처리
+                DispatchQueue.main.async {
+                    // Refresh Text Fields
+                    self.setupTextFields([self.topTextField, self.bottomTextField])
+                }
             })
-            Constants.Alert.show(self, title: alertTitle, message: alertMessage, alertAction: doneAlertAction)
+            Constants.Alert.show(self, title: Constants.Alert.refreshButtonTitle, message: alertMessage, alertAction: doneAlertAction)
         }
+        // iOS 9.0 미만
         else {
-            
+            Constants.Alert.show(self, title: alertTitle, message: alertTitle, buttonTitle: Constants.Alert.refreshButtonTitle)
         }
     }
     
@@ -278,5 +290,21 @@ extension MemeEditorViewController: UITextFieldDelegate {
             }
         }
     }
-
+}
+// For iOS < 9
+extension MemeEditorViewController: UIAlertViewDelegate {
+    func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
+        if let buttonTitle = alertView.buttonTitle(at: buttonIndex) {
+            switch buttonTitle {
+            case Constants.Alert.settingsButtonTitle:
+                if let settingsUrl = Constants.Alert.settingsUrl {
+                    UIApplication.shared.openURL(settingsUrl)
+                }
+            case Constants.Alert.refreshButtonTitle:
+                self.setupTextFields([self.topTextField, self.bottomTextField])
+            default:
+                return
+            }
+        }
+    }
 }
