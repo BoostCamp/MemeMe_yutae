@@ -53,7 +53,9 @@ class MemeDetailViewController: UIViewController {
     @IBAction func shareAction(_ sender: Any) {
         // Optional Binding
         if let meme = self.selectedMeme {
-            let activityViewController = UIActivityViewController(activityItems: [meme.image], applicationActivities: nil)
+            let image = meme.image as Any
+            // Any로 변환은 항상 성공하기 때문에 Optional Type Binding 사용 X
+            let activityViewController:UIActivityViewController = UIActivityViewController.init(activityItems: [image], applicationActivities: nil)
             // Air Drop 잘 안쓰기 때문에 생략.
             activityViewController.excludedActivityTypes = [UIActivityType.airDrop]
             self.present(activityViewController, animated: true, completion: nil)

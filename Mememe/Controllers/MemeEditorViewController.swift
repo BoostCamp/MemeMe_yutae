@@ -5,7 +5,7 @@
 //  Created by 최유태 on 2017. 1. 22..
 //  Copyright © 2017년 YutaeChoi. All rights reserved.
 //
-
+import Foundation
 import UIKit
 import Photos
 
@@ -92,6 +92,7 @@ class MemeEditorViewController: UIViewController {
         textField.delegate = self;
     }
     
+    // 시간, 배터리 등 StatusBar 숨기기
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -131,6 +132,21 @@ class MemeEditorViewController: UIViewController {
     
     @IBAction func cancelAction(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
+    }
+    @IBAction func refreshAction(_ sender: Any) {
+        let alertTitle:String = "정말 원 상태로 돌아가시겠습니까?"
+        let alertMessage:String = "확인을 누르시면 이 작업물은 앨범에 저장되지 않습니다."
+        if #available(iOS 9.0, *) {
+            let doneAlertAction: UIAlertAction = UIAlertAction.init(title: "되돌리기", style: .default, handler: { (action) in
+                // Refresh Text Fields
+                self.setupTextFields(self.topTextField, text: Constants.MemeDefaultsValue.topTextFieldText)
+                self.setupTextFields(self.bottomTextField, text: Constants.MemeDefaultsValue.bottomTextFieldText)
+            })
+            Constants.Alert.show(self, title: alertTitle, message: alertMessage, alertAction: doneAlertAction)
+        }
+        else {
+            
+        }
     }
     
     private func showActivityViewController(_ image: UIImage){

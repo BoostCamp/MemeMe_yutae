@@ -34,12 +34,13 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="ZJF-FC-FE9"/>
-                                    <barButtonItem image="Share" id="9KS-Zj-gkK">
+                                    <barButtonItem systemItem="action" id="9KS-Zj-gkK">
                                         <connections>
                                             <action selector="doneAction:" destination="BYZ-38-t0r" id="4BT-hX-3PI"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
+                                <color key="tintColor" red="0.2470588235" green="0.75686274509999996" blue="0.76862745099999996" alpha="1" colorSpace="custom" customColorSpace="adobeRGB1998"/>
                             </toolbar>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="cWB-VD-1ph">
                                 <rect key="frame" x="0.0" y="692" width="414" height="44"/>
@@ -62,8 +63,15 @@
                                             <action selector="setFontAction:" destination="BYZ-38-t0r" id="esK-oe-bbV"/>
                                         </connections>
                                     </barButtonItem>
+                                    <barButtonItem width="20" style="plain" systemItem="fixedSpace" id="X1Q-ik-yaH"/>
+                                    <barButtonItem systemItem="refresh" id="Qdx-p2-Tek">
+                                        <connections>
+                                            <action selector="refreshAction:" destination="BYZ-38-t0r" id="fwP-3x-6XM"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="avH-WX-gZO"/>
                                 </items>
+                                <color key="tintColor" red="0.2470588235" green="0.75686274509999996" blue="0.76862745099999996" alpha="1" colorSpace="custom" customColorSpace="adobeRGB1998"/>
                             </toolbar>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z39-ZX-SUU">
                                 <rect key="frame" x="0.0" y="44" width="414" height="648"/>
@@ -186,7 +194,7 @@
             </objects>
             <point key="canvasLocation" x="257" y="1225"/>
         </scene>
-        <!--MemeMe Detail-->
+        <!--MemeMe DETAIL-->
         <scene sceneID="uuq-uH-uWZ">
             <objects>
                 <viewController id="Ak4-75-KIs" customClass="MemeDetailViewController" customModule="MemeMe" customModuleProvider="target" sceneMemberID="viewController">
@@ -201,11 +209,11 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bo9-aj-Teo">
                                 <rect key="frame" x="0.0" y="64" width="414" height="623"/>
                             </imageView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bsI-E7-3KS">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="blackTranslucent" translatesAutoresizingMaskIntoConstraints="NO" id="bsI-E7-3KS">
                                 <rect key="frame" x="0.0" y="692" width="414" height="44"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="S35-qu-0vg"/>
-                                    <barButtonItem systemItem="organize" id="0FK-5J-U3b">
+                                    <barButtonItem image="Favorite" id="0FK-5J-U3b">
                                         <connections>
                                             <action selector="favoriteAction:" destination="Ak4-75-KIs" id="hwS-Iz-M0F"/>
                                         </connections>
@@ -224,6 +232,7 @@
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="gL4-ab-vyh"/>
                                 </items>
+                                <color key="tintColor" red="0.2470588235" green="0.75686274509999996" blue="0.76862745099999996" alpha="1" colorSpace="custom" customColorSpace="adobeRGB1998"/>
                             </toolbar>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -237,7 +246,7 @@
                             <constraint firstItem="bsI-E7-3KS" firstAttribute="leading" secondItem="da5-T3-EgB" secondAttribute="leading" id="uze-Yb-78l"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="MemeMe Detail" id="Kr1-NP-GvS"/>
+                    <navigationItem key="navigationItem" title="MemeMe DETAIL" id="Kr1-NP-GvS"/>
                     <connections>
                         <outlet property="favoriteButton" destination="0FK-5J-U3b" id="sjC-cN-OVu"/>
                         <outlet property="imageView" destination="bo9-aj-Teo" id="jIk-Bb-ITg"/>
@@ -248,7 +257,7 @@
             </objects>
             <point key="canvasLocation" x="2318" y="119"/>
         </scene>
-        <!--MemeMe Album-->
+        <!--MemeMe ALBUM-->
         <scene sceneID="V5h-GD-OwK">
             <objects>
                 <collectionViewController id="qUI-sq-obS" customClass="MemeAlbumCollectionViewController" customModule="MemeMe" customModuleProvider="target" sceneMemberID="viewController">
@@ -295,7 +304,7 @@
                             <outlet property="delegate" destination="qUI-sq-obS" id="gb9-dZ-Slu"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" title="MemeMe Album" id="6eP-Ji-ZCF">
+                    <navigationItem key="navigationItem" title="MemeMe ALBUM" id="6eP-Ji-ZCF">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="tJY-g0-DIC">
                             <connections>
                                 <action selector="addAction:" destination="qUI-sq-obS" id="nWJ-J9-DQv"/>
@@ -324,7 +333,7 @@
                                 <rect key="frame" x="0.0" y="28" width="414" height="120"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dUi-cN-eiw" id="VQV-NT-sjr">
-                                    <rect key="frame" x="0.0" y="0.0" width="381" height="119.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="381" height="119"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RlG-ju-CFS">
@@ -364,7 +373,7 @@
                             <outlet property="delegate" destination="fWb-hB-Wmp" id="6pH-dq-gjk"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="MemeMe Album" id="X67-YY-sum">
+                    <navigationItem key="navigationItem" title="MemeMe ALBUM" id="X67-YY-sum">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="xXt-TH-9ba">
                             <connections>
                                 <action selector="addAction:" destination="fWb-hB-Wmp" id="DgQ-Pm-SUm"/>
@@ -393,8 +402,8 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MemeMe" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="40" translatesAutoresizingMaskIntoConstraints="NO" id="AID-sF-1si">
-                                <rect key="frame" x="108" y="120" width="198.33333333333331" height="60"/>
-                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="50"/>
+                                <rect key="frame" x="98.333333333333314" y="120" width="218" height="60"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="50"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -403,7 +412,7 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZAU-Xg-cnG">
                                         <rect key="frame" x="0.0" y="0.0" width="176.66666666666663" height="63.666666666666686"/>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <state key="normal" title="MemeMe 편집">
                                             <color key="titleColor" red="0.2470588235" green="0.75686274509999996" blue="0.76862745099999996" alpha="1" colorSpace="custom" customColorSpace="adobeRGB1998"/>
                                         </state>
@@ -413,7 +422,10 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gzG-ku-GGB">
                                         <rect key="frame" x="0.0" y="83.666666666666686" width="176.66666666666663" height="63.666666666666686"/>
-                                        <state key="normal" title="MemeMe 앨범"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <state key="normal" title="MemeMe 앨범">
+                                            <color key="titleColor" red="0.2470588235" green="0.75686274509999996" blue="0.76862745099999996" alpha="1" colorSpace="custom" customColorSpace="adobeRGB1998"/>
+                                        </state>
                                         <connections>
                                             <action selector="albumAction:" destination="6BQ-VF-oa8" eventType="touchUpInside" id="kFF-S7-JB6"/>
                                         </connections>
@@ -461,11 +473,11 @@
             </objects>
             <point key="canvasLocation" x="-612" y="159"/>
         </scene>
-        <!--Item-->
+        <!--TABLE-->
         <scene sceneID="qnw-ZD-oJm">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ZrE-LK-DVs" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="fQ1-SP-Bc8"/>
+                    <tabBarItem key="tabBarItem" title="TABLE" image="TableView" id="fQ1-SP-Bc8"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="nN2-D8-gPe">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -480,11 +492,11 @@
             </objects>
             <point key="canvasLocation" x="257" y="-296"/>
         </scene>
-        <!--Item-->
+        <!--COLLECTION-->
         <scene sceneID="kQG-Ya-EPA">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="BKS-cI-jiv" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="q2P-cB-nCR"/>
+                    <tabBarItem key="tabBarItem" title="COLLECTION" image="CollectionView" id="q2P-cB-nCR"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="mzk-We-OfG">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -503,10 +515,12 @@
     <resources>
         <image name="Album" width="15" height="15"/>
         <image name="Cancel" width="22" height="22"/>
-        <image name="Share" width="22" height="22"/>
+        <image name="CollectionView" width="25" height="25"/>
+        <image name="Favorite" width="22" height="22"/>
+        <image name="TableView" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="bxR-fn-nze"/>
-        <segue reference="3ko-PX-lR8"/>
+        <segue reference="zjw-DV-w3O"/>
+        <segue reference="I3v-33-lBf"/>
     </inferredMetricsTieBreakers>
 </document>
