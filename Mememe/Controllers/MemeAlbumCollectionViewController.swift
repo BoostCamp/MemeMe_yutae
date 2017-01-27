@@ -64,7 +64,6 @@ class MemeAlbumCollectionViewController: UICollectionViewController {
         self.performSegue(withIdentifier: Constants.SegueIdentifier.editFromCollectionView, sender: nil)
     }
     
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Constants.SegueIdentifier.detailFromCollectionView {
             let destinationViewController = segue.destination as! MemeDetailViewController

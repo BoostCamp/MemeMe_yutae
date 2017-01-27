@@ -71,7 +71,6 @@ class MemeDataManager : NSObject {
     
     func fetchMemesForAlbum(completion: ()-> Void) {
         self.memes.removeAll()
-        
         let photoAssets = PHAsset.fetchAssets(in: self.assetCollection, options: nil)
         let imageManager = PHCachingImageManager()
         photoAssets.enumerateObjects({ (asset:PHAsset, count:Int, stop:UnsafeMutablePointer<ObjCBool>) in
@@ -98,37 +97,6 @@ class MemeDataManager : NSObject {
             self.memes.append(meme)
         })
         completion()
-        /*
-        photoAssets.enumerateObjects({(object: AnyObject!,
-            count: Int,
-            stop: UnsafeMutablePointer<ObjCBool>) in
-            // 앨범에 있는 모든 사진 반복
-            if object is PHAsset{
-                var meme = Meme()
-                let asset = object as! PHAsset
-                let imageSize = CGSize(width: asset.pixelWidth,
-                                       height: asset.pixelHeight)
-                let options = PHImageRequestOptions()
-                options.deliveryMode = .fastFormat
-                // isSynchronous - BackGround Thread 로 실행
-                options.isSynchronous = true
-                imageManager.requestImage(for:
-                    asset,
-                    targetSize: imageSize,
-                    contentMode: .aspectFit,
-                    options: options,
-                    resultHandler: {
-                    (image, info) -> Void in
-                    meme.image = image
-                })
-                
-                meme.localIdentifier = asset.localIdentifier
-                meme.creationDate = asset.creationDate
-                meme.isFavorite = asset.isFavorite
-                self.memes.append(meme)
-            }
-        })
-         */
     }
     // favorite 주기. completion으로 성공시 핸들링
     func favorite(_ localIdentifier : String, completion: @escaping (( (Bool) -> Void)) ){

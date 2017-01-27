@@ -50,7 +50,7 @@ class MemeAlbumTableViewController: UITableViewController {
         if segue.identifier == Constants.SegueIdentifier.detailFromTableView {
             let destinationViewController = segue.destination as! MemeDetailViewController
             if let indexPath = self.tableView.indexPathForSelectedRow{
-                destinationViewController.selectedMeme = memeDataManager.memes[indexPath.section]
+                destinationViewController.selectedMeme = memeDataManager.memes[indexPath.row]
                 destinationViewController.delegate = self
             }
             // 3D Touch 시 Force Touch
@@ -73,10 +73,10 @@ class MemeAlbumTableViewController: UITableViewController {
         self.addButton.isEnabled = !editing
     }
     // MARK: - Table view data source
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // 갯수 지정
-        return memeDataManager.memes.count
-    }
+//    override func numberOfSections(in tableView: UITableView) -> Int {
+//        // 갯수 지정
+//        return memeDataManager.memes.count
+//    }
     
     // Height 조절
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -84,13 +84,13 @@ class MemeAlbumTableViewController: UITableViewController {
     }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // 기본으로 Section 당 하나의 Row
-        return 1
+        return memeDataManager.memes.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // as! 무조건 Type Casting 이 되기 때문
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.CellIdentifier.albumTableViewCell, for: indexPath) as! MemeAlbumTableViewCell
-        let meme:Meme = memeDataManager.memes[indexPath.section]
+        let meme:Meme = memeDataManager.memes[indexPath.row]
         if let createDate = meme.creationDate, let isFavorite = meme.isFavorite {
             cell.creationDateLabel.text = createDate.stringFromDate()
             cell.favoriteImageView.isHidden = !isFavorite
@@ -102,9 +102,9 @@ class MemeAlbumTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         switch editingStyle {
         case .delete:
-            // tableView Section 제거.
-            let deleteIndex = indexPath.section
-            print("\(deleteIndex) tableView Section Remove")
+            // tableView row 제거.
+            let deleteIndex = indexPath.row
+            print("\(deleteIndex) tableView row Remove")
             if let localIdentifier = memeDataManager.memes[deleteIndex].localIdentifier {
                 memeDataManager.delete(localIdentifier, completion: { (isSuccess) in
                     // 성공 했을 경우 핸들링
@@ -112,7 +112,7 @@ class MemeAlbumTableViewController: UITableViewController {
                         // UI 이기 때문에 main Thread 비동기 처리
                         DispatchQueue.main.async {
                             self.memeDataManager.memes.remove(at: deleteIndex)
-                            tableView.deleteSections(IndexSet.init(integer: deleteIndex), with: .automatic)
+                            tableView.deleteRows(at: [indexPath], with: .automatic)
                         }
                     }
                 })

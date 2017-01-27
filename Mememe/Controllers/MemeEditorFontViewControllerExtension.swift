@@ -33,7 +33,6 @@ extension MemeEditorViewController:UICollectionViewDelegate, UICollectionViewDat
         for i in 0...fontData.count {
             if let selectedCell = self.fontCollectionView.cellForItem(at: IndexPath.init(row: i, section: 0)) {
                 let cell = selectedCell as! MemeFontCollectionViewCell
-                cell.largeNameLabel.layer.borderColor = UIColor.theme.cgColor
                 cell.largeNameLabel.layer.borderWidth = 0
                 cell.smallNameLabel.textColor = UIColor.lightGray
             }
