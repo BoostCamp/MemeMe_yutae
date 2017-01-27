@@ -210,27 +210,16 @@ class MemeEditorViewController: UIViewController {
     }
     
     func generateMemedImage() -> UIImage {
-        // 원본에서 필요한방법으로 수정 (Tool Bar는 숨길 필요 없음.)
-        self.fontCollectionView.isHidden = true
         
-        UIGraphicsBeginImageContext(self.imageView.bounds.size)
-        if let context = UIGraphicsGetCurrentContext() {
-            self.imageView.layer.render(in: context)
-        }
-        let memedImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-        /*
+        self.fontCollectionView.isHidden = true
         self.setToolbarHidden(true)
-//        UIGraphicsBeginImageContext(self.view.frame.size)
-//        self.view.drawHierarchy(in: self.view.frame, afterScreenUpdates: true)
-//        let memedImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()!
-//        UIGraphicsEndImageContext()
-        UIGraphicsBeginImageContext(self.imageView.bounds.size)
-        self.view.drawHierarchy(in: self.imageView.bounds, afterScreenUpdates: true)
+        // frame 대신 bounds 를 사용한 이유 - bounds 는 x,y 가 자신이 기준이 되기 때문 <-> frame 은 부모 View 기준
+        UIGraphicsBeginImageContext(self.memeView.bounds.size)
+        self.memeView.drawHierarchy(in: self.memeView.bounds, afterScreenUpdates: true)
         let memedImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         self.setToolbarHidden(false)
-         */
+        /*  */
         return memedImage
     }
     

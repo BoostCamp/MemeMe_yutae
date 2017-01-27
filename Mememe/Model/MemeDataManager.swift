@@ -26,6 +26,7 @@ class MemeDataManager : NSObject {
         self.createAlbum()
         
          // 초기화 하기전에 Permission 체크를 하기 때문에 필요 없음.
+        /*
          if PHPhotoLibrary.authorizationStatus() != PHAuthorizationStatus.authorized {
             PHPhotoLibrary.requestAuthorization({ (status) in
                 
@@ -37,20 +38,20 @@ class MemeDataManager : NSObject {
          } else {
             PHPhotoLibrary.requestAuthorization(requestAuthorizationHandler)
          }
+         */
     }
     
-    
+    /*
     func requestAuthorizationHandler(status: PHAuthorizationStatus) {
         if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.authorized {
             // 새로운 Album 만들기
             self.createAlbum()
         } else {
-//            Constants.openSetting(.photoLibrary, viewController: UIApplication.topViewController()!)
         }
     }
-    
+    */
     func createAlbum() {
-        PHPhotoLibrary.shared().performChanges({
+        photoLibrary.performChanges({
             PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: MemeDataManager.albumName)
         }) { isSuccess, error in
             if isSuccess {
@@ -69,7 +70,7 @@ class MemeDataManager : NSObject {
         return nil
     }
     
-    func fetchMemesForAlbum(completion: ()-> Void) {
+    func fetchMemesForAlbum(completion: () -> Void) {
         self.memes.removeAll()
         let photoAssets = PHAsset.fetchAssets(in: self.assetCollection, options: nil)
         let imageManager = PHCachingImageManager()
@@ -81,14 +82,10 @@ class MemeDataManager : NSObject {
             options.deliveryMode = .fastFormat
             // isSynchronous - BackGround Thread 로 실행
             options.isSynchronous = true
-            imageManager.requestImage(for:
-                asset,
-                                      targetSize: imageSize,
-                                      contentMode: .aspectFit,
-                                      options: options,
-                                      resultHandler: {
-                                        (image, info) -> Void in
-                                        meme.image = image
+            imageManager.requestImage(for: asset, targetSize: imageSize, contentMode: .aspectFit, options: options,
+              resultHandler: {
+                (image, info) -> Void in
+                meme.image = image
             })
             
             meme.localIdentifier = asset.localIdentifier
@@ -101,11 +98,11 @@ class MemeDataManager : NSObject {
     // favorite 주기. completion으로 성공시 핸들링
     func favorite(_ localIdentifier : String, completion: @escaping (( (Bool) -> Void)) ){
         let photoAssets = PHAsset.fetchAssets(withLocalIdentifiers: [localIdentifier], options: nil)
-        photoAssets.enumerateObjects( { (object, count, stop) in
+        photoAssets.enumerateObjects( { (asset, count, stop) in
             self.photoLibrary.performChanges({
-                let assetChangeRequest = PHAssetChangeRequest(for: object)
+                let assetChangeRequest = PHAssetChangeRequest(for: asset)
                 // isFavorite 변경
-                assetChangeRequest.isFavorite = !object.isFavorite
+                assetChangeRequest.isFavorite = !asset.isFavorite
             }, completionHandler: { (isSuccess, error) in
                 if isSuccess {
                     completion(isSuccess)
@@ -117,11 +114,11 @@ class MemeDataManager : NSObject {
     // 삭제 함수 completion으로 성공시 핸들링
     func delete(_ localIdentifier : String, completion: @escaping (( (Bool) -> Void)) ){
         let photoAssets = PHAsset.fetchAssets(withLocalIdentifiers: [localIdentifier], options: nil)
-        photoAssets.enumerateObjects( { (object, count, stop) in
+        photoAssets.enumerateObjects( { (asset, count, stop) in
             self.photoLibrary.performChanges({
-                let isEditing = object.canPerform(.delete)
-                if isEditing {
-                    let enumeration: NSArray = [object]
+                let isDelete = asset.canPerform(.delete)
+                if isDelete {
+                    let enumeration: NSArray = [asset]
                     PHAssetChangeRequest.deleteAssets(enumeration)
                 }
             }, completionHandler: { (isSuccess, error) in
@@ -140,7 +137,7 @@ class MemeDataManager : NSObject {
         // https://developer.apple.com/reference/photos/phassetchangerequest/1624056-placeholderforcreatedasset Swift로 변형
         
         self.photoLibrary.performChanges({
-            // creationRequestForAsse t함수 Image 만들기 return Self
+            // creationRequestForAsset 함수 Image 만들기 return Self
             
             // self.assetCollection 에 추가된 이미지 추가하기
             let assetChangeRequest = PHAssetChangeRequest.creationRequestForAsset(from: image)
