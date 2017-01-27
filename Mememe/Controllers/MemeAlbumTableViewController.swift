@@ -25,6 +25,7 @@ class MemeAlbumTableViewController: UITableViewController {
     
     func resetTableView(){
         self.memes = memeDataManager.fetchMemesForAlbum()
+        self.tableView?.reloadData()
         if self.memes.count == 0 {
             // alertAction, buttonTitle 기본으로 nil 값이 들어가지만 어떤 함수인지 명시를 위해
             if #available(iOS 9.0, *) {
@@ -32,8 +33,6 @@ class MemeAlbumTableViewController: UITableViewController {
             } else {
                 Constants.Alert.show(self, title: Constants.Alert.emptyAlertTitle, message: Constants.Alert.emptyAlertMessage, buttonTitle: nil)
             }
-        } else {
-            self.tableView?.reloadData()
         }
     }
     
@@ -59,17 +58,13 @@ class MemeAlbumTableViewController: UITableViewController {
             // 뒤로가기 글씨 없애기.
             self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: nil, action: nil)
         }
-
-        if segue.identifier == Constants.SegueIdentifier.editFromTableView {
-//            let destination = segue.destination as! MemeEditorViewController
-        }
     }
     
     @IBAction func addAction(_ sender: Any) {
         self.performSegue(withIdentifier: Constants.SegueIdentifier.editFromTableView, sender: nil)
     }
     
-    // 기본으로 탑재되어 있는 Editing
+    // Editing 버튼 눌렀을때
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
         // Editing 에는 버튼 못누르게 하기.
@@ -89,17 +84,14 @@ class MemeAlbumTableViewController: UITableViewController {
         // 기본으로 Section 당 하나의 Row
         return 1
     }
-
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-    }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // as! 무조건 Type Casting 이 되기 때문
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.CellIdentifier.albumTableViewCell, for: indexPath) as! MemeAlbumTableViewCell
         let meme:Meme = self.memes[indexPath.section]
-        if let createDate = meme.creationDate {
+        if let createDate = meme.creationDate, let isFavorite = meme.isFavorite {
             cell.creationDateLabel.text = createDate.stringFromDate()
+            cell.favoriteImageView.isHidden = !isFavorite
         }
         cell.memedImageView.image = meme.image
         return cell
@@ -132,19 +124,18 @@ class MemeAlbumTableViewController: UITableViewController {
 // Mark: PHPhotoLibraryChangeObserver PhotoLibrary Change 됬을때
 extension MemeAlbumTableViewController : PHPhotoLibraryChangeObserver {
     func photoLibraryDidChange(_ changeInstance: PHChange) {
-        
-        // MemeMe 앨범 변경되었을때만 reloadData
-        if let assetCollection = memeDataManager.fetchAssetCollectionForAlbum() {
-            if changeInstance.changeDetails(for: assetCollection) != nil {
-                self.resetTableView()
-            }
+        // MemeMe 앨범 변경되었을때만 reloadData 아니면 guard 문을 활용하여 빠르게 종료
+        guard let assetCollection = memeDataManager.fetchAssetCollectionForAlbum(), changeInstance.changeDetails(for: assetCollection) != nil else {
+            return
         }
-        
+        print("photoLibraryDidChange")
+        self.resetTableView()
     }
 }
-// Custom Delegation Favorite 바꿧을때 Table 리셋
+// Custom Delegation Favorite 바꿧을때 Table 리셋 
+// Favorite는 PHPhotoLibraryChangeObserver 가 Observering 해주지 않기 때문에
 extension MemeAlbumTableViewController : memeDetailViewControllerDelegate {
-    func memeFavoriteDidChange() {
+    func memePhotoFavoriteDidChange() {
         self.resetTableView()
     }
 }

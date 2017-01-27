@@ -9,6 +9,6 @@
 import UIKit
 
 class MemeAlbumCollectionViewCell: UICollectionViewCell {
-    
     @IBOutlet weak var memedImageView: UIImageView!
+    @IBOutlet weak var favoriteImageView: UIImageView!
 }

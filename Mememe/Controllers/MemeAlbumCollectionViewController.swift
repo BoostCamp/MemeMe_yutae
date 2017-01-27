@@ -79,10 +79,6 @@ class MemeAlbumCollectionViewController: UICollectionViewController {
             // 뒤로가기 글씨 없애기.
             self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: nil, action: nil)
         }
-        
-        if segue.identifier == Constants.SegueIdentifier.editFromCollectionView {
-            
-        }
     }
     
     // MARK: UICollectionViewDataSource
@@ -94,14 +90,13 @@ class MemeAlbumCollectionViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // as! 무조건 Type Casting 이 되기 때문
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CellIdentifier.albumCollectionViewCell, for: indexPath) as! MemeAlbumCollectionViewCell
-        cell.memedImageView.image = memes[indexPath.item].image
+        let meme = memes[indexPath.item]
+        if let isFavorite = meme.isFavorite {
+            cell.favoriteImageView.isHidden = !isFavorite
+        }
+        cell.memedImageView.image = meme.image
     
         return cell
-    }
-
-    // MARK: UICollectionViewDelegate
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        self.performSegue(withIdentifier: AppModel.memeDetailFromCollectionViewSegueIdentifier, sender: self.memes[indexPath.item])
     }
 }
 
@@ -109,18 +104,18 @@ class MemeAlbumCollectionViewController: UICollectionViewController {
 // Mark: PHPhotoLibraryChangeObserver PhotoLibrary Change 됬을때
 extension MemeAlbumCollectionViewController : PHPhotoLibraryChangeObserver {
     func photoLibraryDidChange(_ changeInstance: PHChange) {
-        
-        // MemeMe 앨범 변경되었을때만 reloadData
-        if let assetCollection = memeDataManager.fetchAssetCollectionForAlbum() {
-            if changeInstance.changeDetails(for: assetCollection) != nil {
-                self.resetCollectionView()
-            }
+        // MemeMe 앨범 변경되었을때만 reloadData 아니면 guard 문을 활용하여 빠르게 종료
+        guard let assetCollection = memeDataManager.fetchAssetCollectionForAlbum(), changeInstance.changeDetails(for: assetCollection) != nil else {
+            return
         }
+        self.resetCollectionView()
     }
 }
 // Custom Delegation Favorite 바꿧을때 Collection 리셋
+// Favorite는 PHPhotoLibraryChangeObserver 가 Observering 해주지 않기 때문에
+
 extension MemeAlbumCollectionViewController : memeDetailViewControllerDelegate {
-    func memeFavoriteDidChange() {
+    func memePhotoFavoriteDidChange() {
         self.resetCollectionView()
     }
 }

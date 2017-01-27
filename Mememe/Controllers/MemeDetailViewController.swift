@@ -9,7 +9,7 @@
 import UIKit
 // Custom Delegation
 protocol memeDetailViewControllerDelegate {
-    func memeFavoriteDidChange()
+    func memePhotoFavoriteDidChange()
 }
 
 class MemeDetailViewController: UIViewController {
@@ -32,23 +32,46 @@ class MemeDetailViewController: UIViewController {
         self.setupDetailView()
     }
     @IBAction func favoriteAction(_ sender: Any) {
-        if let meme:Meme = self.selectedMeme, let localIdentifier: String = meme.localIdentifier,
-           let isFavorite: Bool = self.isFavorite {
-            self.memeDataManager.favorite(localIdentifier, completion: { (isSuccess) in
-                if isSuccess {
-                    self.isFavorite = !isFavorite
-                    // delegate 있을 시 memeFavoriteDidChange
-                    self.delegate?.memeFavoriteDidChange()
-                    DispatchQueue.main.async {
-                        self.favoriteButtonEffect(!isFavorite)
-                    }
-                }
-            })
+        guard let meme:Meme = self.selectedMeme, let localIdentifier: String = meme.localIdentifier,
+            let isFavorite: Bool = self.isFavorite else {
+            return
         }
+        self.memeDataManager.favorite(localIdentifier, completion: { (isSuccess) in
+            if isSuccess {
+                self.isFavorite = !isFavorite
+                // delegate 있을 시 memeFavoriteDidChange
+                self.delegate?.memePhotoFavoriteDidChange()
+                DispatchQueue.main.async {
+                    self.favoriteButtonEffect(!isFavorite)
+                }
+            }
+        })
     }
     
     @IBAction func deleteAction(_ sender: Any) {
+        guard let meme:Meme = self.selectedMeme, let localIdentifier: String = meme.localIdentifier else {
+            return
+        }
+        // 여기서만 사용하기 때문에 static 변수로 사용 안함.
+        let alertTitle:String = "정말 이 사진을 삭제하시겠습니까?"
+        let alertMessage:String = "사진이 성공적으로 지워지면 앨범으로 돌아갑니다."
         
+        if #available(iOS 9.0, *) {
+            let alertAction:UIAlertAction = UIAlertAction.init(title: Constants.Alert.deleteButtonTitle, style: .default, handler: { (action) in
+                self.memeDataManager.delete(localIdentifier, completion: { (isSuccess) in
+                    if isSuccess {
+                        // UI 변경은 DispatchQueue Main Thread로 관리 
+                        // Background Thread Crash 발생 방지
+                        DispatchQueue.main.async {
+                            _ = self.navigationController?.popViewController(animated: true)
+                        }
+                    }
+                })
+            })
+            Constants.Alert.show(self, title: alertTitle, message: alertMessage, alertAction: alertAction)
+        } else {
+            Constants.Alert.show(self, title: alertTitle, message: alertMessage, buttonTitle: Constants.Alert.deleteButtonTitle)
+        }
     }
     @IBAction func shareAction(_ sender: Any) {
         // Optional Binding
@@ -82,13 +105,26 @@ class MemeDetailViewController: UIViewController {
         }
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-    }
-    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.tabBarController?.tabBar.isHidden = false
     }
+}
 
+// For iOS < 9
+extension MemeDetailViewController:UIAlertViewDelegate {
+    func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
+        guard let buttonTitle = alertView.buttonTitle(at: buttonIndex), buttonTitle == Constants.Alert.deleteButtonTitle, let meme:Meme = self.selectedMeme, let localIdentifier: String = meme.localIdentifier else {
+            return
+        }
+        self.memeDataManager.delete(localIdentifier, completion: { (isSuccess) in
+            if isSuccess {
+                // UI 변경은 DispatchQueue Main Thread로 관리
+                // Background Thread Crash 발생 방지
+                DispatchQueue.main.async {
+                    _ = self.navigationController?.popViewController(animated: true)
+                }
+            }
+        })
+    }
 }

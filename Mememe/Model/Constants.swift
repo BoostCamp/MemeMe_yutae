@@ -46,6 +46,7 @@ struct Constants {
         static let settingsUrl:URL? = URL(string: UIApplicationOpenSettingsURLString)
         static let settingsButtonTitle:String = "설정"
         static let refreshButtonTitle:String = "되돌리기"
+        static let deleteButtonTitle:String = "삭제"
         static let cancelButtonTitle:String = "취소"
         static let emptyAlertTitle:String = "MemeMe 앨범에 등록된 사진이 없습니다."
         static let emptyAlertMessage:String = "우측 상단위 + 버튼을 눌러 사진을 추가하세요."

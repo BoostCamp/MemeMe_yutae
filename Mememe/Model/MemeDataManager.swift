@@ -51,11 +51,9 @@ class MemeDataManager : NSObject {
     func createAlbum() {
         PHPhotoLibrary.shared().performChanges({
             PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: MemeDataManager.albumName)
-        }) { success, error in
-            if success {
+        }) { isSuccess, error in
+            if isSuccess {
                 self.assetCollection = self.fetchAssetCollectionForAlbum()
-            } else {
-                print("error \(error)")
             }
         }
     }
@@ -142,7 +140,7 @@ class MemeDataManager : NSObject {
     // 저장 함수 completion으로 성공시 핸들링
     func save(_ image: UIImage, completion: @escaping (( (Bool) -> Void)) ){
         if self.assetCollection == nil {
-            // 앨범까지 전체 삭제 되었을때의 예외 처리
+            // 앨범이 없을때 예외 처리
             return
         }
         // https://developer.apple.com/reference/photos/phassetchangerequest/1624056-placeholderforcreatedasset Swift로 변형

@@ -104,12 +104,10 @@ class MemeEditorViewController: UIViewController {
     override var prefersStatusBarHidden: Bool {
         return true
     }
-    /*
     private func setToolbarHidden(_ isHidden: Bool) {
         self.topToolbar.isHidden = isHidden
         self.bottomToolbar.isHidden = isHidden
     }
-     */
     
     @IBAction func pickAnImageFromCamera(_ sender: Any) {
         self.presentImagePickerWithSourType(UIImagePickerControllerSourceType.camera)
@@ -142,6 +140,7 @@ class MemeEditorViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     @IBAction func refreshAction(_ sender: Any) {
+        // 여기서만 사용하기 때문에 static 변수로 사용 안함.
         let alertTitle:String = "정말 원 상태로 돌아가시겠습니까?"
         let alertMessage:String = "확인을 누르시면 이 작업물은 앨범에 저장되지 않습니다."
         
@@ -213,12 +212,20 @@ class MemeEditorViewController: UIViewController {
     func generateMemedImage() -> UIImage {
         // 원본에서 필요한방법으로 수정 (Tool Bar는 숨길 필요 없음.)
         self.fontCollectionView.isHidden = true
+        /*
         UIGraphicsBeginImageContext(self.memeView.bounds.size)
         if let context = UIGraphicsGetCurrentContext() {
             self.memeView.layer.render(in: context)
         }
         let memedImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
+         */
+        self.setToolbarHidden(true)
+        UIGraphicsBeginImageContext(self.imageView.bounds.size)
+        self.view.drawHierarchy(in: self.imageView.bounds, afterScreenUpdates: true)
+        let memedImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        self.setToolbarHidden(false)
         return memedImage
     }
     
@@ -293,6 +300,7 @@ extension MemeEditorViewController: UITextFieldDelegate {
 }
 // For iOS < 9
 extension MemeEditorViewController: UIAlertViewDelegate {
+    // alertView.tag 를 사용안하고 button title로 구별
     func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
         if let buttonTitle = alertView.buttonTitle(at: buttonIndex) {
             switch buttonTitle {
