@@ -11,5 +11,8 @@ import UIKit
 class MemePhotoEditingFontCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var largeFontLabel: UILabel!
     @IBOutlet weak var smallFontLabel: UILabel!
-    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.largeFontLabel.layer.borderColor = UIColor.theme.cgColor
+    }
 }

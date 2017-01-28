@@ -9,10 +9,6 @@ import Foundation
 import UIKit
 import Photos
 
-public protocol MemeEditorViewDelegate {
-    func memeEditorViewController(saveImage image: UIImage)
-}
-
 class MemeEditorViewController: UIViewController {
     @IBOutlet weak var topTextField: UITextField!
     @IBOutlet weak var bottomTextField: UITextField!
@@ -26,9 +22,6 @@ class MemeEditorViewController: UIViewController {
     // Single ton Pattern
     let memeDataManager:MemeDataManager = MemeDataManager.shared
     let userDefaults:UserDefaults = UserDefaults.standard
-    
-    // Custom Delegation
-//    var delegate:MemeEditorViewDelegate?
     
     let fontData = Constants.fontsAvailable
     // Defalut font Name 값.
@@ -53,7 +46,7 @@ class MemeEditorViewController: UIViewController {
             UserDefaults에  기록
          */
         if let indexPath = selectedCellIndexPath {
-            self.userDefaults.setValue(self.fontData[indexPath.row], forKey: Constants.UserDafaultsKey.fontName)
+            self.userDefaults.setValue(self.fontData[indexPath.row], forKey: Constants.UserDefaultsKey.fontName)
             self.userDefaults.synchronize()
         }
     }
@@ -69,7 +62,7 @@ class MemeEditorViewController: UIViewController {
         
         // Setup Font Collection
         self.fontCollectionView.isHidden = true
-        self.fontDefaultName = userDefaults.string(forKey: Constants.UserDafaultsKey.fontName)
+        self.fontDefaultName = userDefaults.string(forKey: Constants.UserDefaultsKey.fontName)
         // Optional Binding
         if let fontName = self.fontDefaultName {
             if let index = self.fontData.index(of: fontName) {
@@ -123,7 +116,7 @@ class MemeEditorViewController: UIViewController {
     @IBAction func doneAction(_ sender: Any) {
         // Optional Binding
         let image = generateMemedImage()
-        if Constants.Permission.checkPhotoLibraryAndCameraPermission(.photoLibrary) {
+        if AppModel.Permission.checkPhotoLibraryAndCameraPermission(.photoLibrary) {
             self.memeDataManager.save(image, completion: { (isSuccess) in
                 if isSuccess {
                     self.showActivityViewController(image)
@@ -140,10 +133,6 @@ class MemeEditorViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     @IBAction func refreshAction(_ sender: Any) {
-        // 여기서만 사용하기 때문에 static 변수로 사용 안함.
-        let alertTitle:String = "정말 원 상태로 돌아가시겠습니까?"
-        let alertMessage:String = "확인을 누르시면 이 작업물은 앨범에 저장되지 않습니다."
-        
         if #available(iOS 9.0, *) {
             let doneAlertAction: UIAlertAction = UIAlertAction.init(title: Constants.Alert.refreshButtonTitle, style: .default, handler: { (action) in
                 // UI 이기 때문에 Main Thread 비동기 처리
@@ -152,11 +141,11 @@ class MemeEditorViewController: UIViewController {
                     self.setupTextFields([self.topTextField, self.bottomTextField])
                 }
             })
-            Constants.Alert.show(self, title: Constants.Alert.refreshButtonTitle, message: alertMessage, alertAction: doneAlertAction)
+            AppModel.Alert.show(self, title: Constants.Alert.refreshAlertTitle, message: Constants.Alert.refreshAlertMessage, alertAction: doneAlertAction)
         }
         // iOS 9.0 미만
         else {
-            Constants.Alert.show(self, title: alertTitle, message: alertTitle, buttonTitle: Constants.Alert.refreshButtonTitle)
+            AppModel.Alert.show(self, title: Constants.Alert.refreshAlertTitle, message: Constants.Alert.refreshAlertMessage, buttonTitle: Constants.Alert.refreshButtonTitle)
         }
     }
     
@@ -173,14 +162,14 @@ class MemeEditorViewController: UIViewController {
     
     // MARK: Notification Funtions 다른 곳에서 불려지지 않게 private
     private func subscribeToKeyboardNotifications() {
+        // NotificationCenter Observer 등록
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     private func unsubscribeFromKeyboardNotifications() {
+        // NotificationCenter 제거
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
@@ -223,7 +212,7 @@ class MemeEditorViewController: UIViewController {
     
     func presentImagePickerWithSourType(_ sourceType: UIImagePickerControllerSourceType){
         // Permission Check!
-        if Constants.Permission.checkPhotoLibraryAndCameraPermission(sourceType, viewController: self) {
+        if AppModel.Permission.checkPhotoLibraryAndCameraPermission(sourceType, viewController: self) {
             let imagePicker = UIImagePickerController()
             imagePicker.delegate = self
             imagePicker.sourceType = sourceType
@@ -257,7 +246,6 @@ extension MemeEditorViewController: UITextFieldDelegate {
     
     // 대문자로 변경하기.
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        
         var text = textField.text as NSString?
         text = text!.replacingCharacters(in: range, with: string) as NSString?
         textField.text = text?.uppercased

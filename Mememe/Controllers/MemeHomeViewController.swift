@@ -27,7 +27,7 @@ class MemeHomeViewController: UIViewController {
     }
     
     @IBAction func albumAction(_ sender: Any) {
-        if Constants.Permission.checkPhotoLibraryAndCameraPermission(.photoLibrary, viewController: self) {
+        if AppModel.Permission.checkPhotoLibraryAndCameraPermission(.photoLibrary, viewController: self) {
             self.performSegue(withIdentifier: Constants.SegueIdentifier.albumFromHomeView, sender: nil)
         }
     }

@@ -24,32 +24,8 @@ class MemeDataManager : NSObject {
             return
         }
         self.createAlbum()
-        
-         // 초기화 하기전에 Permission 체크를 하기 때문에 필요 없음.
-        /*
-         if PHPhotoLibrary.authorizationStatus() != PHAuthorizationStatus.authorized {
-            PHPhotoLibrary.requestAuthorization({ (status) in
-                
-            })
-         }
-         
-         if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.authorized {
-            self.createAlbum()
-         } else {
-            PHPhotoLibrary.requestAuthorization(requestAuthorizationHandler)
-         }
-         */
     }
     
-    /*
-    func requestAuthorizationHandler(status: PHAuthorizationStatus) {
-        if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.authorized {
-            // 새로운 Album 만들기
-            self.createAlbum()
-        } else {
-        }
-    }
-    */
     func createAlbum() {
         photoLibrary.performChanges({
             PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: MemeDataManager.albumName)

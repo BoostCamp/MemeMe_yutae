@@ -52,9 +52,6 @@ class MemeDetailViewController: UIViewController {
         guard let meme:Meme = self.selectedMeme, let localIdentifier: String = meme.localIdentifier else {
             return
         }
-        // 여기서만 사용하기 때문에 static 변수로 사용 안함.
-        let alertTitle:String = "정말 이 사진을 삭제하시겠습니까?"
-        let alertMessage:String = "사진이 성공적으로 지워지면 앨범으로 돌아갑니다."
         
         if #available(iOS 9.0, *) {
             let alertAction:UIAlertAction = UIAlertAction.init(title: Constants.Alert.deleteButtonTitle, style: .destructive, handler: { (action) in
@@ -68,9 +65,9 @@ class MemeDetailViewController: UIViewController {
                     }
                 })
             })
-            Constants.Alert.show(self, title: alertTitle, message: alertMessage, alertAction: alertAction)
+            AppModel.Alert.show(self, title: Constants.Alert.deleteAlertTitle, message: Constants.Alert.deleteAlertMessage, alertAction: alertAction)
         } else {
-            Constants.Alert.show(self, title: alertTitle, message: alertMessage, buttonTitle: Constants.Alert.deleteButtonTitle)
+            AppModel.Alert.show(self, title: Constants.Alert.deleteAlertTitle, message: Constants.Alert.deleteAlertMessage, buttonTitle: Constants.Alert.deleteButtonTitle)
         }
     }
     @IBAction func shareAction(_ sender: Any) {

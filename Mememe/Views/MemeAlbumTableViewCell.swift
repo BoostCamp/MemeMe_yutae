@@ -9,9 +9,7 @@
 import UIKit
 
 class MemeAlbumTableViewCell: UITableViewCell {
-
     @IBOutlet weak var memedImageView: UIImageView!
     @IBOutlet weak var creationDateLabel: UILabel!
-    
     @IBOutlet weak var favoriteImageView: UIImageView!
 }
