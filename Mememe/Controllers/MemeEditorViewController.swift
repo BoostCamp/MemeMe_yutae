@@ -34,6 +34,9 @@ class MemeEditorViewController: UIViewController {
         restorationClass = MemeEditorViewController.self
         self.fontCollectionView.delegate = self
         self.fontCollectionView.dataSource = self
+        // 키보드 영어로 제한
+        self.topTextField.keyboardType = .asciiCapable
+        self.bottomTextField.keyboardType = .asciiCapable
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -55,7 +58,6 @@ class MemeEditorViewController: UIViewController {
             self.userDefaults.synchronize()
         }
     }
-    
     private func setupEditor() {
         // Add Observer KeyboardNotifications
         self.subscribeToKeyboardNotifications()
@@ -253,7 +255,6 @@ extension MemeEditorViewController: UITextFieldDelegate {
         textField.text = text?.uppercased
         return false
     }
-    
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         // return 키 눌렀을때

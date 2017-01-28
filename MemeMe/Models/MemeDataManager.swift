@@ -107,7 +107,7 @@ class MemeDataManager : NSObject {
     // 저장 함수 completion으로 성공시 핸들링
     func save(_ image: UIImage, completion: @escaping (( (Bool) -> Void)) ){
         if self.assetCollection == nil {
-            // 앨범이 없을때 예외 처리
+            // 앨범 PHAssetCollection 이 없을때 예외 처리
             return
         }
         // https://developer.apple.com/reference/photos/phassetchangerequest/1624056-placeholderforcreatedasset Swift로 변형

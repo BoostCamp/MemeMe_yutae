@@ -34,6 +34,8 @@ class MemePhotoEditingViewController: UIViewController, PHContentEditingControll
         self.fontCollectionView.delegate = self
         self.fontCollectionView.dataSource = self
         self.fontButton.layer.cornerRadius = self.fontButton.frame.height / 2
+        self.topTextField.keyboardType = .asciiCapable
+        self.bottomTextField.keyboardType = .asciiCapable
     }
     override func viewDidAppear(_ animated: Bool) {
         // view Did Appear 완료 된 이후에 UI Setup
