@@ -14,7 +14,7 @@ class MemeFontCollectionViewCell: UICollectionViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        // Initialization 할때 borderColor 지정
         self.largeFontLabel.layer.borderColor = UIColor.theme.cgColor
     }
 }

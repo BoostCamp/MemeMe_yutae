@@ -155,8 +155,8 @@
 				96B3B4E21E3C84BC00A78C99 /* MemeHomeViewController.swift */,
 				96B3B4E11E3C84BC00A78C99 /* MemeEditorViewController.swift */,
 				96B3B4E01E3C84BC00A78C99 /* MemeEditorFontViewControllerExtension.swift */,
-				96B3B4DD1E3C84BC00A78C99 /* MemeAlbumCollectionViewController.swift */,
 				96B3B4DE1E3C84BC00A78C99 /* MemeAlbumTableViewController.swift */,
+				96B3B4DD1E3C84BC00A78C99 /* MemeAlbumCollectionViewController.swift */,
 				96B3B4DF1E3C84BC00A78C99 /* MemeDetailViewController.swift */,
 			);
 			path = Controllers;

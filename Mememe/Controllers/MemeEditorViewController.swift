@@ -30,6 +30,8 @@ class MemeEditorViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        restorationIdentifier = Constants.StoryboardIdentifier.memeEditorView
+        restorationClass = MemeEditorViewController.self
         self.fontCollectionView.delegate = self
         self.fontCollectionView.dataSource = self
     }
@@ -220,7 +222,7 @@ class MemeEditorViewController: UIViewController {
         }
     }
 }
-
+// MARK : UIImagePickerControllerDelegate
 extension MemeEditorViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         // Optional TypeCast Binding
@@ -233,7 +235,7 @@ extension MemeEditorViewController : UIImagePickerControllerDelegate, UINavigati
         self.dismiss(animated: true, completion: nil)
     }
 }
-
+// MARK : UITextFieldDelegate
 extension MemeEditorViewController: UITextFieldDelegate {
     // 이전에 써져있는 글 지우기.
     func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -273,7 +275,7 @@ extension MemeEditorViewController: UITextFieldDelegate {
         }
     }
 }
-// For iOS < 9
+// MARK : UIAlertViewDelegate - For iOS < 9
 extension MemeEditorViewController: UIAlertViewDelegate {
     // alertView.tag 를 사용안하고 button title로 구별
     func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
@@ -288,6 +290,32 @@ extension MemeEditorViewController: UIAlertViewDelegate {
             default:
                 return
             }
+        }
+    }
+}
+// MARK : UIViewControllerRestoration - 기기에 메모리가 초과되어 우선순위에 밀려 앱을 운영체제가 종료시킬때 대비
+extension MemeEditorViewController: UIViewControllerRestoration {
+    static func viewController(withRestorationIdentifierPath identifierComponents: [Any], coder: NSCoder) -> UIViewController? {
+        let memeEditorViewController = MemeEditorViewController()
+        // viewDidLoad - restorationIdentifier, restorationClass
+        return memeEditorViewController
+    }
+    override func encodeRestorableState(with coder: NSCoder) {
+        super.encodeRestorableState(with: coder)
+        if self.topTextField.text != Constants.MemeDefaultsValue.topTextFieldText {
+            coder.encode(self.topTextField.text, forKey: Constants.RestorationKey.topTextFieldText)
+        }
+        if self.bottomTextField.text != Constants.MemeDefaultsValue.bottomTextFieldText {
+            coder.encode(self.bottomTextField.text, forKey: Constants.RestorationKey.bottomTextFieldText)
+        }
+    }
+    override func decodeRestorableState(with coder: NSCoder) {
+        super.decodeRestorableState(with: coder)
+        if let topTextFieldText = coder.decodeObject(forKey: Constants.RestorationKey.topTextFieldText) as? String {
+            self.topTextField.text = topTextFieldText
+        }
+        if let bottomTextFieldText = coder.decodeObject(forKey: Constants.RestorationKey.bottomTextFieldText) as? String {
+            self.bottomTextField.text = bottomTextFieldText
         }
     }
 }

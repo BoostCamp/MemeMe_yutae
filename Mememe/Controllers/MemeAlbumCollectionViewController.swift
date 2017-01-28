@@ -106,11 +106,11 @@ extension MemeAlbumCollectionViewController : PHPhotoLibraryChangeObserver {
         self.resetCollectionView()
     }
 }
-// Custom Delegation Favorite 바꿧을때 Collection 리셋
-// Favorite는 PHPhotoLibraryChangeObserver 가 Observering 해주지 않기 때문에
 
+// Favorite는 PHPhotoLibraryChangeObserver 가 Observering 해주지 않기 때문에
+// Custom Delegation Favorite 바꿧을때 해당 Reload!
 extension MemeAlbumCollectionViewController : memeDetailViewControllerDelegate {
-    func memePhotoFavoriteDidChange() {
+    func memePhotoFavoriteDidChange(_ index: Int) {
         self.resetCollectionView()
     }
 }

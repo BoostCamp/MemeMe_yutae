@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+// MARK : UICollectionViewDelegate, UICollectionViewDataSource - Font Collection View
 extension MemeEditorViewController:UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.fontData.count

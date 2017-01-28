@@ -11,6 +11,10 @@ import UIKit
 struct Constants {
     // MARK: Font Data
     static let fontsAvailable:[String] = UIFont.familyNames
+    // MARK: StoryboardIdentifier
+    struct StoryboardIdentifier{
+        static let memeEditorView = "MemeEditorViewController"
+    }
     // MARK: Segue Identifiers
     struct SegueIdentifier {
         static let editFromHomeView:String = "memeEditorModalFromHomeViewControllerSegue"
@@ -41,6 +45,11 @@ struct Constants {
     // MARK: UserDefaults Related
     struct UserDefaultsKey {
         static let fontName = "FontName"
+    }
+    // MARK: UserDefaults Related
+    struct RestorationKey {
+        static let topTextFieldText = "TopTextFieldText"
+        static let bottomTextFieldText = "BottomTextFieldText"
     }
     // MARK: Alert Related
     struct Alert {

@@ -128,10 +128,17 @@ extension MemeAlbumTableViewController : PHPhotoLibraryChangeObserver {
         self.resetTableView()
     }
 }
-// Custom Delegation Favorite 바꿧을때 Table 리셋 
 // Favorite는 PHPhotoLibraryChangeObserver 가 Observering 해주지 않기 때문에
+// Custom Delegation Favorite 바꿧을때 해당 Row 만 Reload!! ( 전체 Reload를 피하기 위함)
 extension MemeAlbumTableViewController : memeDetailViewControllerDelegate {
-    func memePhotoFavoriteDidChange() {
-        self.resetTableView()
+    func memePhotoFavoriteDidChange(_ index: Int) {
+        memeDataManager.fetchMemesForAlbum {
+            DispatchQueue.main.async {
+                let indexPath:IndexPath = IndexPath.init(row: index, section: 0)
+                self.tableView.beginUpdates()
+                self.tableView.reloadRows(at: [indexPath], with: .automatic)
+                self.tableView.endUpdates()
+            }
+        }
     }
 }

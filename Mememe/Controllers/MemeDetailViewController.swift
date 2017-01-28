@@ -9,7 +9,7 @@
 import UIKit
 // Custom Delegation
 protocol memeDetailViewControllerDelegate {
-    func memePhotoFavoriteDidChange()
+    func memePhotoFavoriteDidChange(_ index:Int)
 }
 
 class MemeDetailViewController: UIViewController {
@@ -39,8 +39,15 @@ class MemeDetailViewController: UIViewController {
         self.memeDataManager.favorite(localIdentifier, completion: { (isSuccess) in
             if isSuccess {
                 self.isFavorite = !isFavorite
-                // delegate 있을 시 memeFavoriteDidChange
-                self.delegate?.memePhotoFavoriteDidChange()
+                // delegate 있을 시 해당 index 찾은 후 memeFavoriteDidChange
+                if let delegate = self.delegate {
+                    for index in 0...self.memeDataManager.memes.count-1 {
+                        if (meme.localIdentifier == self.memeDataManager.memes[index].localIdentifier) {
+                            delegate.memePhotoFavoriteDidChange(index)
+                            break
+                        }
+                    }
+                }
                 DispatchQueue.main.async {
                     self.favoriteButtonEffect(!isFavorite)
                 }
@@ -108,7 +115,7 @@ class MemeDetailViewController: UIViewController {
     }
 }
 
-// For iOS < 9
+// MARK : UIAlertViewDelegate - For iOS < 9
 extension MemeDetailViewController:UIAlertViewDelegate {
     func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
         guard let buttonTitle = alertView.buttonTitle(at: buttonIndex), buttonTitle == Constants.Alert.deleteButtonTitle, let meme:Meme = self.selectedMeme, let localIdentifier: String = meme.localIdentifier else {
