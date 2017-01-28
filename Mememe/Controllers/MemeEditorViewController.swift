@@ -40,6 +40,9 @@ class MemeEditorViewController: UIViewController {
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
+        // View 사라지려 할 때 Observer 제거
+        self.unsubscribeFromKeyboardNotifications()
         /*
             self.fontData.count 까지 범위 이므로 selectedCellIndexPath 존재하면
             fontData[indexPath.row] 값 존재
@@ -49,11 +52,6 @@ class MemeEditorViewController: UIViewController {
             self.userDefaults.setValue(self.fontData[indexPath.row], forKey: Constants.UserDefaultsKey.fontName)
             self.userDefaults.synchronize()
         }
-    }
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        // 안전하게 완전히 사라진 후 Observer 제거
-        self.unsubscribeFromKeyboardNotifications()
     }
     
     private func setupEditor() {
@@ -199,6 +197,8 @@ class MemeEditorViewController: UIViewController {
     }
     
     func generateMemedImage() -> UIImage {
+        // 시뮬레이션에서 Keypad 사용 안할때 대비 Editing End
+        self.view.endEditing(true)
         self.fontCollectionView.isHidden = true
         self.setToolbarHidden(true)
         // frame 대신 bounds 를 사용한 이유 - bounds 는 x,y 가 자신이 기준이 되기 때문 <-> frame 은 부모 View 기준

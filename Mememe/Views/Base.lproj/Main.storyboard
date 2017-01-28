@@ -139,8 +139,8 @@
                                                     <constraint firstItem="bRs-Br-vdm" firstAttribute="top" secondItem="m5U-vV-YnS" secondAttribute="top" constant="5" id="kBv-lG-hg9"/>
                                                 </constraints>
                                                 <connections>
-                                                    <outlet property="largeNameLabel" destination="bRs-Br-vdm" id="LHT-Je-vro"/>
-                                                    <outlet property="smallNameLabel" destination="bVx-1u-Lkv" id="Gil-Jb-nuj"/>
+                                                    <outlet property="largeFontLabel" destination="bRs-Br-vdm" id="Qij-G2-R1u"/>
+                                                    <outlet property="smallFontLabel" destination="bVx-1u-Lkv" id="Lgq-6P-c5T"/>
                                                 </connections>
                                             </collectionViewCell>
                                         </cells>
@@ -422,19 +422,19 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MemeMe" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="40" translatesAutoresizingMaskIntoConstraints="NO" id="AID-sF-1si">
-                                <rect key="frame" x="78.5" y="120" width="218" height="60"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="50"/>
+                                <rect key="frame" x="89" y="120" width="197" height="54"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="45"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZAU-Xg-cnG">
-                                <rect key="frame" x="104" y="360" width="167" height="67"/>
+                                <rect key="frame" x="104.5" y="360" width="166" height="67"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="ZAU-Xg-cnG" secondAttribute="height" multiplier="2.5:1" id="KkT-MB-aUr"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="편집">
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                <state key="normal" title="Editor">
                                     <color key="titleColor" red="0.2470588235" green="0.75686274509999996" blue="0.76862745099999996" alpha="1" colorSpace="custom" customColorSpace="adobeRGB1998"/>
                                 </state>
                                 <connections>
@@ -447,21 +447,29 @@
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="gzG-ku-GGB" secondAttribute="height" multiplier="2.5:1" id="qmN-Cr-HUO"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="앨범">
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                <state key="normal" title="Album">
                                     <color key="titleColor" red="0.2470588235" green="0.75686274509999996" blue="0.76862745099999996" alpha="1" colorSpace="custom" customColorSpace="adobeRGB1998"/>
                                 </state>
                                 <connections>
                                     <action selector="albumAction:" destination="6BQ-VF-oa8" eventType="touchUpInside" id="kFF-S7-JB6"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="- Writing App on Photo -" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="kcH-Tw-5NM">
+                                <rect key="frame" x="90" y="174" width="195" height="21.5"/>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="18"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.2470588235" green="0.75686274509999996" blue="0.76862745099999996" alpha="1" colorSpace="custom" customColorSpace="adobeRGB1998"/>
                         <constraints>
                             <constraint firstItem="ZAU-Xg-cnG" firstAttribute="centerX" secondItem="nj4-g0-7KR" secondAttribute="centerX" id="HZz-OD-SZp"/>
+                            <constraint firstItem="kcH-Tw-5NM" firstAttribute="centerX" secondItem="nj4-g0-7KR" secondAttribute="centerX" id="MIx-gf-2rf"/>
                             <constraint firstItem="ZAU-Xg-cnG" firstAttribute="height" secondItem="nj4-g0-7KR" secondAttribute="height" multiplier="0.1" id="N5D-ai-kQJ"/>
                             <constraint firstItem="gzG-ku-GGB" firstAttribute="top" secondItem="ZAU-Xg-cnG" secondAttribute="bottom" constant="30" id="PwB-NJ-JQ8"/>
                             <constraint firstItem="gzG-ku-GGB" firstAttribute="height" secondItem="nj4-g0-7KR" secondAttribute="height" multiplier="0.1" id="ff9-29-VW4"/>
+                            <constraint firstItem="kcH-Tw-5NM" firstAttribute="top" secondItem="AID-sF-1si" secondAttribute="bottom" id="hTP-3m-RGG"/>
                             <constraint firstItem="ZAU-Xg-cnG" firstAttribute="centerY" secondItem="nj4-g0-7KR" secondAttribute="centerY" constant="60" id="nFM-RH-LWP"/>
                             <constraint firstItem="gzG-ku-GGB" firstAttribute="centerX" secondItem="nj4-g0-7KR" secondAttribute="centerX" id="oUe-yl-Vqb"/>
                             <constraint firstItem="AID-sF-1si" firstAttribute="centerX" secondItem="nj4-g0-7KR" secondAttribute="centerX" id="vpe-lA-y3S"/>
@@ -545,7 +553,7 @@
         <image name="TableView" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="I3v-33-lBf"/>
         <segue reference="zjw-DV-w3O"/>
-        <segue reference="wcM-LQ-68R"/>
     </inferredMetricsTieBreakers>
 </document>

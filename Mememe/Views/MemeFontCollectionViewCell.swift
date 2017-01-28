@@ -9,12 +9,12 @@
 import UIKit
 
 class MemeFontCollectionViewCell: UICollectionViewCell {
-    @IBOutlet weak var largeNameLabel: UILabel!
-    @IBOutlet weak var smallNameLabel: UILabel!
+    @IBOutlet weak var largeFontLabel: UILabel!
+    @IBOutlet weak var smallFontLabel: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        self.largeNameLabel.layer.borderColor = UIColor.theme.cgColor
+        self.largeFontLabel.layer.borderColor = UIColor.theme.cgColor
     }
 }

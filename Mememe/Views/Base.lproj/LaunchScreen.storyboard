@@ -22,14 +22,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="- Writing App on Photo -" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="5i3-tD-gTr">
-                                <rect key="frame" x="104.66666666666669" y="356" width="205" height="24"/>
-                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="20"/>
+                                <rect key="frame" x="109.33333333333331" y="357.33333333333326" width="195.33333333333337" height="21.666666666666686"/>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="18"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MemeMe" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="40" translatesAutoresizingMaskIntoConstraints="NO" id="fQb-Yj-rwk">
-                                <rect key="frame" x="87.333333333333314" y="286.33333333333326" width="239.33333333333337" height="64.666666666666686"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="55"/>
+                                <rect key="frame" x="109" y="298.33333333333331" width="196.33333333333331" height="54"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="45"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>

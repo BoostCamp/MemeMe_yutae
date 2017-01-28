@@ -152,12 +152,12 @@
 		96B3B4DC1E3C84BC00A78C99 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				96B3B4E21E3C84BC00A78C99 /* MemeHomeViewController.swift */,
+				96B3B4E11E3C84BC00A78C99 /* MemeEditorViewController.swift */,
+				96B3B4E01E3C84BC00A78C99 /* MemeEditorFontViewControllerExtension.swift */,
 				96B3B4DD1E3C84BC00A78C99 /* MemeAlbumCollectionViewController.swift */,
 				96B3B4DE1E3C84BC00A78C99 /* MemeAlbumTableViewController.swift */,
 				96B3B4DF1E3C84BC00A78C99 /* MemeDetailViewController.swift */,
-				96B3B4E01E3C84BC00A78C99 /* MemeEditorFontViewControllerExtension.swift */,
-				96B3B4E11E3C84BC00A78C99 /* MemeEditorViewController.swift */,
-				96B3B4E21E3C84BC00A78C99 /* MemeHomeViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -283,9 +283,9 @@
 			children = (
 				96B3B5061E3C84BC00A78C99 /* LaunchScreen.storyboard */,
 				96B3B5081E3C84BC00A78C99 /* Main.storyboard */,
+				96B3B50C1E3C84BC00A78C99 /* MemeFontCollectionViewCell.swift */,
 				96B3B50A1E3C84BC00A78C99 /* MemeAlbumCollectionViewCell.swift */,
 				96B3B50B1E3C84BC00A78C99 /* MemeAlbumTableViewCell.swift */,
-				96B3B50C1E3C84BC00A78C99 /* MemeFontCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";

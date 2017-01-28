@@ -42,6 +42,9 @@ class MemePhotoEditingViewController: UIViewController, PHContentEditingControll
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
+        // View 사라지려 할 때 Observer 제거
+        self.unsubscribeFromKeyboardNotifications()
         /*
          self.fontData.count 까지 범위 이므로 selectedCellIndexPath 존재하면
          fontData[indexPath.row] 값 존재
@@ -52,11 +55,7 @@ class MemePhotoEditingViewController: UIViewController, PHContentEditingControll
             self.userDefaults.synchronize()
         }
     }
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        // 안전하게 완전히 사라진 후 Observer 제거
-        self.unsubscribeFromKeyboardNotifications()
-    }
+    
     override var prefersStatusBarHidden: Bool{
         return true
     }
